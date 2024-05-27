@@ -1,0 +1,471 @@
+{
+	"info": {
+		"_postman_id": "e7c59b5b-8bf5-4a85-a81b-e2069ec1f352",
+		"name": "Support Ticket System",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26597040",
+		"_collection_link": "https://team-ihub.postman.co/workspace/New-Team-Workspace~4b54497e-e1f9-45e9-9f53-096459195bd0/collection/26597040-e7c59b5b-8bf5-4a85-a81b-e2069ec1f352?action=share&source=collection_link&creator=26597040"
+	},
+	"item": [
+		{
+			"name": "Ticket",
+			"item": [
+				{
+					"name": "8086 email fetching",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8086/emails/1800",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8086",
+							"path": [
+								"emails",
+								"1800"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "main email fetch",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/fetchAndSaveEmails/1800",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"fetchAndSaveEmails",
+								"1800"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "calculate awaiting reply time",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/getTime/1/open-duration",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"getTime",
+								"1",
+								"open-duration"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Updated call for get all attachments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/api/attachments/getAllAttachmentById/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"api",
+								"attachments",
+								"getAllAttachmentById",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get time by attempt no and ticket id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/1/open-duration/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"1",
+								"open-duration",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reopen ticket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ticketId\": 1,\r\n    \"sentBy\": \"imbsamarakoon1996@gmail.com\",\r\n    \"reason\": \"Client requested to reopen the ticket\",\r\n    \"ccEmailAddresses\": [\"ablackhat894@gmail.com\",\"imilamaheshan30@gmail.com\",\"asamarakoon9697@gmail.com\"]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/tickets/reopen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"reopen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "close ticket",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sentBy\": \"imbsamarakoon1996@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/tickets/1/closeTicket",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"1",
+								"closeTicket"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create message with ticket id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "sentBy",
+									"value": "2017csc014@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "sender",
+									"value": "CLIENT",
+									"type": "text"
+								},
+								{
+									"key": "content",
+									"value": "work on the issueTicket 00002-msg5 from after email 3",
+									"type": "text"
+								},
+								{
+									"key": "attachments",
+									"type": "file",
+									"src": [
+										"/C:/Users/Asus/Downloads/new Downloads/1.png",
+										"/C:/Users/Asus/Downloads/new Downloads/Resume.pdf"
+									]
+								},
+								{
+									"key": "ccEmailAddresses",
+									"value": "[\"ablackhat894@gmail.com\",\"imilamaheshan30@gmail.com\",\"asamarakoon9697@gmail.com\"]",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8085/tickets/1/CreateMessage",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"1",
+								"CreateMessage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Ticket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "emailAddress",
+									"value": "imbsamarakoon1996@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "ccEmailAddresses",
+									"value": "[\"ablackhat894@gmail.com\",\"imilamaheshan30@gmail.com\",\"asamarakoon9697@gmail.com\"]",
+									"type": "text"
+								},
+								{
+									"key": "supportRequestType",
+									"value": "INCIDENT",
+									"type": "text"
+								},
+								{
+									"key": "subject",
+									"value": "s29 ultra-may requestNo003- azure server & aws going dow",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "2-Continuously down",
+									"type": "text"
+								},
+								{
+									"key": "severity",
+									"value": "SEVERITY_1",
+									"type": "text"
+								},
+								{
+									"key": "product",
+									"value": "SMART_ASSIST",
+									"type": "text"
+								},
+								{
+									"key": "installationType ",
+									"value": "ON_PREMISE",
+									"type": "text"
+								},
+								{
+									"key": "affectedEnvironment",
+									"value": "NON_PROD_US_SAAS",
+									"type": "text"
+								},
+								{
+									"key": "platformVersion",
+									"value": "1.0",
+									"type": "text"
+								},
+								{
+									"key": "attachments",
+									"type": "file",
+									"src": [
+										"/C:/Users/Asus/Downloads/new Downloads/Java Streams 2.pdf",
+										"/C:/Users/Asus/Downloads/new Downloads/Order.pdf"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8085/tickets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get ticket by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get All messages in a Ticket by ticket id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/getAllMessagesByTicketId/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"getAllMessagesByTicketId",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get All tickets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/getAll",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"getAll"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Register user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\" : \"Nadin\",\r\n    \"lastName\" : \"Pethiyagoda\",\r\n    \"email\" : \"nadin@123\",\r\n    \"password\" : \"123\",\r\n    \"role\" : \"ADMIN\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"nadin@123\",\r\n    \"password\" : \"123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"refreshToken\" : \"OGIxNTZjY2QtODIxOS00YjQ0LWI1NmQyOWFiYTdmOTBi\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/v1/auth/refresh-token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"refresh-token"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
