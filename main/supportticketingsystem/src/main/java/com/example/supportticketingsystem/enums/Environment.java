@@ -1,0 +1,20 @@
+package com.example.supportticketingsystem.enums;
+
+public enum Environment {
+    NO_AFFECTED_ENVIRONMENT,
+    NON_PROD_US_SAAS,
+    NON_PROD_AU_SAAS,
+    NON_PROD_DE_SAAS,
+    NON_PROD_EU_SAAS,
+    NON_PROD_JP_SAAS,
+    NON_PROD_IND_SAAS,
+    NON_PROD_ON_PREMISE_PRIVATE_SAAS,
+    PROD_US_SAAS,
+    PROD_AU_SAAS,
+    PROD_DE_SAAS,
+    PROD_EU_SAAS,
+    PROD_JP_SAAS,
+    PROD_IND_SAAS,
+    PROD_ON_PREMISE_PRIVATE_SAAS
+}
+
