@@ -1,5 +1,8 @@
 package com.example.supportticketingsystem.controller;
 
+import com.example.supportticketingsystem.dto.collection.Ticket;
+import com.example.supportticketingsystem.dto.response.MessageResponse;
+import com.example.supportticketingsystem.dto.response.TRes;
 import com.example.supportticketingsystem.enums.*;
 import com.example.supportticketingsystem.dto.collection.MessageAttachment;
 import com.example.supportticketingsystem.dto.exception.TicketNotFoundException;
@@ -25,6 +28,8 @@ import java.io.IOException;
 import java.security.Principal;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -171,7 +176,7 @@ public class TicketController {
     @GetMapping("/getTime/{ticketId}/open-duration")
     public ResponseEntity<String> getOpenDuration(@PathVariable Long ticketId) {
 
-        LocalDateTime endTime=LocalDateTime.now();
+        LocalDateTime endTime= ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime();
         String openDuration = durationService.calculateOpenDuration(ticketId, endTime);
         return ResponseEntity.ok("Open duration for ticket " + ticketId + " is " + openDuration);
     }
@@ -207,9 +212,51 @@ public class TicketController {
 
     @GetMapping("/{ticketId}/open-duration/{attempt}")
     public ResponseEntity<String> getOpenDurationByAttempt(@PathVariable Long ticketId, @PathVariable int attempt) {
-        LocalDateTime endTime = LocalDateTime.now();
+        LocalDateTime endTime = ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime();
         String openDuration = durationService.calculateOpenDuration(ticketId, attempt, endTime);
         return ResponseEntity.ok("Open duration for ticket " + ticketId + " at attempt " + attempt + " is " + openDuration);
+    }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<List<TRes>> getAllTickets() {
+        List<Ticket> tickets = ticketService.getAllTickets();
+        List<TRes> ticketResponses = tickets.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(ticketResponses);
+    }
+
+    @GetMapping("/{ticketId}")
+    public ResponseEntity<TRes> getTicketById(@PathVariable Long ticketId) {
+        Optional<Ticket> ticket = ticketService.getTicketById(ticketId);
+        return ticket.map(value -> ResponseEntity.ok(convertToResponse(value)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    private TRes convertToResponse(Ticket ticket) {
+        return TRes.builder()
+                .id(ticket.getId())
+                .createdAt(ticket.getCreatedAt())
+                .emailAddress(ticket.getEmailAddress())
+                .ccEmailAddresses(ticket.getCcEmailAddresses())
+                .supportRequestType(ticket.getSupportRequestType())
+                .subject(ticket.getSubject())
+                .description(ticket.getDescription())
+                .severity(ticket.getSeverity())
+                .product(ticket.getProduct())
+                .installationType(ticket.getInstallationType())
+                .affectedEnvironment(ticket.getAffectedEnvironment())
+                .platformVersion(ticket.getPlatformVersion())
+                .clientStatus(ticket.getClientStatus())
+                .vendorStatus(ticket.getVendorStatus())
+                .reopenReason(ticket.getReopenReason())
+                .build();
+    }
+
+    @GetMapping("/getAllMessagesByTicketId/{ticketId}")
+    public ResponseEntity<List<MessageResponse>> getMessagesByTicketId(@PathVariable Long ticketId) {
+        List<MessageResponse> messages = messageService.getMessagesByTicketId(ticketId);
+        return ResponseEntity.ok(messages);
     }
 
 }

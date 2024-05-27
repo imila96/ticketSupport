@@ -9,9 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +27,7 @@ public class Ticket {
 
     @NotNull
     @Builder.Default
-    private LocalDateTime createdAt = LocalDateTime.now(ZoneOffset.UTC);
-
+    private LocalDateTime createdAt = ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime();
     @NotNull
     private String emailAddress;
 

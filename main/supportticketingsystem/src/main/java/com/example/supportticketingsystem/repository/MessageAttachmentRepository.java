@@ -15,4 +15,6 @@ public interface MessageAttachmentRepository extends JpaRepository<MessageAttach
     List<MessageAttachment> findByTicketId(Long ticketId);
 
 
+    @Query("SELECT a FROM MessageAttachment a WHERE a.message.id = ?1")
+    List<MessageAttachment> findByMessageId(Long messageId);
 }

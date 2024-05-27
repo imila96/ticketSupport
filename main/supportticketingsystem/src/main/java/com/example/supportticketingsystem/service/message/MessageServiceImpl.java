@@ -6,12 +6,14 @@ import com.example.supportticketingsystem.dto.collection.MessageAttachment;
 import com.example.supportticketingsystem.dto.collection.Ticket;
 import com.example.supportticketingsystem.dto.exception.TicketNotFoundException;
 import com.example.supportticketingsystem.dto.request.MessageRequest;
+import com.example.supportticketingsystem.dto.response.MessageResponse;
 import com.example.supportticketingsystem.enums.MessageType;
 import com.example.supportticketingsystem.enums.Status;
 import com.example.supportticketingsystem.repository.DurationTimeRepository;
 import com.example.supportticketingsystem.repository.MessageAttachmentRepository;
 import com.example.supportticketingsystem.repository.MessageRepository;
 import com.example.supportticketingsystem.repository.TicketRepository;
+import com.example.supportticketingsystem.service.attachment.AttachmentService;
 import com.example.supportticketingsystem.service.email.EmailService;
 import jakarta.mail.MessagingException;
 import org.slf4j.Logger;
@@ -21,11 +23,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,6 +39,7 @@ public class MessageServiceImpl implements MessageService{
     private MessageRepository messageRepository;
     private MessageAttachmentRepository messageAttachmentRepository;
 
+    private final AttachmentService attachmentService;
     private final DurationTimeRepository durationTimeRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
@@ -49,10 +50,11 @@ public class MessageServiceImpl implements MessageService{
 
 
     @Autowired
-    public MessageServiceImpl(TicketRepository ticketRepository, MessageRepository messageRepository, MessageAttachmentRepository messageAttachmentRepository, DurationTimeRepository durationTimeRepository, EmailService emailService) {
+    public MessageServiceImpl(TicketRepository ticketRepository, MessageRepository messageRepository, MessageAttachmentRepository messageAttachmentRepository, AttachmentService attachmentService, DurationTimeRepository durationTimeRepository, EmailService emailService) {
         this.ticketRepository = ticketRepository;
         this.messageRepository = messageRepository;
         this.messageAttachmentRepository = messageAttachmentRepository;
+        this.attachmentService = attachmentService;
         this.durationTimeRepository = durationTimeRepository;
         this.emailService = emailService;
     }
@@ -93,7 +95,7 @@ public class MessageServiceImpl implements MessageService{
                 .ticket(ticket)
                 .sender(request.getSender())
                 .content(request.getContent())
-                .createdAt(LocalDateTime.now())
+                .createdAt(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                 .sentBy(request.getSentBy())
                 .ccEmailAddresses(request.getCcEmailAddresses())
                 .attachments(messageAttachments) // Attachments added here
@@ -188,7 +190,7 @@ public class MessageServiceImpl implements MessageService{
         if (savedTicket.getVendorStatus() == Status.AWAITING_REPLY) {
             DurationTime durationTime = DurationTime.builder()
                     .ticketId(savedTicket.getId())
-                    .time(LocalDateTime.now())
+                    .time(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                     .status("AWAITING")
                     .attempts(attempts)
                     .build();
@@ -197,7 +199,7 @@ public class MessageServiceImpl implements MessageService{
         } else if (savedTicket.getVendorStatus() == Status.OPEN) {
             DurationTime durationTime = DurationTime.builder()
                     .ticketId(savedTicket.getId())
-                    .time(LocalDateTime.now())
+                    .time(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                     .status("OPEN")
                     .attempts(attempts)
                     .build();
@@ -227,7 +229,7 @@ public class MessageServiceImpl implements MessageService{
                 .ticket(ticket)
                 .sender(request.getSender())
                 .content(request.getContent())
-                .createdAt(LocalDateTime.now())
+                .createdAt(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                 .sentBy(request.getSentBy())
                 .ccEmailAddresses(request.getCcEmailAddresses())
                 .build();
@@ -244,5 +246,25 @@ public class MessageServiceImpl implements MessageService{
         return "Message Created";
     }
 
+    public List<MessageResponse> getMessagesByTicketId(Long ticketId) {
+        List<Message> messages = messageRepository.findByTicketId(ticketId);
+
+        return messages.stream()
+                .map(message -> toMessageResponse(message, ticketId))
+                .collect(Collectors.toList());
+    }
+
+    private MessageResponse toMessageResponse(Message message, Long ticketId) {
+        return MessageResponse.builder()
+                .id(message.getId())
+                .sentBy(message.getSentBy())
+                .sender(message.getSender())
+                .ccEmailAddresses(message.getCcEmailAddresses())
+                .content(message.getContent())
+                .createdAt(message.getCreatedAt())
+                .uniqueId(message.getUniqueId())
+                .attachments(attachmentService.getAttachmentLinksByMessageId(message.getId())) // Assuming this method exists
+                .build();
+    }
 
 }

@@ -20,6 +20,15 @@ public class AttachmentService {
 
     public List<String> getAttachmentLinksByTicketId(Long ticketId) {
         List<MessageAttachment> attachments = attachmentRepository.findByTicketId(ticketId);
+        return generateAttachmentLinks(attachments);
+    }
+
+    public List<String> getAttachmentLinksByMessageId(Long messageId) {
+        List<MessageAttachment> attachments = attachmentRepository.findByMessageId(messageId);
+        return generateAttachmentLinks(attachments);
+    }
+
+    private List<String> generateAttachmentLinks(List<MessageAttachment> attachments) {
         List<String> attachmentLinks = new ArrayList<>();
         for (MessageAttachment attachment : attachments) {
             String downloadLink;

@@ -18,7 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -91,7 +92,7 @@ public class TicketServiceImpl implements TicketService {
 
         DurationTime durationTime= DurationTime.builder()
                 .ticketId(ticket.getId())
-                .time(LocalDateTime.now())
+                .time(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                 .status("AWAITING")
                 .attempts(1)
                 .build();
@@ -119,7 +120,7 @@ public class TicketServiceImpl implements TicketService {
                 .sender(MessageType.CLIENT)
                 .ccEmailAddresses(request.getCcEmailAddresses())
                 .content(request.getDescription())
-                .createdAt(LocalDateTime.now())
+                .createdAt(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                 .sentBy(request.getEmailAddress())
                 .build();
 
@@ -271,7 +272,7 @@ public class TicketServiceImpl implements TicketService {
                     .ticket(ticket)
                     .sender(sentBy.equals(ticket.getEmailAddress()) ? MessageType.CLIENT : MessageType.VENDOR)
                     .content(body)
-                    .createdAt(LocalDateTime.now())
+                    .createdAt(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                     .sentBy(sentBy)
                     .ccEmailAddresses(ccEmails)
                     .build();
@@ -305,7 +306,7 @@ public class TicketServiceImpl implements TicketService {
 
             DurationTime durationTime= DurationTime.builder()
                     .ticketId(ticket.getId())
-                    .time(LocalDateTime.now())
+                    .time(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                     .status("CLOSED")
                     .attempts(attempts)
                     .build();
@@ -347,7 +348,7 @@ public class TicketServiceImpl implements TicketService {
                 .ticket(ticket)
                 .sender(MessageType.CLIENT)
                 .content(body)
-                .createdAt(LocalDateTime.now())
+                .createdAt(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                 .sentBy(sentBy)
                 .build();
 
@@ -390,7 +391,7 @@ public class TicketServiceImpl implements TicketService {
 
         DurationTime durationTime= DurationTime.builder()
                 .ticketId(ticket.getId())
-                .time(LocalDateTime.now())
+                .time(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                 .status("AWAITING")
                 .attempts(attempts)
                 .build();
@@ -398,6 +399,14 @@ public class TicketServiceImpl implements TicketService {
         durationTimeRepository.save(durationTime);
     }
 
+    @Override
+    public List<Ticket> getAllTickets() {
+        return ticketRepository.findAll();
+    }
 
+    @Override
+    public Optional<Ticket> getTicketById(Long ticketId) {
+        return ticketRepository.findById(ticketId);
+    }
 
 }
