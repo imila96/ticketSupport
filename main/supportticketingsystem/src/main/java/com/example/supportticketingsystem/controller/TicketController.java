@@ -37,6 +37,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tickets")
+@CrossOrigin(origins = "*")
 public class TicketController {
 
     private final TicketService ticketService;
