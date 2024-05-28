@@ -27,7 +27,6 @@
         @JoinColumn(name = "ticket_id")
         private Ticket ticket;
 
-
         @NotNull
         private String sentBy;
 
@@ -43,7 +42,13 @@
 
         private String uniqueId;
 
-
         @OneToMany(mappedBy = "message", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
         private List<MessageAttachment> attachments;
+
+        public void setAttachments(List<MessageAttachment> attachments) {
+            if (attachments != null) {
+                attachments.forEach(attachment -> attachment.setMessage(this));
+            }
+            this.attachments = attachments;
+        }
     }

@@ -101,7 +101,9 @@ public class MessageServiceImpl implements MessageService{
                 .attachments(messageAttachments) // Attachments added here
                 .build();
 
+        messageBuilder.setAttachments(messageAttachments);
         Message message = messageRepository.save(messageBuilder);
+
         logger.info("message id: {}",message.getId());
 
         String uniqueId = ticketId + "_" + message.getId();
