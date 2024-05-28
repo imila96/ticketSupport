@@ -63,9 +63,21 @@ public class MessageServiceImpl implements MessageService{
     public String createMessage(MessageRequest request, Long ticketId) throws IOException, MessagingException {
         List<MultipartFile> attachments = request.getAttachments();
 
+
+
         List<MessageAttachment> messageAttachments = new ArrayList<>();
         for (MultipartFile attachment : attachments) {
+
+
+            String contentType = attachment.getContentType();
+            long size = attachment.getSize();
             String fileName = attachment.getOriginalFilename();
+
+            if (fileName == null || fileName.isEmpty() || "empty.json".equals(fileName) || contentType == null || size == 0) {
+                System.out.println("Invalid attachment found and skipped: " + fileName);
+                continue; // Skip this invalid attachment
+            }
+
             String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
             byte[] fileBytes = attachment.getBytes();
 

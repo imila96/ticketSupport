@@ -66,8 +66,18 @@ public class TicketServiceImpl implements TicketService {
 
         if (attachments != null) {
             for (MultipartFile attachment : attachments) {
-                fileNames.add(attachment.getOriginalFilename());
-                fileExtensions.add(attachment.getOriginalFilename().substring(attachment.getOriginalFilename().lastIndexOf(".") + 1));
+                String fileName = attachment.getOriginalFilename();
+                String contentType = attachment.getContentType();
+                long size = attachment.getSize();
+
+                // Validate attachment
+                if (fileName == null || fileName.isEmpty() || "empty.json".equals(fileName) || contentType == null || size == 0) {
+                    System.out.println("Invalid attachment found and skipped: " + fileName);
+                    continue; // Skip this invalid attachment
+                }
+
+                fileNames.add(fileName);
+                fileExtensions.add(fileName.substring(fileName.lastIndexOf(".") + 1));
                 fileBytesList.add(attachment.getBytes());
             }
         }

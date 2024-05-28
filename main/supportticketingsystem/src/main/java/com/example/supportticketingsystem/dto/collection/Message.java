@@ -46,9 +46,9 @@
         private List<MessageAttachment> attachments;
 
         public void setAttachments(List<MessageAttachment> attachments) {
-            if (attachments != null) {
+            if (attachments != null && !attachments.isEmpty()) {
                 attachments.forEach(attachment -> attachment.setMessage(this));
+                this.attachments = attachments;
             }
-            this.attachments = attachments;
         }
     }
