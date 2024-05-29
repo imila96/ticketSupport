@@ -215,7 +215,7 @@ public class TicketController {
     public ResponseEntity<String> getOpenDurationByAttempt(@PathVariable Long ticketId, @PathVariable int attempt) {
         LocalDateTime endTime = ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime();
         String openDuration = durationService.calculateOpenDuration(ticketId, attempt, endTime);
-        return ResponseEntity.ok("Open duration for ticket " + ticketId + " at attempt " + attempt + " is " + openDuration);
+        return ResponseEntity.ok(openDuration);
     }
 
     @GetMapping("/getAll")
