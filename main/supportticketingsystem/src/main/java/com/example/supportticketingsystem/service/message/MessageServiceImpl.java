@@ -63,7 +63,7 @@ public class MessageServiceImpl implements MessageService{
     public String createMessage(MessageRequest request, Long ticketId) throws IOException, MessagingException {
         List<MultipartFile> attachments = request.getAttachments();
 
-
+        boolean hasValidAttachment = false; // Flag to check if there is at least one valid attachment
 
         List<MessageAttachment> messageAttachments = new ArrayList<>();
         for (MultipartFile attachment : attachments) {
@@ -77,7 +77,7 @@ public class MessageServiceImpl implements MessageService{
                 System.out.println("Invalid attachment found and skipped: " + fileName);
                 continue; // Skip this invalid attachment
             }
-
+            hasValidAttachment = true;
             String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
             byte[] fileBytes = attachment.getBytes();
 
@@ -142,7 +142,7 @@ public class MessageServiceImpl implements MessageService{
 
 
 
-        if (!attachments.isEmpty()) {
+        if (!attachments.isEmpty() && hasValidAttachment) {
             List<String> attachmentNames = new ArrayList<>();
             List<byte[]> attachmentBytesList = new ArrayList<>();
             for (MultipartFile attachment : attachments) {
@@ -171,7 +171,26 @@ public class MessageServiceImpl implements MessageService{
                         initialMessageId
                 );
             }
-        } else {
+        } else if(attachments.size() == 1 && !hasValidAttachment){
+            if (request.getSender() == MessageType.CLIENT) {
+                emailService.sendEmail(
+                        emailRecipient,
+                        ticket.getSubject(),
+                        emailBody,
+                        ccEmails,
+                        initialMessageId
+                );
+            } else if (request.getSender() == MessageType.VENDOR) {
+                emailService.sendEmail(
+                        ticket.getEmailAddress(),
+                        ticket.getSubject(),
+                        emailBody,
+                        ccEmails,
+                        initialMessageId
+                );
+            }
+
+        }else {
             if (request.getSender() == MessageType.CLIENT) {
                 emailService.sendEmail(
                         emailRecipient,

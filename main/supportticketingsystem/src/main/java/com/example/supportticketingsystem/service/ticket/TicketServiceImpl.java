@@ -64,6 +64,8 @@ public class TicketServiceImpl implements TicketService {
         List<String> fileExtensions = new ArrayList<>();
         List<byte[]> fileBytesList = new ArrayList<>();
 
+        boolean hasValidAttachment = false; // Flag to check if there is at least one valid attachment
+
         if (attachments != null) {
             for (MultipartFile attachment : attachments) {
                 String fileName = attachment.getOriginalFilename();
@@ -76,6 +78,7 @@ public class TicketServiceImpl implements TicketService {
                     continue; // Skip this invalid attachment
                 }
 
+                hasValidAttachment = true;
                 fileNames.add(fileName);
                 fileExtensions.add(fileName.substring(fileName.lastIndexOf(".") + 1));
                 fileBytesList.add(attachment.getBytes());
@@ -100,7 +103,7 @@ public class TicketServiceImpl implements TicketService {
 
         ticket = ticketRepository.save(ticket); // Persist the Ticket
 
-        DurationTime durationTime= DurationTime.builder()
+        DurationTime durationTime = DurationTime.builder()
                 .ticketId(ticket.getId())
                 .time(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                 .status("AWAITING")
@@ -112,12 +115,11 @@ public class TicketServiceImpl implements TicketService {
         ticket.setSubject(request.getSubject() + " : Support Ticket -" + ticket.getId());
         ticket = ticketRepository.save(ticket);
 
-
         String initialMessageId = generateUniqueMessageId(ticket.getId());
         ticket.setInitialMessageId(initialMessageId);
         ticket = ticketRepository.save(ticket);
 
-        EmailTime emailTime=EmailTime.builder()
+        EmailTime emailTime = EmailTime.builder()
                 .ticketId(ticket.getId())
                 .createdAt(null)
                 .build();
@@ -137,7 +139,6 @@ public class TicketServiceImpl implements TicketService {
         Message initialMessage = messageRepository.save(initialMessageBuilder);
         String uniqueId = ticket.getId() + "_" + initialMessage.getId();
         initialMessage.setUniqueId(uniqueId);
-
 
         List<Message> conversation = ticket.getConversation() == null ? new ArrayList<>() : ticket.getConversation();
         conversation.add(initialMessage); // Add initial message to conversation
@@ -159,7 +160,6 @@ public class TicketServiceImpl implements TicketService {
         ticket.setConversation(conversation); // Set the updated conversation list
 
         messageRepository.save(initialMessage);
-
 
         StringBuilder bodyBuilder = new StringBuilder();
         bodyBuilder.append("Sent by: ").append(request.getEmailAddress()).append("\n\n");
@@ -184,8 +184,16 @@ public class TicketServiceImpl implements TicketService {
 
         ccEmails.add(request.getEmailAddress()); // Add primary recipient to CC list
 
-        // Send email notification with attachments (if any)
-        if (!attachments.isEmpty()) {
+        // Check for single invalid attachment scenario
+        if (attachments.size() == 1 && !hasValidAttachment) {
+            emailService.sendEmail(
+                    request.getEmailAddress(),
+                    ticket.getSubject(),
+                    emailBody,
+                    ccEmails,
+                    initialMessageId
+            );
+        } else if (!attachments.isEmpty() && hasValidAttachment) {
             emailService.sendMailWithAttachment(
                     request.getEmailAddress(),
                     ticket.getSubject(),
@@ -224,7 +232,8 @@ public class TicketServiceImpl implements TicketService {
     }
 
 
-        @Override
+
+    @Override
         public byte[] downloadFile(Long fileId) {
             Optional<MessageAttachment> dbFileData = messageAttachmentRepository.findById(fileId);
             return dbFileData.map(MessageAttachment::getFileBytes).orElse(null);
