@@ -26,6 +26,8 @@ public interface TicketService {
 
     void closeTicket(Long ticketId, String sentBy) throws MessagingException;
 
+    int getMaxAttemptsByTicketId(Long ticketId);
+
     void reopenTicket(ReopenTicketRequest request) throws MessagingException;
 
     List<Ticket> getAllTickets();

@@ -260,4 +260,10 @@ public class TicketController {
         return ResponseEntity.ok(messages);
     }
 
+    @GetMapping("/max-attempts/{ticketId}")
+    public int getMaxAttempts(@PathVariable Long ticketId) {
+        return ticketService.getMaxAttemptsByTicketId(ticketId);
+    }
+
+    //http://localhost:8085/tickets/max-attempts/1 use this get method
 }

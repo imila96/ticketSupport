@@ -337,6 +337,15 @@ public class TicketServiceImpl implements TicketService {
         }
     }
 
+    @Override
+    public int getMaxAttemptsByTicketId(Long ticketId) {
+        return durationTimeRepository.findByTicketIdOrderByTimeAsc(ticketId)
+                .stream()
+                .mapToInt(durationTime -> durationTime.getAttempts())
+                .max()
+                .orElse(0);
+    }
+
 
     @Override
     public void reopenTicket(ReopenTicketRequest request) throws MessagingException {
@@ -420,7 +429,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<Ticket> getAllTickets() {
-        return ticketRepository.findAll();
+        return ticketRepository.findAllByOrderByIdDesc();
     }
 
     @Override
