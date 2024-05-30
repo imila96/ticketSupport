@@ -78,7 +78,7 @@ public class DurationService {
         totalOpenDuration = totalOpenDuration.minusMinutes(minutes);
         long seconds = totalOpenDuration.getSeconds();
 
-        return String.format("%d days, %d hours, %d minutes, %d seconds", days, hours, minutes, seconds);
+        return String.format("%d days %d hours %d minutes %d seconds", days, hours, minutes, seconds);
     }
 
 
