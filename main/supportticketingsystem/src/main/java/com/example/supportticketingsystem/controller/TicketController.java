@@ -32,6 +32,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -212,11 +213,12 @@ public class TicketController {
     }
 
     @GetMapping("/{ticketId}/open-duration/{attempt}")
-    public ResponseEntity<String> getOpenDurationByAttempt(@PathVariable Long ticketId, @PathVariable int attempt) {
+    public ResponseEntity<Map<String, String>> getOpenDurationByAttempt(@PathVariable Long ticketId, @PathVariable int attempt) {
         LocalDateTime endTime = ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime();
-        String openDuration = durationService.calculateOpenDuration(ticketId, attempt, endTime);
+        Map<String, String> openDuration = durationService.calculateOpenDuration(ticketId, attempt, endTime);
         return ResponseEntity.ok(openDuration);
     }
+
 
     @GetMapping("/getAll")
     public ResponseEntity<List<TRes>> getAllTickets() {

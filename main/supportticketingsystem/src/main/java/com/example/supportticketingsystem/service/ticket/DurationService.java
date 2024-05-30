@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DurationService {
@@ -49,7 +51,7 @@ public class DurationService {
     }
 
 
-    public String calculateOpenDuration(Long ticketId, int attempt, LocalDateTime endTime) {
+    public Map<String, String> calculateOpenDuration(Long ticketId, int attempt, LocalDateTime endTime) {
         List<DurationTime> tickets = durationTimeRepository.findByTicketIdAndAttemptsOrderByTimeAsc(ticketId, attempt);
         LocalDateTime lastOpenTime = null;
         Duration totalOpenDuration = Duration.ZERO;
@@ -78,8 +80,14 @@ public class DurationService {
         totalOpenDuration = totalOpenDuration.minusMinutes(minutes);
         long seconds = totalOpenDuration.getSeconds();
 
-        return String.format("%d days %d hours %d minutes %d seconds", days, hours, minutes, seconds);
+        String durationString = String.format("%d days %d hours %d minutes %d seconds", days, hours, minutes, seconds);
+
+        Map<String, String> result = new HashMap<>();
+        result.put("duration", durationString);
+
+        return result;
     }
+
 
 
 }
