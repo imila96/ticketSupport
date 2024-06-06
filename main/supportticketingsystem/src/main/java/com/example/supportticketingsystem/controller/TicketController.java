@@ -262,6 +262,15 @@ public class TicketController {
         return ResponseEntity.ok(messages);
     }
 
+
+    @GetMapping("/{ticketId}/clientTime/{attempt}")
+    public ResponseEntity<Map<String, String>> getDurationBetweenAwaitingAndClosed(
+            @PathVariable Long ticketId, @PathVariable int attempt) {
+        LocalDateTime endTime = ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime();
+        Map<String, String> openDuration = durationService.calculateClientOpenDuration(ticketId, attempt, endTime);
+        return ResponseEntity.ok(openDuration);
+    }
+
     @GetMapping("/max-attempts/{ticketId}")
     public int getMaxAttempts(@PathVariable Long ticketId) {
         return ticketService.getMaxAttemptsByTicketId(ticketId);
