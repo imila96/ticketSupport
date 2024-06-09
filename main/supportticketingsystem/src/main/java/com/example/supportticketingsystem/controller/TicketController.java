@@ -21,6 +21,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.*;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,10 +33,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -277,4 +277,49 @@ public class TicketController {
     }
 
     //http://localhost:8085/tickets/max-attempts/1 use this get method
+
+
+    //sevirity based ticket filtering
+    @GetMapping("/severity/{severity}")
+    @PreAuthorize("hasAnyAuthority('LEVEL-1', 'LEVEL-2', 'LEVEL-3', 'LEVEL-4', 'ADMIN')")
+    public ResponseEntity<List<TRes>> getTicketsBySeverity(@PathVariable Severity severity, Principal principal) {
+
+        List<Ticket> tickets = ticketService.getTicketsBySeverity(severity);
+        List<TRes> ticketResponses = tickets.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+
+        // Filter tickets based on the user's role
+        List<TRes> filteredTickets = ticketResponses.stream()
+                .filter(ticket -> canUserAccessTicket(ticket, principal))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(filteredTickets);
+    }
+
+    private boolean canUserAccessTicket(TRes ticket, Principal principal) {
+        // Get the user roles
+        Collection<? extends GrantedAuthority> authorities = ((Authentication) principal).getAuthorities();
+
+        // Implement role-based access control logic
+        for (GrantedAuthority authority : authorities) {
+            String role = authority.getAuthority();
+            switch (role) {
+                case "LEVEL-1":
+                    return ticket.getSeverity() == Severity.SEVERITY_4;
+                case "LEVEL-2":
+                    return ticket.getSeverity() == Severity.SEVERITY_3 || ticket.getSeverity() == Severity.SEVERITY_4;
+                case "LEVEL-3":
+                    return ticket.getSeverity() == Severity.SEVERITY_2 || ticket.getSeverity() == Severity.SEVERITY_3 || ticket.getSeverity() == Severity.SEVERITY_4;
+                case "LEVEL-4":
+                    return true; // LEVEL-4 can see all tickets
+                case "ADMIN":
+                    return true; // Admin can see all tickets
+                default:
+                    return false;
+            }
+        }
+        return false;
+    }
+
 }

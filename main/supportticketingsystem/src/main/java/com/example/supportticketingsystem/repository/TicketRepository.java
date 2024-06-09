@@ -1,6 +1,7 @@
 package com.example.supportticketingsystem.repository;
 
 import com.example.supportticketingsystem.dto.collection.Ticket;
+import com.example.supportticketingsystem.enums.Severity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,5 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findAllByOrderByIdDesc();
 
+    List<Ticket> findBySeverity(Severity severity);
 }

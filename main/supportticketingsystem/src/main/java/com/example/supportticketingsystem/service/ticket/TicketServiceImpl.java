@@ -6,6 +6,7 @@ import com.example.supportticketingsystem.dto.request.ReopenTicketRequest;
 import com.example.supportticketingsystem.dto.request.TicketRequest;
 import com.example.supportticketingsystem.dto.response.TicketResponse;
 import com.example.supportticketingsystem.enums.MessageType;
+import com.example.supportticketingsystem.enums.Severity;
 import com.example.supportticketingsystem.enums.Status;
 import com.example.supportticketingsystem.repository.*;
 import com.example.supportticketingsystem.service.email.EmailService;
@@ -435,6 +436,13 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Optional<Ticket> getTicketById(Long ticketId) {
         return ticketRepository.findById(ticketId);
+    }
+
+
+    // In TicketServiceImpl class
+    @Override
+    public List<Ticket> getTicketsBySeverity(Severity severity) {
+        return ticketRepository.findBySeverity(severity);
     }
 
 }

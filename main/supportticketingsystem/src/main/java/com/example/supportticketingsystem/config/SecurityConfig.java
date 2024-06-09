@@ -28,28 +28,28 @@ public class SecurityConfig {
     private JWTAuthFilter jwtAuthFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/auth/**", "/public/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
-                        .requestMatchers("/user/**").hasAuthority("USER")
-                        .requestMatchers("/tickets/{ticketId}/**").permitAll()
-                        .requestMatchers("/moderator/**").hasAuthority("MODERATOR")
-                        .requestMatchers("/guest/**").hasAuthority("GUEST")
-                        .requestMatchers("/tickets/{ticketId}/closeTicket").permitAll()
-                        .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "USER")
-                        .requestMatchers("/tickets", "/api/attachments", "/fetchAndSaveEmails/**").permitAll() // Allow access to anyone for these endpoints
+                        .requestMatchers("/level-4/**").hasAnyAuthority("LEVEL-1", "LEVEL-2", "LEVEL-3", "LEVEL-4")
+                        .requestMatchers("/level-3/**").hasAnyAuthority("LEVEL-2", "LEVEL-3", "LEVEL-4")
+                        .requestMatchers("/level-2/**").hasAnyAuthority("LEVEL-3", "LEVEL-4")
+                        .requestMatchers("/level-1/**").hasAuthority("LEVEL-4")
+                        .requestMatchers("/vendor/**").hasAuthority("VENDOR")
+                        .requestMatchers("/tickets/**").authenticated() // Ensure this line exists
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
         return httpSecurity.build();
     }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(ourUserDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
@@ -57,12 +57,12 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 }
