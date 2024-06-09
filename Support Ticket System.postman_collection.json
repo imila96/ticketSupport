@@ -376,7 +376,20 @@
 					"name": "get max attempt by ticket id",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/max-attempts/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"max-attempts",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -386,7 +399,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/1/clientTime/1",
+							"raw": "http://localhost:8085/tickets/4/clientTime/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -394,7 +407,7 @@
 							"port": "8085",
 							"path": [
 								"tickets",
-								"1",
+								"4",
 								"clientTime",
 								"1"
 							]
@@ -405,8 +418,31 @@
 				{
 					"name": "Get tickets by severity",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZXZlMDAwMXVzZXIxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3OTAzNDIzLCJleHAiOjE3MTc5ODk4MjN9.H2enZgGpGNLaYhH8rAL16MuNdqPumUh9b-RsiCkZNs4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/severity/SEVERITY_4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"severity",
+								"SEVERITY_4"
+							]
+						}
 					},
 					"response": []
 				}
@@ -422,7 +458,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"testuser@example.com\",\r\n    \"password\": \"password123\",\r\n    \"name\": \"Test User\",\r\n    \"city\": \"Test City\",\r\n    \"role\": \"USER\"\r\n}\r\n",
+							"raw": "{\r\n    \"email\": \"leve0001user1@example.com\",\r\n    \"password\": \"password123\",\r\n    \"name\": \"level4 User\",\r\n    \"city\": \"level4 City\",\r\n    \"role\": \"LEVEL-1\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -446,18 +482,15 @@
 				},
 				{
 					"name": "login",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"auth": {
 							"type": "noauth"
 						},
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"userName\": \"testuser\",\r\n  \"password\": \"testpassword\"\r\n}\r\n",
+							"raw": "{\r\n    \"email\": \"leve0001user1@example.com\",\r\n    \"password\": \"password123\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -465,14 +498,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8081/genToken",
+							"raw": "http://localhost:8085/auth/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "8081",
+							"port": "8085",
 							"path": [
-								"genToken"
+								"auth",
+								"login"
 							]
 						}
 					},
