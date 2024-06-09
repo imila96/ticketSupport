@@ -32,14 +32,14 @@ public class SecurityConfig {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/auth/**", "/public/**").permitAll()
+                        .requestMatchers("/auth/**", "/public/**", "/fetchAndSaveEmails/**").permitAll()
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/level-4/**").hasAnyAuthority("LEVEL-1", "LEVEL-2", "LEVEL-3", "LEVEL-4")
                         .requestMatchers("/level-3/**").hasAnyAuthority("LEVEL-2", "LEVEL-3", "LEVEL-4")
                         .requestMatchers("/level-2/**").hasAnyAuthority("LEVEL-3", "LEVEL-4")
                         .requestMatchers("/level-1/**").hasAuthority("LEVEL-4")
                         .requestMatchers("/vendor/**").hasAuthority("VENDOR")
-                        .requestMatchers("/tickets/**").authenticated() // Ensure this line exists
+                        .requestMatchers("/tickets/**").authenticated()
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

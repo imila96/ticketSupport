@@ -9,12 +9,14 @@ import com.example.supportticketingsystem.repository.DurationTimeRepository;
 import com.example.supportticketingsystem.repository.EmailTimeRepository;
 import com.example.supportticketingsystem.repository.MessageRepository;
 import com.example.supportticketingsystem.repository.TicketRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -49,7 +51,14 @@ public class ModEmailService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public void saveEmailsFromExternalService(int minutes) {
+
+
+
+    @Scheduled(fixedRate = 60000)
+    @Transactional
+    public void saveEmailsFromExternalService() {
+        System.out.println("attept started");
+        int minutes=1800;
         String url = "http://localhost:8086/emails/" + minutes;
         ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
                 url, HttpMethod.GET, null,
@@ -179,6 +188,7 @@ public class ModEmailService {
                 }
             }
         }
+        System.out.println("attept completed");
     }
 
     private LocalDateTime getLatestReceivedDateForTicket(Long ticketId) {
