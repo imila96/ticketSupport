@@ -1,5 +1,6 @@
 package com.example.supportticketingsystem.controller;
 
+import com.example.supportticketingsystem.dto.collection.OurUsers;
 import com.example.supportticketingsystem.dto.collection.Ticket;
 import com.example.supportticketingsystem.dto.response.MessageResponse;
 import com.example.supportticketingsystem.dto.response.TRes;
@@ -13,12 +14,12 @@ import com.example.supportticketingsystem.dto.request.TicketRequest;
 import com.example.supportticketingsystem.dto.response.GenericResponse;
 import com.example.supportticketingsystem.dto.response.TicketResponse;
 import com.example.supportticketingsystem.repository.MessageAttachmentRepository;
+import com.example.supportticketingsystem.repository.UsersRepo;
 import com.example.supportticketingsystem.service.message.MessageService;
 import com.example.supportticketingsystem.service.ticket.DurationService;
 import com.example.supportticketingsystem.service.ticket.TicketService;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.*;
 
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +30,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -43,6 +43,8 @@ public class TicketController {
 
     private final TicketService ticketService;
 
+    private final UsersRepo usersRepo;
+
 
     private final DurationService durationService;
 
@@ -51,8 +53,9 @@ public class TicketController {
     private final MessageAttachmentRepository attachmentRepository;
 
     @Autowired
-    public TicketController(TicketService ticketService, DurationService durationService, MessageService messageService, MessageAttachmentRepository attachmentRepository) {
+    public TicketController(TicketService ticketService, UsersRepo usersRepo, DurationService durationService, MessageService messageService, MessageAttachmentRepository attachmentRepository) {
         this.ticketService = ticketService;
+        this.usersRepo = usersRepo;
         this.durationService = durationService;
         this.messageService = messageService;
         this.attachmentRepository = attachmentRepository;
@@ -228,6 +231,34 @@ public class TicketController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(ticketResponses);
     }
+
+    @GetMapping("/getAllKore")
+    public ResponseEntity<List<TRes>> getAllTicketsByProduct(Principal principal) {
+        String email = principal.getName();
+        Optional<OurUsers> userOpt = usersRepo.findByEmail(email);
+
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        OurUsers user = userOpt.get();
+        String productGroup = user.getProductGroup(); // Assuming `productGroup` is a field in `OurUsers` entity
+        Product product;
+
+        try {
+            product = Product.valueOf(productGroup);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Collections.emptyList());
+        }
+
+        List<Ticket> tickets = ticketService.getTicketsByProduct(product);
+        List<TRes> ticketResponses = tickets.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(ticketResponses);
+    }
+
 
     @GetMapping("/{ticketId}")
     public ResponseEntity<TRes> getTicketById(@PathVariable Long ticketId) {

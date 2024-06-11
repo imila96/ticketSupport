@@ -53,8 +53,8 @@ public class ModEmailService {
 
 
 
-
-    @Scheduled(fixedRate = 60000)
+//6 min
+    @Scheduled(fixedRate = 600000)
     @Transactional
     public void saveEmailsFromExternalService() {
         System.out.println("attept started");

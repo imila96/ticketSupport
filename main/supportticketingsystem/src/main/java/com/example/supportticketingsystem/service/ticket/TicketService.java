@@ -5,6 +5,7 @@ import com.example.supportticketingsystem.dto.request.ReopenTicketRequest;
 import com.example.supportticketingsystem.dto.request.TicketRequest;
 import com.example.supportticketingsystem.dto.response.TicketResponse;
 import com.example.supportticketingsystem.enums.MessageType;
+import com.example.supportticketingsystem.enums.Product;
 import com.example.supportticketingsystem.enums.Severity;
 import jakarta.mail.MessagingException;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,5 +39,6 @@ public interface TicketService {
     // In TicketService interface
     public List<Ticket> getTicketsBySeverity(Severity severity);
 
+    List<Ticket> getTicketsByProduct(Product product);
 }
 

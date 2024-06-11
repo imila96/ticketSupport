@@ -15,7 +15,7 @@ import java.util.Set;
 @Data
 public class OurUsers implements UserDetails {
 
-    public static final Set<String> ALLOWED_ROLES = Set.of("ADMIN", "LEVEL-1", "LEVEL-2", "LEVEL-3", "LEVEL-4", "VENDOR");
+    public static final Set<String> ALLOWED_ROLES = Set.of("ADMIN", "LEVEL-1", "LEVEL-2", "LEVEL-3", "LEVEL-4", "VENDOR", "SUPPORTER");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +25,7 @@ public class OurUsers implements UserDetails {
     private String password;
     private String city;
     private String role;
+    private String productGroup; // New field
 
     public void setRole(String role) {
         if (!ALLOWED_ROLES.contains(role)) {

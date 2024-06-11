@@ -6,6 +6,7 @@ import com.example.supportticketingsystem.dto.request.ReopenTicketRequest;
 import com.example.supportticketingsystem.dto.request.TicketRequest;
 import com.example.supportticketingsystem.dto.response.TicketResponse;
 import com.example.supportticketingsystem.enums.MessageType;
+import com.example.supportticketingsystem.enums.Product;
 import com.example.supportticketingsystem.enums.Severity;
 import com.example.supportticketingsystem.enums.Status;
 import com.example.supportticketingsystem.repository.*;
@@ -445,4 +446,8 @@ public class TicketServiceImpl implements TicketService {
         return ticketRepository.findBySeverity(severity);
     }
 
+    @Override
+    public List<Ticket> getTicketsByProduct(Product product) {
+        return ticketRepository.findByProduct(product);
+    }
 }

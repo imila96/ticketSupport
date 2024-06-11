@@ -21,6 +21,7 @@ public class ReqRes {
     private String name;
     private String city;
     private String role;
+    private String productGroup;
     private String email;
     private String password;
     private OurUsers ourUsers;

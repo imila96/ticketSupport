@@ -26,24 +26,32 @@ public class UsersManagementService {
     private PasswordEncoder passwordEncoder;
 
 
-    public ReqRes register(ReqRes registrationRequest){
+    public ReqRes register(ReqRes registrationRequest) {
         ReqRes resp = new ReqRes();
 
         try {
             OurUsers ourUser = new OurUsers();
-            ourUser.setEmail(registrationRequest.getEmail());
+            String email = registrationRequest.getEmail();
+            ourUser.setEmail(email);
             ourUser.setCity(registrationRequest.getCity());
-            ourUser.setRole(registrationRequest.getRole());
             ourUser.setName(registrationRequest.getName());
             ourUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+
+            if (email.endsWith("@kore.com")) {
+                ourUser.setRole("SUPPORTER");
+                ourUser.setProductGroup(registrationRequest.getProductGroup());
+            } else {
+                ourUser.setRole(registrationRequest.getRole());
+            }
+
             OurUsers ourUsersResult = usersRepo.save(ourUser);
-            if (ourUsersResult.getId()>0) {
+            if (ourUsersResult.getId() > 0) {
                 resp.setOurUsers((ourUsersResult));
                 resp.setMessage("User Saved Successfully");
                 resp.setStatusCode(200);
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             resp.setStatusCode(500);
             resp.setError(e.getMessage());
         }
