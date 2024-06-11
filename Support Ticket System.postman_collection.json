@@ -73,7 +73,7 @@
 					"response": []
 				},
 				{
-					"name": "New Updated call for get all attachments",
+					"name": "New Updated call for get all attachments by ticket id",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -441,6 +441,36 @@
 								"tickets",
 								"severity",
 								"SEVERITY_4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getTicketsBy product group",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGtvcmUuY29tIiwiaWF0IjoxNzE4MDg0NzkwLCJleHAiOjE3MTgxNzExOTB9.QwMQT6pUc_8FPJoC1lgcO2ijMb6xR7L1yE3TsYhAAzY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/getAllKore",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"getAllKore"
 							]
 						}
 					},
