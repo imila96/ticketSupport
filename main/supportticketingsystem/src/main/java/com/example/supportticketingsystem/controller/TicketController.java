@@ -2,18 +2,16 @@ package com.example.supportticketingsystem.controller;
 
 import com.example.supportticketingsystem.dto.collection.OurUsers;
 import com.example.supportticketingsystem.dto.collection.Ticket;
+import com.example.supportticketingsystem.dto.request.*;
 import com.example.supportticketingsystem.dto.response.MessageResponse;
 import com.example.supportticketingsystem.dto.response.TRes;
 import com.example.supportticketingsystem.enums.*;
 import com.example.supportticketingsystem.dto.collection.MessageAttachment;
 import com.example.supportticketingsystem.dto.exception.TicketNotFoundException;
-import com.example.supportticketingsystem.dto.request.CloseTicketRequest;
-import com.example.supportticketingsystem.dto.request.MessageRequest;
-import com.example.supportticketingsystem.dto.request.ReopenTicketRequest;
-import com.example.supportticketingsystem.dto.request.TicketRequest;
 import com.example.supportticketingsystem.dto.response.GenericResponse;
 import com.example.supportticketingsystem.dto.response.TicketResponse;
 import com.example.supportticketingsystem.repository.MessageAttachmentRepository;
+import com.example.supportticketingsystem.repository.TicketRepository;
 import com.example.supportticketingsystem.repository.UsersRepo;
 import com.example.supportticketingsystem.service.message.MessageService;
 import com.example.supportticketingsystem.service.ticket.DurationService;
@@ -46,6 +44,7 @@ public class TicketController {
 
     private final UsersRepo usersRepo;
 
+    private final TicketRepository ticketRepository;
 
     private final DurationService durationService;
 
@@ -54,9 +53,10 @@ public class TicketController {
     private final MessageAttachmentRepository attachmentRepository;
 
     @Autowired
-    public TicketController(TicketService ticketService, UsersRepo usersRepo, DurationService durationService, MessageService messageService, MessageAttachmentRepository attachmentRepository) {
+    public TicketController(TicketService ticketService, UsersRepo usersRepo, TicketRepository ticketRepository, DurationService durationService, MessageService messageService, MessageAttachmentRepository attachmentRepository) {
         this.ticketService = ticketService;
         this.usersRepo = usersRepo;
+        this.ticketRepository = ticketRepository;
         this.durationService = durationService;
         this.messageService = messageService;
         this.attachmentRepository = attachmentRepository;
@@ -102,7 +102,7 @@ public class TicketController {
         }
 
 
-    @PostMapping("/{ticketId}/CreateMessage")
+    @PostMapping("/general/{ticketId}/CreateMessage")
     public ResponseEntity<?> createMessage(@PathVariable Long ticketId,
                                            @RequestParam("sender") MessageType sender,
                                            @RequestParam("content") String content,
@@ -128,7 +128,7 @@ public class TicketController {
     }
 
 
-    @GetMapping("getFileById/{fileId}")
+    @GetMapping("/general/getFileById/{fileId}")
     public ResponseEntity<?> downloadFile(@PathVariable Long fileId) {
         byte[] fileData = ticketService.downloadFile(fileId);
         Optional<MessageAttachment> atc = attachmentRepository.findById(fileId);
@@ -165,7 +165,7 @@ public class TicketController {
 
 
 
-    @GetMapping("/ticket/{ticketId}")
+    @GetMapping("/ticket/general/{ticketId}")
     public List<String> getAttachmentLinksByTicketId(@PathVariable Long ticketId) {
         List<MessageAttachment> attachments = attachmentRepository.findByTicketId(ticketId);
         List<String> attachmentLinks = new ArrayList<>();
@@ -179,7 +179,7 @@ public class TicketController {
     }
 
 
-    @GetMapping("/getTime/{ticketId}/open-duration")
+    @GetMapping("/general/getTime/{ticketId}/open-duration")
     public ResponseEntity<String> getOpenDuration(@PathVariable Long ticketId) {
 
         LocalDateTime endTime= ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime();
@@ -189,7 +189,7 @@ public class TicketController {
 
 
 
-    @PutMapping("/{ticketId}/closeTicket")
+    @PutMapping("/general/{ticketId}/closeTicket")
     public ResponseEntity<?> closeTicket(@PathVariable Long ticketId, @RequestBody CloseTicketRequest closeTicketRequest) {
         try {
             String sentBy = closeTicketRequest.getSentBy();
@@ -203,7 +203,7 @@ public class TicketController {
     }
 
 
-    @PostMapping("/reopen")
+    @PostMapping("/general/reopen")
     public ResponseEntity<GenericResponse> reopenTicket(@RequestBody ReopenTicketRequest request) {
         try {
             ticketService.reopenTicket(request);
@@ -216,7 +216,7 @@ public class TicketController {
         }
     }
 
-    @GetMapping("/{ticketId}/open-duration/{attempt}")
+    @GetMapping("/general/{ticketId}/open-duration/{attempt}")
     public ResponseEntity<Map<String, String>> getOpenDurationByAttempt(@PathVariable Long ticketId, @PathVariable int attempt) {
         LocalDateTime endTime = ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime();
         Map<String, String> openDuration = durationService.calculateOpenDuration(ticketId, attempt, endTime);
@@ -224,7 +224,7 @@ public class TicketController {
     }
 
 
-    @GetMapping("/getAll")
+    @GetMapping("/general/getAll")
     public ResponseEntity<List<TRes>> getAllTickets() {
         List<Ticket> tickets = ticketService.getAllTickets();
         List<TRes> ticketResponses = tickets.stream()
@@ -261,7 +261,7 @@ public class TicketController {
     }
 
 
-    @GetMapping("/{ticketId}")
+    @GetMapping("/general/{ticketId}")
     public ResponseEntity<TRes> getTicketById(@PathVariable Long ticketId) {
         Optional<Ticket> ticket = ticketService.getTicketById(ticketId);
         return ticket.map(value -> ResponseEntity.ok(convertToResponse(value)))
@@ -288,14 +288,14 @@ public class TicketController {
                 .build();
     }
 
-    @GetMapping("/getAllMessagesByTicketId/{ticketId}")
+    @GetMapping("/general/getAllMessagesByTicketId/{ticketId}")
     public ResponseEntity<List<MessageResponse>> getMessagesByTicketId(@PathVariable Long ticketId) {
         List<MessageResponse> messages = messageService.getMessagesByTicketId(ticketId);
         return ResponseEntity.ok(messages);
     }
 
 
-    @GetMapping("/{ticketId}/clientTime/{attempt}")
+    @GetMapping("/general/{ticketId}/clientTime/{attempt}")
     public ResponseEntity<Map<String, String>> getDurationBetweenAwaitingAndClosed(
             @PathVariable Long ticketId, @PathVariable int attempt) {
         LocalDateTime endTime = ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime();
@@ -303,7 +303,7 @@ public class TicketController {
         return ResponseEntity.ok(openDuration);
     }
 
-    @GetMapping("/max-attempts/{ticketId}")
+    @GetMapping("/general/max-attempts/{ticketId}")
     public int getMaxAttempts(@PathVariable Long ticketId) {
         return ticketService.getMaxAttemptsByTicketId(ticketId);
     }
@@ -364,5 +364,18 @@ public class TicketController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(ticketResponses);
     }
+    @GetMapping("/severity-count")
+    public ResponseEntity<List<SeverityCountDTO>> getSeverityCount(
+            @RequestParam String startMonth,
+            @RequestParam String endMonth) {
+        Integer start = Integer.parseInt(startMonth.replace("-", ""));
+        Integer end = Integer.parseInt(endMonth.replace("-", ""));
+        List<SeverityCountDTO> severityCounts = ticketRepository.getSeverityCount(start, end);
+        return ResponseEntity.ok(severityCounts);
+    }
+
+
+
+
 
 }

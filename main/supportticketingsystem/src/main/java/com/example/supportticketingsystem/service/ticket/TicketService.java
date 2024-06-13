@@ -2,6 +2,7 @@ package com.example.supportticketingsystem.service.ticket;
 
 import com.example.supportticketingsystem.dto.collection.Ticket;
 import com.example.supportticketingsystem.dto.request.ReopenTicketRequest;
+import com.example.supportticketingsystem.dto.request.SeverityCountDTO;
 import com.example.supportticketingsystem.dto.request.TicketRequest;
 import com.example.supportticketingsystem.dto.response.TicketResponse;
 import com.example.supportticketingsystem.enums.MessageType;
@@ -12,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,5 +41,7 @@ public interface TicketService {
     public List<Ticket> getTicketsBySeverity(Severity severity);
 
     List<Ticket> getTicketsByProduct(Product product);
+
+
 }
 

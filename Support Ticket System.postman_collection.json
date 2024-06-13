@@ -56,7 +56,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/getTime/1/open-duration",
+							"raw": "http://localhost:8085/tickets/general/getTime/1/open-duration",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -64,6 +64,7 @@
 							"port": "8085",
 							"path": [
 								"tickets",
+								"general",
 								"getTime",
 								"1",
 								"open-duration"
@@ -75,10 +76,20 @@
 				{
 					"name": "New Updated call for get all attachments by ticket id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODI2NjI0MywiZXhwIjoxNzE4MzUyNjQzfQ.DQDlfXiwTOb5b0hPtGRuAYKCL9ljlIYYQJskln9tcK8",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/api/attachments/getAllAttachmentById/1",
+							"raw": "http://localhost:8085/api/general/attachments/getAllAttachmentById/9",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -86,9 +97,10 @@
 							"port": "8085",
 							"path": [
 								"api",
+								"general",
 								"attachments",
 								"getAllAttachmentById",
-								"1"
+								"9"
 							]
 						}
 					},
@@ -97,10 +109,20 @@
 				{
 					"name": "get time by attempt no and ticket id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODI2NjI0MywiZXhwIjoxNzE4MzUyNjQzfQ.DQDlfXiwTOb5b0hPtGRuAYKCL9ljlIYYQJskln9tcK8",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/1/open-duration/3",
+							"raw": "http://localhost:8085/tickets/general/9/open-duration/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -108,9 +130,10 @@
 							"port": "8085",
 							"path": [
 								"tickets",
-								"1",
+								"general",
+								"9",
 								"open-duration",
-								"3"
+								"1"
 							]
 						}
 					},
@@ -131,7 +154,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8085/tickets/reopen",
+							"raw": "http://localhost:8085/tickets/general/reopen",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -139,6 +162,7 @@
 							"port": "8085",
 							"path": [
 								"tickets",
+								"general",
 								"reopen"
 							]
 						}
@@ -160,7 +184,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8085/tickets/1/closeTicket",
+							"raw": "http://localhost:8085/tickets/general/3/closeTicket",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -168,7 +192,8 @@
 							"port": "8085",
 							"path": [
 								"tickets",
-								"1",
+								"general",
+								"3",
 								"closeTicket"
 							]
 						}
@@ -178,6 +203,16 @@
 				{
 					"name": "create message with ticket id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODI2NjI0MywiZXhwIjoxNzE4MzUyNjQzfQ.DQDlfXiwTOb5b0hPtGRuAYKCL9ljlIYYQJskln9tcK8",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -190,21 +225,18 @@
 								},
 								{
 									"key": "sender",
-									"value": "CLIENT",
+									"value": "VENDOR",
 									"type": "text"
 								},
 								{
 									"key": "content",
-									"value": "work on the issueTicket 00002-msg5 from after email 3",
+									"value": "sv1-work on the issueTicket 00002-msg5 from after email 4",
 									"type": "text"
 								},
 								{
 									"key": "attachments",
 									"type": "file",
-									"src": [
-										"/C:/Users/Asus/Downloads/new Downloads/1.png",
-										"/C:/Users/Asus/Downloads/new Downloads/Resume.pdf"
-									]
+									"src": "/C:/Users/Asus/Desktop/docker.txt"
 								},
 								{
 									"key": "ccEmailAddresses",
@@ -214,7 +246,7 @@
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8085/tickets/1/CreateMessage",
+							"raw": "http://localhost:8085/tickets/general/9/CreateMessage",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -222,7 +254,8 @@
 							"port": "8085",
 							"path": [
 								"tickets",
-								"1",
+								"general",
+								"9",
 								"CreateMessage"
 							]
 						}
@@ -232,6 +265,16 @@
 				{
 					"name": "Create Ticket",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODI2NjI0MywiZXhwIjoxNzE4MzUyNjQzfQ.DQDlfXiwTOb5b0hPtGRuAYKCL9ljlIYYQJskln9tcK8",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -239,7 +282,7 @@
 							"formdata": [
 								{
 									"key": "emailAddress",
-									"value": "imbsamarakoon1996@gmail.com",
+									"value": "imV4@gmail.com",
 									"type": "text"
 								},
 								{
@@ -254,7 +297,7 @@
 								},
 								{
 									"key": "subject",
-									"value": "s29 ultra-may requestNo003- azure server & aws going dow",
+									"value": "5-issuew kore ai-0001",
 									"type": "text"
 								},
 								{
@@ -264,12 +307,12 @@
 								},
 								{
 									"key": "severity",
-									"value": "SEVERITY_1",
+									"value": "SEVERITY_2",
 									"type": "text"
 								},
 								{
 									"key": "product",
-									"value": "SMART_ASSIST",
+									"value": "HEALTH_ASSIST",
 									"type": "text"
 								},
 								{
@@ -290,10 +333,7 @@
 								{
 									"key": "attachments",
 									"type": "file",
-									"src": [
-										"/C:/Users/Asus/Downloads/new Downloads/Java Streams 2.pdf",
-										"/C:/Users/Asus/Downloads/new Downloads/Order.pdf"
-									]
+									"src": "/C:/Users/Asus/Desktop/Ats Resume/education.txt"
 								}
 							]
 						},
@@ -313,11 +353,23 @@
 				},
 				{
 					"name": "get ticket by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "http://localhost:8085/tickets/2",
+							"raw": "http://localhost:8085/tickets/general/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -325,6 +377,7 @@
 							"port": "8085",
 							"path": [
 								"tickets",
+								"general",
 								"2"
 							]
 						}
@@ -337,7 +390,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/getAllMessagesByTicketId/2",
+							"raw": "http://localhost:8085/tickets/general/getAllMessagesByTicketId/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -345,8 +398,9 @@
 							"port": "8085",
 							"path": [
 								"tickets",
+								"general",
 								"getAllMessagesByTicketId",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -355,10 +409,20 @@
 				{
 					"name": "get All tickets",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVYzQGdtYWlsLmNvbSIsImlhdCI6MTcxODI2OTIzNCwiZXhwIjoxNzE4MzU1NjM0fQ.N_N5Y4O-y5qwfZR3dsnIh2UlUpzgXeBrOs1_jupF9jw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/getAll",
+							"raw": "http://localhost:8085/tickets/general/getAll",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -366,6 +430,7 @@
 							"port": "8085",
 							"path": [
 								"tickets",
+								"general",
 								"getAll"
 							]
 						}
@@ -375,10 +440,20 @@
 				{
 					"name": "get max attempt by ticket id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVYzQGdtYWlsLmNvbSIsImlhdCI6MTcxODI2OTIzNCwiZXhwIjoxNzE4MzU1NjM0fQ.N_N5Y4O-y5qwfZR3dsnIh2UlUpzgXeBrOs1_jupF9jw",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/max-attempts/1",
+							"raw": "http://localhost:8085/tickets/general/max-attempts/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -386,6 +461,7 @@
 							"port": "8085",
 							"path": [
 								"tickets",
+								"general",
 								"max-attempts",
 								"1"
 							]
@@ -399,7 +475,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/4/clientTime/1",
+							"raw": "http://localhost:8085/tickets/general/4/clientTime/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -407,6 +483,7 @@
 							"port": "8085",
 							"path": [
 								"tickets",
+								"general",
 								"4",
 								"clientTime",
 								"1"
@@ -423,7 +500,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZXZlMDAwMXVzZXIxQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3OTAzNDIzLCJleHAiOjE3MTc5ODk4MjN9.H2enZgGpGNLaYhH8rAL16MuNdqPumUh9b-RsiCkZNs4",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY1QGdtYWlsLmNvbSIsImlhdCI6MTcxODI2OTUwNCwiZXhwIjoxNzE4MzU1OTA0fQ.lOp4DyfAE1_F-GpZ8qk1UvsZwjycPFhW400G2vOc0gI",
 									"type": "string"
 								}
 							]
@@ -454,7 +531,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQGtvcmUuY29tIiwiaWF0IjoxNzE4MDg0NzkwLCJleHAiOjE3MTgxNzExOTB9.QwMQT6pUc_8FPJoC1lgcO2ijMb6xR7L1yE3TsYhAAzY",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY1QGdtYWlsLmNvbSIsImlhdCI6MTcxODI2OTcyNiwiZXhwIjoxNzE4MzU2MTI2fQ.-QXwvWCi_P5HdRGiSS7ompRE9OJSi33xy8t7M0WFGIU",
 									"type": "string"
 								}
 							]
@@ -484,7 +561,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbWIxMDFAdmlydHVzYS5jb20iLCJpYXQiOjE3MTgyNTExOTIsImV4cCI6MTcxODMzNzU5Mn0.8FR7uX7px-nICL2SvXd006FRIhzWhhwhzr9ScZrEiSo",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY1QGdtYWlsLmNvbSIsImlhdCI6MTcxODI2OTcyNiwiZXhwIjoxNzE4MzU2MTI2fQ.-QXwvWCi_P5HdRGiSS7ompRE9OJSi33xy8t7M0WFGIU",
 									"type": "string"
 								}
 							]
@@ -506,6 +583,46 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Get sevirity count according to month",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVYzQGdtYWlsLmNvbSIsImlhdCI6MTcxODI2OTIzNCwiZXhwIjoxNzE4MzU1NjM0fQ.N_N5Y4O-y5qwfZR3dsnIh2UlUpzgXeBrOs1_jupF9jw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/severity-count?startMonth=2024-06&endMonth=2024-07",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"severity-count"
+							],
+							"query": [
+								{
+									"key": "startMonth",
+									"value": "2024-06"
+								},
+								{
+									"key": "endMonth",
+									"value": "2024-07"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -519,7 +636,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"leve0001user1@example.com\",\r\n    \"password\": \"password123\",\r\n    \"name\": \"level4 User\",\r\n    \"city\": \"level4 City\",\r\n    \"role\": \"LEVEL-1\"\r\n}\r\n",
+							"raw": "{\r\n    \"email\": \"imV5@gmail.com\",\r\n    \"name\": \"lv002\",\r\n    \"password\": \"securePassword123\",\r\n    \"city\": \"New York 3\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -551,7 +668,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"leve0001user1@example.com\",\r\n    \"password\": \"password123\"\r\n}\r\n",
+							"raw": "{\r\n    \"email\": \"imV5@gmail.com\",\r\n    \"password\": \"securePassword123\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -605,15 +722,37 @@
 				{
 					"name": "admin-getAllUsers",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZXZlbDF1c2VyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3ODk5Nzg4LCJleHAiOjE3MTc5ODYxODh9.JPboVbb45ht9h6jm61ugqmv-yIjkcWvq_MBt695trIg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/admin/get-all-users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"admin",
+								"get-all-users"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "set product group for kore users",
 					"request": {
-						"method": "POST",
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -625,18 +764,16 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8085/auth//admin/set-product-group/8",
+							"raw": "http://localhost:8085/admin/set-product-group/12",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8085",
 							"path": [
-								"auth",
-								"",
 								"admin",
 								"set-product-group",
-								"8"
+								"12"
 							]
 						}
 					},
@@ -645,11 +782,21 @@
 				{
 					"name": "set role",
 					"request": {
-						"method": "POST",
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAZ21haWwuY29tIiwiaWF0IjoxNzE4MjY1OTAyLCJleHAiOjE3MTgzNTIzMDJ9.-WJ4E75NhSbfEoIjYR1iC_FNuPFAA7no8k5Mof9TJoU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"role\": \"SUPPORTER\"\r\n}",
+							"raw": "{\r\n    \"role\": \"LEVEL-4\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -657,18 +804,16 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8085/auth//admin/set-role/8",
+							"raw": "http://localhost:8085/admin/set-role/13",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8085",
 							"path": [
-								"auth",
-								"",
 								"admin",
 								"set-role",
-								"8"
+								"13"
 							]
 						}
 					},

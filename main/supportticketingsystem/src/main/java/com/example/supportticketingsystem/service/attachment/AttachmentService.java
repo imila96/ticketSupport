@@ -33,9 +33,9 @@ public class AttachmentService {
         for (MessageAttachment attachment : attachments) {
             String downloadLink;
             if ("Unknown".equals(attachment.getMessage().getUniqueId())) {
-                downloadLink = "http://localhost:8085/api/attachments/file/" + attachment.getId();
+                downloadLink = "http://localhost:8085/api/general/attachments/file/" + attachment.getId();
             } else {
-                downloadLink = "http://localhost:8085/tickets/getFileById/" + attachment.getId();
+                downloadLink = "http://localhost:8085/tickets/general/getFileById/" + attachment.getId();
             }
             attachmentLinks.add(downloadLink);
         }

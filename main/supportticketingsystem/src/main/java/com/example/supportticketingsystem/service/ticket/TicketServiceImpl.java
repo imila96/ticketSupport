@@ -3,6 +3,7 @@ package com.example.supportticketingsystem.service.ticket;
 import com.example.supportticketingsystem.dto.collection.*;
 import com.example.supportticketingsystem.dto.exception.TicketNotFoundException;
 import com.example.supportticketingsystem.dto.request.ReopenTicketRequest;
+import com.example.supportticketingsystem.dto.request.SeverityCountDTO;
 import com.example.supportticketingsystem.dto.request.TicketRequest;
 import com.example.supportticketingsystem.dto.response.TicketResponse;
 import com.example.supportticketingsystem.enums.MessageType;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.time.Instant;
+import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -455,4 +457,5 @@ public class TicketServiceImpl implements TicketService {
     public List<Ticket> getTicketsByEmailAddress(String emailAddress) {
         return ticketRepository.findByEmailAddress(emailAddress);
     }
+
 }
