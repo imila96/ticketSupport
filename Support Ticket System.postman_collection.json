@@ -623,6 +623,36 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "get tickets by cced email addresses",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODI3NzI5OCwiZXhwIjoxNzE4MzYzNjk4fQ.-GOSDmWwINWOYsXFD-LIaEYHFbb-leQOBZtWdbflPnI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/by-cc-email",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"by-cc-email"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

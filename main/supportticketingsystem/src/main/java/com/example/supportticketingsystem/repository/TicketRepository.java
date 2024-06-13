@@ -30,5 +30,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
             "GROUP BY t.severity")
     List<SeverityCountDTO> getSeverityCount(@Param("startMonth") Integer startMonth, @Param("endMonth") Integer endMonth);
 
+    @Query("SELECT t FROM Ticket t WHERE CONCAT(',', t.ccEmailAddresses, ',') LIKE %:emailAddress%")
+    List<Ticket> findByCcEmailAddressesContaining(@Param("emailAddress") String emailAddress);
 
 }

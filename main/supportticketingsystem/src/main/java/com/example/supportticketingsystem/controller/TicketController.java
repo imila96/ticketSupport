@@ -375,7 +375,18 @@ public class TicketController {
     }
 
 
+    @GetMapping("/by-cc-email")
+    public ResponseEntity<List<TRes>> getTicketsByCcEmail(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
 
+        List<Ticket> tickets = ticketService.getTicketsByCcEmail(email);
+        List<TRes> ticketResponses = tickets.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(ticketResponses);
+    }
 
 
 }

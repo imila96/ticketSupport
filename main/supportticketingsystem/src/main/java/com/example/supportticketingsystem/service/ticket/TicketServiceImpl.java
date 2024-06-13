@@ -457,5 +457,8 @@ public class TicketServiceImpl implements TicketService {
     public List<Ticket> getTicketsByEmailAddress(String emailAddress) {
         return ticketRepository.findByEmailAddress(emailAddress);
     }
-
+    @Override
+    public List<Ticket> getTicketsByCcEmail(String ccEmail) {
+        return ticketRepository.findByCcEmailAddressesContaining(ccEmail);
+    }
 }
