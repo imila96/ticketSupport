@@ -450,4 +450,9 @@ public class TicketServiceImpl implements TicketService {
     public List<Ticket> getTicketsByProduct(Product product) {
         return ticketRepository.findByProduct(product);
     }
+
+    @Override
+    public List<Ticket> getTicketsByEmailAddress(String emailAddress) {
+        return ticketRepository.findByEmailAddress(emailAddress);
+    }
 }

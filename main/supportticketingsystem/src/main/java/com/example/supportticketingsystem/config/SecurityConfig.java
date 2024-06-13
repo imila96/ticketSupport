@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/level-1/**").hasAuthority("LEVEL-4")
                         .requestMatchers("/vendor/**").hasAuthority("VENDOR")
                         .requestMatchers("/tickets/**").authenticated()
+                        .requestMatchers("/tickets/user").authenticated()
                         .anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

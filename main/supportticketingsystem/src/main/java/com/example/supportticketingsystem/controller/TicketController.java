@@ -25,6 +25,7 @@ import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -351,6 +352,17 @@ public class TicketController {
             }
         }
         return false;
+    }
+
+    @GetMapping("/user/getAllTicketsByUser")
+    public ResponseEntity<List<TRes>> getTicketsForUser(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
+        List<Ticket> tickets = ticketService.getTicketsByEmailAddress(email);
+        List<TRes> ticketResponses = tickets.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(ticketResponses);
     }
 
 }

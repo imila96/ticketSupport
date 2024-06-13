@@ -475,6 +475,37 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "get All tickets by user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbWIxMDFAdmlydHVzYS5jb20iLCJpYXQiOjE3MTgyNTExOTIsImV4cCI6MTcxODMzNzU5Mn0.8FR7uX7px-nICL2SvXd006FRIhzWhhwhzr9ScZrEiSo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/user/getAllTicketsByUser",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"user",
+								"getAllTicketsByUser"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -576,6 +607,70 @@
 					"request": {
 						"method": "GET",
 						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "set product group for kore users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"productGroup\": \"BANK_ASSIST\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/auth//admin/set-product-group/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"auth",
+								"",
+								"admin",
+								"set-product-group",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "set role",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"role\": \"SUPPORTER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/auth//admin/set-role/8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"auth",
+								"",
+								"admin",
+								"set-role",
+								"8"
+							]
+						}
 					},
 					"response": []
 				}

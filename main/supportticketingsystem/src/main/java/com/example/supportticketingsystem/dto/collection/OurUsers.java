@@ -15,7 +15,7 @@ import java.util.Set;
 @Data
 public class OurUsers implements UserDetails {
 
-    public static final Set<String> ALLOWED_ROLES = Set.of("ADMIN", "LEVEL-1", "LEVEL-2", "LEVEL-3", "LEVEL-4", "VENDOR", "SUPPORTER");
+    public static final Set<String> ALLOWED_ROLES = Set.of("ADMIN", "LEVEL-1", "LEVEL-2", "LEVEL-3", "LEVEL-4", "VENDOR", "SUPPORTER", "DEFAULT");
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

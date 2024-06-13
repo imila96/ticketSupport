@@ -61,4 +61,14 @@ public class UserManagementController {
     }
 
 
+    @PutMapping("/admin/set-product-group/{userId}")
+    public ResponseEntity<ReqRes> setProductGroup(@PathVariable Integer userId, @RequestBody ReqRes req) {
+        return ResponseEntity.ok(usersManagementService.setProductGroup(userId, req.getProductGroup()));
+    }
+
+    @PutMapping("/admin/set-role/{userId}")
+    public ResponseEntity<ReqRes> setRole(@PathVariable Integer userId, @RequestBody ReqRes req) {
+        return ResponseEntity.ok(usersManagementService.setRole(userId, req.getRole()));
+    }
+
 }

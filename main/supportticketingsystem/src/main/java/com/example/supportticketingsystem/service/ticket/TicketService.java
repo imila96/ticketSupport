@@ -23,8 +23,7 @@ public interface TicketService {
 
     byte[] downloadFile(Long fileId);
 
-
-
+    List<Ticket> getTicketsByEmailAddress(String emailAddress);
 
     void closeTicket(Long ticketId, String sentBy) throws MessagingException;
 

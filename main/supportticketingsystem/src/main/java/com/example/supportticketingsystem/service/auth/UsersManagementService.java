@@ -38,10 +38,21 @@ public class UsersManagementService {
             ourUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 
             if (email.endsWith("@kore.com")) {
-                ourUser.setRole("SUPPORTER");
+                String role = registrationRequest.getRole();
+                if ("ADMIN".equals(role)) {
+                    ourUser.setRole("ADMIN");
+                } else {
+                ourUser.setRole("DEFAULT");
+                }
+
                 ourUser.setProductGroup(registrationRequest.getProductGroup());
             } else {
-                ourUser.setRole(registrationRequest.getRole());
+                String role = registrationRequest.getRole();
+                if ("ADMIN".equals(role)) {
+                    ourUser.setRole("ADMIN");
+                } else {
+                    ourUser.setRole("DEFAULT"); // Set default role if none is provided or role is not ADMIN
+                }
             }
 
             OurUsers ourUsersResult = usersRepo.save(ourUser);
@@ -57,7 +68,6 @@ public class UsersManagementService {
         }
         return resp;
     }
-
 
     public ReqRes login(ReqRes loginRequest){
         ReqRes response = new ReqRes();
@@ -218,5 +228,49 @@ public class UsersManagementService {
         }
         return reqRes;
 
+    }
+
+    public ReqRes setProductGroup(Integer userId, String productGroup) {
+        ReqRes reqRes = new ReqRes();
+        try {
+            Optional<OurUsers> userOptional = usersRepo.findById(userId);
+            if (userOptional.isPresent()) {
+                OurUsers user = userOptional.get();
+                user.setProductGroup(productGroup);
+                usersRepo.save(user);
+                reqRes.setOurUsers(user);
+                reqRes.setStatusCode(200);
+                reqRes.setMessage("Product group updated successfully");
+            } else {
+                reqRes.setStatusCode(404);
+                reqRes.setMessage("User not found");
+            }
+        } catch (Exception e) {
+            reqRes.setStatusCode(500);
+            reqRes.setMessage("Error occurred while updating product group: " + e.getMessage());
+        }
+        return reqRes;
+    }
+
+    public ReqRes setRole(Integer userId, String role) {
+        ReqRes reqRes = new ReqRes();
+        try {
+            Optional<OurUsers> userOptional = usersRepo.findById(userId);
+            if (userOptional.isPresent()) {
+                OurUsers user = userOptional.get();
+                user.setRole(role);
+                usersRepo.save(user);
+                reqRes.setOurUsers(user);
+                reqRes.setStatusCode(200);
+                reqRes.setMessage("Role updated successfully");
+            } else {
+                reqRes.setStatusCode(404);
+                reqRes.setMessage("User not found");
+            }
+        } catch (Exception e) {
+            reqRes.setStatusCode(500);
+            reqRes.setMessage("Error occurred while updating role: " + e.getMessage());
+        }
+        return reqRes;
     }
 }
