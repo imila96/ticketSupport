@@ -684,6 +684,38 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Search -Get All Tickets using Like query",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODM3MTkxMiwiZXhwIjoxNzE4NDU4MzEyfQ.6pIN1JLYFLyD-Z9mEEsMp_G8qXnPtHZiA5Ldh3Ve19g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/general/searchByTicketId/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"general",
+								"searchByTicketId",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

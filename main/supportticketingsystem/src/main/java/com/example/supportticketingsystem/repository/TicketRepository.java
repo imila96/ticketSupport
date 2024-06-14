@@ -34,4 +34,8 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     @Query("SELECT t FROM Ticket t WHERE CONCAT(',', t.ccEmailAddresses, ',') LIKE %:emailAddress%")
     List<Ticket> findByCcEmailAddressesContaining(@Param("emailAddress") String emailAddress);
 
+
+    @Query("SELECT t FROM Ticket t WHERE str(t.id) LIKE %:ticketId%")
+    List<Ticket> findByTicketIdContaining(@Param("ticketId") String ticketId);
+
 }

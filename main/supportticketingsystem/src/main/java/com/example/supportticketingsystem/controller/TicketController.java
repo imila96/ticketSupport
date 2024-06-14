@@ -420,4 +420,13 @@ public class TicketController {
         return ResponseEntity.ok(waitingTimes);
     }
 
+    @GetMapping("/general/searchByTicketId/{ticketId}")
+    public ResponseEntity<List<TRes>> getTicketsByTicketIdContaining(@PathVariable String ticketId) {
+        List<Ticket> tickets = ticketService.getTicketsByTicketIdContaining(ticketId);
+        List<TRes> ticketResponses = tickets.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(ticketResponses);
+    }
+
 }

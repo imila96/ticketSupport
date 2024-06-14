@@ -43,5 +43,7 @@ public interface TicketService {
     List<Ticket> getTicketsByProduct(Product product);
 
     List<Ticket> getTicketsByCcEmail(String ccEmail);
+
+    List<Ticket> getTicketsByTicketIdContaining(String ticketId);
 }
 
