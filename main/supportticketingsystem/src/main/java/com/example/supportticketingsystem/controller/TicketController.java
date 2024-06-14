@@ -30,8 +30,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.TextStyle;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -365,13 +367,36 @@ public class TicketController {
         return ResponseEntity.ok(ticketResponses);
     }
     @GetMapping("/severity-count")
-    public ResponseEntity<List<SeverityCountDTO>> getSeverityCount(
+    public ResponseEntity<List<Map<String, Object>>> getSeverityCount(
             @RequestParam String startMonth,
             @RequestParam String endMonth) {
         Integer start = Integer.parseInt(startMonth.replace("-", ""));
         Integer end = Integer.parseInt(endMonth.replace("-", ""));
         List<SeverityCountDTO> severityCounts = ticketRepository.getSeverityCount(start, end);
-        return ResponseEntity.ok(severityCounts);
+
+        Map<String, Map<String, Object>> groupedByMonthYear = new HashMap<>();
+
+        for (SeverityCountDTO dto : severityCounts) {
+            String monthYearKey = String.format("%s %d", Month.of(dto.getMonth()).getDisplayName(TextStyle.SHORT, Locale.ENGLISH), dto.getYear());
+
+            groupedByMonthYear.computeIfAbsent(monthYearKey, k -> {
+                Map<String, Object> map = new HashMap<>();
+                map.put("year", monthYearKey);
+                map.put("severity1", 0L); // Ensure these are Long types
+                map.put("severity2", 0L); // Ensure these are Long types
+                map.put("severity3", 0L); // Ensure these are Long types
+                map.put("severity4", 0L); // Ensure these are Long types
+                return map;
+            });
+
+            Map<String, Object> monthYearData = groupedByMonthYear.get(monthYearKey);
+            String severityKey = String.format("severity%d", Integer.parseInt(dto.getSeverity().substring(dto.getSeverity().length() - 1)));
+            monthYearData.put(severityKey, (Long) monthYearData.get(severityKey) + dto.getCount());
+        }
+
+        List<Map<String, Object>> result = groupedByMonthYear.values().stream().collect(Collectors.toList());
+
+        return ResponseEntity.ok(result);
     }
 
 

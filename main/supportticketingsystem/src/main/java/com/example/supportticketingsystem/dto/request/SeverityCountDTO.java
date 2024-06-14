@@ -1,15 +1,20 @@
 package com.example.supportticketingsystem.dto.request;
 
-import com.example.supportticketingsystem.enums.Severity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class SeverityCountDTO {
     private String severity;
     private long count;
+    private int month;
+    private int year;
+
+    public SeverityCountDTO(String severity, long count, int month, int year) {
+        this.severity = severity;
+        this.count = count;
+        this.month = month;
+        this.year = year;
+    }
+
+
 }

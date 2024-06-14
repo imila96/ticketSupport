@@ -24,10 +24,11 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findByEmailAddress(String emailAddress);
 
-    @Query("SELECT new com.example.supportticketingsystem.dto.request.SeverityCountDTO(CAST(t.severity AS string), COUNT(t.id)) " +
+
+    @Query("SELECT new com.example.supportticketingsystem.dto.request.SeverityCountDTO(CAST(t.severity AS string), COUNT(t.id), FUNCTION('MONTH', t.createdAt), FUNCTION('YEAR', t.createdAt)) " +
             "FROM Ticket t " +
             "WHERE FUNCTION('YEAR', t.createdAt) * 100 + FUNCTION('MONTH', t.createdAt) BETWEEN :startMonth AND :endMonth " +
-            "GROUP BY t.severity")
+            "GROUP BY t.severity, FUNCTION('YEAR', t.createdAt), FUNCTION('MONTH', t.createdAt)")
     List<SeverityCountDTO> getSeverityCount(@Param("startMonth") Integer startMonth, @Param("endMonth") Integer endMonth);
 
     @Query("SELECT t FROM Ticket t WHERE CONCAT(',', t.ccEmailAddresses, ',') LIKE %:emailAddress%")
