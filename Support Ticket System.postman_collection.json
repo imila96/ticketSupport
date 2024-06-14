@@ -716,6 +716,37 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Search tickets-specific to requeting user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVYzQGdtYWlsLmNvbSIsImlhdCI6MTcxODM3NDYyMiwiZXhwIjoxNzE4NDYxMDIyfQ.NvVnV6dwMpZ2VlajHCaw_zMMguwxl4kEnKmevz8zK7o",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/searchTicketsByUser/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"searchTicketsByUser",
+								"1"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

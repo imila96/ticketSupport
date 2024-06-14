@@ -45,5 +45,8 @@ public interface TicketService {
     List<Ticket> getTicketsByCcEmail(String ccEmail);
 
     List<Ticket> getTicketsByTicketIdContaining(String ticketId);
+
+
+    List<Ticket> getTicketsByUserAndTicketIdContaining(String emailAddress, String ticketId);
 }
 

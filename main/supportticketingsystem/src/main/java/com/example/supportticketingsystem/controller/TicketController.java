@@ -429,4 +429,15 @@ public class TicketController {
         return ResponseEntity.ok(ticketResponses);
     }
 
+    @GetMapping("/searchTicketsByUser/{ticketId}")
+    public ResponseEntity<List<TRes>> getTicketsByUserAndTicketIdContaining(Authentication authentication, @PathVariable String ticketId) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
+        List<Ticket> tickets = ticketService.getTicketsByUserAndTicketIdContaining(email, ticketId);
+        List<TRes> ticketResponses = tickets.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(ticketResponses);
+    }
+
 }
