@@ -414,4 +414,10 @@ public class TicketController {
     }
 
 
+    @GetMapping("/general/waiting-times")
+    public ResponseEntity<List<Map<String, String>>> getWaitingTimes() {
+        List<Map<String, String>> waitingTimes = durationService.calculateWaitingTimes();
+        return ResponseEntity.ok(waitingTimes);
+    }
+
 }

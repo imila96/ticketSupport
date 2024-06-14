@@ -10,10 +10,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class DurationService {
@@ -128,6 +125,89 @@ public class DurationService {
         return result;
     }
 
+    public List<Map<String, String>> calculateWaitingTimes() {
+        List<DurationTime> allTickets = durationTimeRepository.findAll();
+        Map<String, String> waitingTimes = new HashMap<>();
 
+        for (DurationTime ticket : allTickets) {
+            String ticketId = String.valueOf(ticket.getTicketId());
+            String attempt = String.valueOf(ticket.getAttempts());
+
+            // Calculate client waiting time
+            Map<String, String> clientOpenDuration = calculateClientOpenDuration(ticket.getTicketId(), ticket.getAttempts(), getEndTime());
+            String clientWaitingTimeKey = ticketId + "-clientwaitingTime-" + attempt;
+            waitingTimes.put(clientWaitingTimeKey, clientOpenDuration.get("duration"));
+
+            // Calculate vendor waiting time
+            Map<String, String> openDuration = calculateOpenDuration(ticket.getTicketId(), ticket.getAttempts(), getEndTime());
+            String vendorWaitingTimeKey = ticketId + "-vendorwaitingTime-" + attempt;
+            waitingTimes.put(vendorWaitingTimeKey, openDuration.get("duration"));
+        }
+
+        return aggregateWaitingTimes(waitingTimes);
+    }
+
+    private LocalDateTime getEndTime() {
+        return ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime();
+    }
+
+    private List<Map<String, String>> aggregateWaitingTimes(Map<String, String> waitingTimes) {
+        Map<String, Duration> clientDurations = new HashMap<>();
+        Map<String, Duration> vendorDurations = new HashMap<>();
+
+        for (Map.Entry<String, String> entry : waitingTimes.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            Duration duration = parseDuration(value);
+
+            String[] parts = key.split("-");
+            String ticketId = parts[0];
+            String type = parts[1];
+
+            if (type.equals("clientwaitingTime")) {
+                clientDurations.put(ticketId, clientDurations.getOrDefault(ticketId, Duration.ZERO).plus(duration));
+            } else if (type.equals("vendorwaitingTime")) {
+                vendorDurations.put(ticketId, vendorDurations.getOrDefault(ticketId, Duration.ZERO).plus(duration));
+            }
+        }
+
+        List<Map<String, String>> result = new ArrayList<>();
+        for (String ticketId : clientDurations.keySet()) {
+            Map<String, String> entry = new HashMap<>();
+            entry.put("ticketId", ticketId);
+            entry.put("clientWaitingTime", formatDurationAsDays(clientDurations.get(ticketId)));
+            entry.put("vendorWaitingTime", formatDurationAsDays(vendorDurations.getOrDefault(ticketId, Duration.ZERO)));
+            result.add(entry);
+        }
+
+        return result;
+    }
+
+    private Duration parseDuration(String durationString) {
+        String[] parts = durationString.split(" ");
+        long days = Long.parseLong(parts[0]);
+        long hours = Long.parseLong(parts[2]);
+        long minutes = Long.parseLong(parts[4]);
+        long seconds = Long.parseLong(parts[6]);
+        return Duration.ofDays(days).plusHours(hours).plusMinutes(minutes).plusSeconds(seconds);
+    }
+
+    private String formatDurationAsDays(Duration duration) {
+        double days = duration.toDays() + duration.toHoursPart() / 24.0 + duration.toMinutesPart() / 1440.0 + duration.toSecondsPart() / 86400.0;
+        return String.format("%.2f", days);
+    }
+
+    private String formatDuration(Duration duration) {
+        long days = duration.toDays();
+        duration = duration.minusDays(days);
+        long hours = duration.toHours();
+        duration = duration.minusHours(hours);
+        long minutes = duration.toMinutes();
+        duration = duration.minusMinutes(minutes);
+        long seconds = duration.getSeconds();
+
+        return String.format("%d days %d hours %d minutes %d seconds", days, hours, minutes, seconds);
+    }
 
 }
+

@@ -122,7 +122,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/general/9/open-duration/1",
+							"raw": "http://localhost:8085/tickets/general/9/open-duration/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -133,7 +133,7 @@
 								"general",
 								"9",
 								"open-duration",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -649,6 +649,37 @@
 							"path": [
 								"tickets",
 								"by-cc-email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Client-Vendor Total times by ticket",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODM0MjA1MywiZXhwIjoxNzE4NDI4NDUzfQ.jILV_5WiybXOgeibYwWeUWUM0RX6aCXb7ckyVxdG9Go",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/general/waiting-times",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"general",
+								"waiting-times"
 							]
 						}
 					},
