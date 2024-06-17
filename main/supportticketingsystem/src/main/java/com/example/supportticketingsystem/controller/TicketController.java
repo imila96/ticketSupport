@@ -415,8 +415,10 @@ public class TicketController {
 
 
     @GetMapping("/general/waiting-times")
-    public ResponseEntity<List<Map<String, String>>> getWaitingTimes() {
-        List<Map<String, String>> waitingTimes = durationService.calculateWaitingTimes();
+    public ResponseEntity<List<Map<String, String>>> getWaitingTimes(
+            @RequestParam("startMonth") String startMonth,
+            @RequestParam("endMonth") String endMonth) {
+        List<Map<String, String>> waitingTimes = durationService.getTicketsWithinDateRange(startMonth, endMonth);
         return ResponseEntity.ok(waitingTimes);
     }
 

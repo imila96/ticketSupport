@@ -6,11 +6,10 @@ import com.example.supportticketingsystem.repository.DurationTimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class DurationService {
@@ -125,11 +124,32 @@ public class DurationService {
         return result;
     }
 
-    public List<Map<String, String>> calculateWaitingTimes() {
+    public List<Map<String, String>> getTicketsWithinDateRange(String startMonth, String endMonth) {
+        LocalDate startDate = YearMonth.parse(startMonth, DateTimeFormatter.ofPattern("yyyy-MM")).atDay(1);
+        LocalDate endDate = YearMonth.parse(endMonth, DateTimeFormatter.ofPattern("yyyy-MM")).atEndOfMonth();
+
         List<DurationTime> allTickets = durationTimeRepository.findAll();
+
+        Map<Long, LocalDateTime> earliestDates = allTickets.stream()
+                .collect(Collectors.groupingBy(DurationTime::getTicketId,
+                        Collectors.collectingAndThen(
+                                Collectors.minBy(Comparator.comparing(DurationTime::getTime)),
+                                optional -> optional.get().getTime())));
+
+        List<DurationTime> filteredTickets = allTickets.stream()
+                .filter(ticket -> {
+                    LocalDateTime earliestDate = earliestDates.get(ticket.getTicketId());
+                    return !earliestDate.toLocalDate().isBefore(startDate) && !earliestDate.toLocalDate().isAfter(endDate);
+                })
+                .collect(Collectors.toList());
+
+        return calculateWaitingTimes(filteredTickets);
+    }
+
+    private List<Map<String, String>> calculateWaitingTimes(List<DurationTime> tickets) {
         Map<String, String> waitingTimes = new HashMap<>();
 
-        for (DurationTime ticket : allTickets) {
+        for (DurationTime ticket : tickets) {
             String ticketId = String.valueOf(ticket.getTicketId());
             String attempt = String.valueOf(ticket.getAttempts());
 

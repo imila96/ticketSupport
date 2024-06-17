@@ -662,7 +662,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODM0MjA1MywiZXhwIjoxNzE4NDI4NDUzfQ.jILV_5WiybXOgeibYwWeUWUM0RX6aCXb7ckyVxdG9Go",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODYwMzc1NiwiZXhwIjoxNzE4NjkwMTU2fQ.PmTljnWsj-hBWbZGorbg_Mm31yzP75IeMlqD3zFFfg0",
 									"type": "string"
 								}
 							]
@@ -670,7 +670,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/general/waiting-times",
+							"raw": "http://localhost:8085/tickets/general/waiting-times?startMonth=2024-06&endMonth=2024-07",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -680,6 +680,16 @@
 								"tickets",
 								"general",
 								"waiting-times"
+							],
+							"query": [
+								{
+									"key": "startMonth",
+									"value": "2024-06"
+								},
+								{
+									"key": "endMonth",
+									"value": "2024-07"
+								}
 							]
 						}
 					},
