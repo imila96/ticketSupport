@@ -366,6 +366,29 @@ public class TicketController {
                 .collect(Collectors.toList());
         return ResponseEntity.ok(ticketResponses);
     }
+
+    @GetMapping("/by-cc-email")
+    public ResponseEntity<List<TRes>> getTicketsByCcEmail(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
+
+        List<Ticket> tickets = ticketService.getTicketsByCcEmail(email);
+        List<TRes> ticketResponses = tickets.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(ticketResponses);
+    }
+
+
+    @GetMapping("/waiting-times")
+    public ResponseEntity<List<Map<String, String>>> getWaitingTimes(
+            @RequestParam("startMonth") String startMonth,
+            @RequestParam("endMonth") String endMonth) {
+        List<Map<String, String>> waitingTimes = durationService.getTicketsWithinDateRange(startMonth, endMonth);
+        return ResponseEntity.ok(waitingTimes);
+    }
+
     @GetMapping("/severity-count")
     public ResponseEntity<List<Map<String, Object>>> getSeverityCount(
             @RequestParam String startMonth,
@@ -397,29 +420,6 @@ public class TicketController {
         List<Map<String, Object>> result = groupedByMonthYear.values().stream().collect(Collectors.toList());
 
         return ResponseEntity.ok(result);
-    }
-
-
-    @GetMapping("/by-cc-email")
-    public ResponseEntity<List<TRes>> getTicketsByCcEmail(Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String email = userDetails.getUsername();
-
-        List<Ticket> tickets = ticketService.getTicketsByCcEmail(email);
-        List<TRes> ticketResponses = tickets.stream()
-                .map(this::convertToResponse)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(ticketResponses);
-    }
-
-
-    @GetMapping("/general/waiting-times")
-    public ResponseEntity<List<Map<String, String>>> getWaitingTimes(
-            @RequestParam("startMonth") String startMonth,
-            @RequestParam("endMonth") String endMonth) {
-        List<Map<String, String>> waitingTimes = durationService.getTicketsWithinDateRange(startMonth, endMonth);
-        return ResponseEntity.ok(waitingTimes);
     }
 
     @GetMapping("/general/searchByTicketId/{ticketId}")
