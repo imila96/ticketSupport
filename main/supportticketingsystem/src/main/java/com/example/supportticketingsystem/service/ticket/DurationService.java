@@ -292,6 +292,61 @@ public class DurationService {
         System.out.println("time breach end");
     }
 
+    @Scheduled(fixedDelay = 15 * 60 * 1000) // 15 minutes in milliseconds
+    public void checkAndUpdateSLA() {
+        System.out.println("time breach started");
+        // Query DurationTime entities where severity is SEVERITY_1
+        List<DurationTime> durationTimes = durationTimeRepository.findBySeverity("SEVERITY_1");
+
+        for (DurationTime durationTime : durationTimes) {
+            // Check if delayedReply is not already set
+            if (!durationTime.isSlaBreach()) {
+                // Get all related times for the same ticket and attempt
+                List<DurationTime> relatedTimes = durationTimeRepository.findByTicketIdAndAttemptsOrderByTimeAsc(
+                        durationTime.getTicketId(), durationTime.getAttempts());
+
+                LocalDateTime ticketCreationTime = durationTime.getTime();
+                LocalDateTime firstOpenTime = null;
+                boolean foundFirstOpen = false;
+
+                for (DurationTime relatedTime : relatedTimes) {
+                    if (relatedTime.getStatus().equalsIgnoreCase("RESOLVED")) {
+                        System.out.println("sla breach found:");
+
+                        if (!foundFirstOpen) {
+                            firstOpenTime = relatedTime.getTime();
+                            foundFirstOpen = true;
+                            System.out.println("sla breach found 2:"+ firstOpenTime);
+                        }
+                    }
+                }
+
+                boolean shouldUpdate = false;
+                if (foundFirstOpen && firstOpenTime != null) {
+                    System.out.println("ticket time:"+ ticketCreationTime);
+                    System.out.println("sla breach :"+Duration.between(ticketCreationTime, firstOpenTime).toMinutes());
+                    if (Duration.between(ticketCreationTime, firstOpenTime).toMinutes() > 360) {
+                        shouldUpdate = true;
+                    }
+                } else {
+                    LocalDateTime currentTimeInChicago = LocalDateTime.now(ZoneId.of("America/Chicago"));
+
+                    // Check if more than 360 minutes have passed since ticket creation
+                    if (Duration.between(ticketCreationTime, currentTimeInChicago).toMinutes() > 360) {
+                        shouldUpdate = true;
+                    }
+                }
+
+                if (shouldUpdate) {
+                    for (DurationTime relatedTime : relatedTimes) {
+                        relatedTime.setSlaBreach(true);
+                    }
+                    durationTimeRepository.saveAll(relatedTimes);
+                }
+            }
+        }
+        System.out.println("time breach end");
+    }
 
 
 }
