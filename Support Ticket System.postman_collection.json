@@ -1125,6 +1125,111 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Kore emails",
+			"item": [
+				{
+					"name": "get default kore emails",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAa29yZS5jb20iLCJpYXQiOjE3MTg4NjIwODIsImV4cCI6MTcxODk0ODQ4Mn0.zreLJJTtaHylXrCXfabpyvZxmBHlBYy9Fe1JNRp4Deo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/admin/emails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"admin",
+								"emails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create default emails",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAa29yZS5jb20iLCJpYXQiOjE3MTg4NjIyNzUsImV4cCI6MTcxODk0ODY3NX0.ONBTxYAjFhs5YHRNen3jPjyqnXNUUGi50iAnQFYcNCM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"newemail@kore.com\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/admin/emails",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"admin",
+								"emails"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete kore emails",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAa29yZS5jb20iLCJpYXQiOjE3MTg4NjIyNzUsImV4cCI6MTcxODk0ODY3NX0.ONBTxYAjFhs5YHRNen3jPjyqnXNUUGi50iAnQFYcNCM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/admin/emails/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"admin",
+								"emails",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
