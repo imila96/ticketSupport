@@ -19,7 +19,7 @@ public class TRes {
     private String subject;
     private String description;
     private Severity severity;
-    private Product product;
+    private String product;
     private InstallationType installationType;
     private Environment affectedEnvironment;
     private String platformVersion;

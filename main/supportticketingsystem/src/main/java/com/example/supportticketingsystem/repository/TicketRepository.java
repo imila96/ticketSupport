@@ -2,7 +2,7 @@ package com.example.supportticketingsystem.repository;
 
         import com.example.supportticketingsystem.dto.collection.Ticket;
         import com.example.supportticketingsystem.dto.request.SeverityCountDTO;
-        import com.example.supportticketingsystem.enums.Product;
+
         import com.example.supportticketingsystem.enums.Severity;
         import org.springframework.data.jpa.repository.JpaRepository;
         import org.springframework.data.jpa.repository.Query;
@@ -20,7 +20,7 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findBySeverity(Severity severity);
 
-    List<Ticket> findByProduct(Product product);
+    List<Ticket> findByProduct(String product);
 
     List<Ticket> findByEmailAddress(String emailAddress);
 

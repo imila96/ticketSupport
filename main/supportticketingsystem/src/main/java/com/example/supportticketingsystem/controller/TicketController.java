@@ -1,6 +1,7 @@
 package com.example.supportticketingsystem.controller;
 
 import com.example.supportticketingsystem.dto.collection.OurUsers;
+import com.example.supportticketingsystem.dto.collection.Product;
 import com.example.supportticketingsystem.dto.collection.Ticket;
 import com.example.supportticketingsystem.dto.request.*;
 import com.example.supportticketingsystem.dto.response.MessageResponse;
@@ -11,6 +12,7 @@ import com.example.supportticketingsystem.dto.exception.TicketNotFoundException;
 import com.example.supportticketingsystem.dto.response.GenericResponse;
 import com.example.supportticketingsystem.dto.response.TicketResponse;
 import com.example.supportticketingsystem.repository.MessageAttachmentRepository;
+import com.example.supportticketingsystem.repository.ProductRepository;
 import com.example.supportticketingsystem.repository.TicketRepository;
 import com.example.supportticketingsystem.repository.UsersRepo;
 import com.example.supportticketingsystem.service.message.MessageService;
@@ -54,14 +56,17 @@ public class TicketController {
 
     private final MessageAttachmentRepository attachmentRepository;
 
+    private final ProductRepository productRepository;
+
     @Autowired
-    public TicketController(TicketService ticketService, UsersRepo usersRepo, TicketRepository ticketRepository, DurationService durationService, MessageService messageService, MessageAttachmentRepository attachmentRepository) {
+    public TicketController(TicketService ticketService, UsersRepo usersRepo, TicketRepository ticketRepository, DurationService durationService, MessageService messageService, MessageAttachmentRepository attachmentRepository, ProductRepository productRepository) {
         this.ticketService = ticketService;
         this.usersRepo = usersRepo;
         this.ticketRepository = ticketRepository;
         this.durationService = durationService;
         this.messageService = messageService;
         this.attachmentRepository = attachmentRepository;
+        this.productRepository = productRepository;
     }
 
 
@@ -73,7 +78,7 @@ public class TicketController {
                 @RequestParam("subject") String subject,
                 @RequestParam("description") String description,
                 @RequestParam("severity") Severity severity,
-                @RequestParam("product") Product product,
+                @RequestParam("product") String product,
                 @RequestParam("installationType") InstallationType installationType,
                 @RequestParam("affectedEnvironment") Environment affectedEnvironment,
                 @RequestParam("platformVersion") String platformVersion,
@@ -245,16 +250,16 @@ public class TicketController {
         }
 
         OurUsers user = userOpt.get();
-        String productGroup = user.getProductGroup(); // Assuming `productGroup` is a field in `OurUsers` entity
-        Product product;
+        String productGroupName = user.getProductGroup(); // Assuming `productGroup` is a field in `OurUsers` entity
+System.out.println("////////////////////"+productGroupName);
+        Optional<Product> productOpt = productRepository.findByName(productGroupName);
 
-        try {
-            product = Product.valueOf(productGroup);
-        } catch (IllegalArgumentException e) {
+        if (productOpt.isEmpty()) {
             return ResponseEntity.badRequest().body(Collections.emptyList());
         }
 
-        List<Ticket> tickets = ticketService.getTicketsByProduct(product);
+
+        List<Ticket> tickets = ticketService.getTicketsByProduct(productGroupName);
         List<TRes> ticketResponses = tickets.stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());

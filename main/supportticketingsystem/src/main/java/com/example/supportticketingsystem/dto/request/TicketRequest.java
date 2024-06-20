@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import com.example.supportticketingsystem.enums.SupportRequestType;
 import com.example.supportticketingsystem.enums.Severity;
-import com.example.supportticketingsystem.enums.Product;
 import com.example.supportticketingsystem.enums.InstallationType;
 import com.example.supportticketingsystem.enums.Environment;
 
@@ -39,8 +38,7 @@ public class TicketRequest {
     @Enumerated(EnumType.STRING)
     private Severity severity;
 
-    @Enumerated(EnumType.STRING)
-    private Product product;
+    private String product;
 
     @Enumerated(EnumType.STRING)
     private InstallationType installationType;

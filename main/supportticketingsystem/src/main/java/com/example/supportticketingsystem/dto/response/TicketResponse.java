@@ -46,8 +46,7 @@ public class TicketResponse {
     private Severity severity;
 
     @NotNull
-    @Enumerated(EnumType.STRING)
-    private Product product;
+    private String product;
 
     @NotNull
     @Enumerated(EnumType.STRING)
