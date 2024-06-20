@@ -465,7 +465,16 @@ public class TicketServiceImpl implements TicketService {
     }
 
     @Override
+    public List<Ticket> getTicketsByTicketSubjectContaining(String subject) {
+        return ticketRepository.findByTicketSubjectContaining(subject);
+    }
+    @Override
     public List<Ticket> getTicketsByUserAndTicketIdContaining(String emailAddress, String ticketId) {
         return ticketRepository.findByEmailAddressAndTicketIdContaining(emailAddress, ticketId);
+    }
+
+    @Override
+    public List<Ticket> getTicketsByUserAndTicketSubjectContaining(String emailAddress, String subject) {
+        return ticketRepository.findByEmailAddressAndTicketSubjectContaining(emailAddress, subject);
     }
 }

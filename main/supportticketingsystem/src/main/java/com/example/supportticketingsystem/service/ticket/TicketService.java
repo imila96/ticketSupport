@@ -44,7 +44,11 @@ public interface TicketService {
 
     List<Ticket> getTicketsByTicketIdContaining(String ticketId);
 
+    List<Ticket> getTicketsByTicketSubjectContaining(String subject);
+
 
     List<Ticket> getTicketsByUserAndTicketIdContaining(String emailAddress, String ticketId);
+
+    List<Ticket> getTicketsByUserAndTicketSubjectContaining(String emailAddress, String subject);
 }
 

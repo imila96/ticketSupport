@@ -757,6 +757,69 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Search -Get All Tickets by subject using Like query",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODg1ODU4NiwiZXhwIjoxNzE4OTQ0OTg2fQ.qEy6-sBsCD2-kN80Oy3vLfqooG6MYAu6_WskWN7SjBM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/general/searchByTicketSubject/issuew",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"general",
+								"searchByTicketSubject",
+								"issuew"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search tickets by subject-specific to requeting user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVYzQGdtYWlsLmNvbSIsImlhdCI6MTcxODg2MTA1NCwiZXhwIjoxNzE4OTQ3NDU0fQ.Qe5uEkeW_QqKvkwdHZG0QGRtsxwGVb3xq2oll_24s0U",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/searchTicketsByUserSubject/75-issuew",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"searchTicketsByUserSubject",
+								"75-issuew"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

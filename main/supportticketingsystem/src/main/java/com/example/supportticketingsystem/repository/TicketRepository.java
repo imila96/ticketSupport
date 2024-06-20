@@ -38,7 +38,15 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
     @Query("SELECT t FROM Ticket t WHERE str(t.id) LIKE %:ticketId%")
     List<Ticket> findByTicketIdContaining(@Param("ticketId") String ticketId);
 
+    @Query("SELECT t FROM Ticket t WHERE str(t.subject) LIKE %:subject%")
+    List<Ticket> findByTicketSubjectContaining(@Param("subject") String subject);
+
+
     @Query("SELECT t FROM Ticket t WHERE t.emailAddress = :emailAddress AND str(t.id) LIKE %:ticketId%")
     List<Ticket> findByEmailAddressAndTicketIdContaining(@Param("emailAddress") String emailAddress, @Param("ticketId") String ticketId);
+
+
+    @Query("SELECT t FROM Ticket t WHERE t.emailAddress = :emailAddress AND str(t.subject) LIKE %:subject%")
+    List<Ticket> findByEmailAddressAndTicketSubjectContaining(@Param("emailAddress") String emailAddress, @Param("subject") String subject);
 
 }

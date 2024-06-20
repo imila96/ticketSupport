@@ -436,6 +436,8 @@ System.out.println("////////////////////"+productGroupName);
         return ResponseEntity.ok(ticketResponses);
     }
 
+
+
     @GetMapping("/searchTicketsByUser/{ticketId}")
     public ResponseEntity<List<TRes>> getTicketsByUserAndTicketIdContaining(Authentication authentication, @PathVariable String ticketId) {
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -447,4 +449,23 @@ System.out.println("////////////////////"+productGroupName);
         return ResponseEntity.ok(ticketResponses);
     }
 
+    @GetMapping("/general/searchByTicketSubject/{subject}")
+    public ResponseEntity<List<TRes>> getTicketsByTicketSubjectContaining(@PathVariable String subject) {
+        List<Ticket> tickets = ticketService.getTicketsByTicketSubjectContaining(subject);
+        List<TRes> ticketResponses = tickets.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(ticketResponses);
+    }
+
+    @GetMapping("/searchTicketsByUserSubject/{subject}")
+    public ResponseEntity<List<TRes>> getTicketsByUserAndTicketSubjectContaining(Authentication authentication, @PathVariable String subject) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
+        List<Ticket> tickets = ticketService.getTicketsByUserAndTicketSubjectContaining(email, subject);
+        List<TRes> ticketResponses = tickets.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(ticketResponses);
+    }
 }
