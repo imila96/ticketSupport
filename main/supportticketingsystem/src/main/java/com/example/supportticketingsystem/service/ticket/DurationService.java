@@ -229,5 +229,15 @@ public class DurationService {
         return String.format("%d days %d hours %d minutes %d seconds", days, hours, minutes, seconds);
     }
 
+    public void markTicketAsSolved(Long ticketId) {
+        List<DurationTime> ticketsToUpdate = durationTimeRepository.findByTicketId(ticketId);
+
+        for (DurationTime ticket : ticketsToUpdate) {
+            ticket.setSolvedStatus(true);
+        }
+
+        durationTimeRepository.saveAll(ticketsToUpdate);
+    }
+
 }
 

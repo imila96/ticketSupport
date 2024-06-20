@@ -468,4 +468,14 @@ System.out.println("////////////////////"+productGroupName);
                 .collect(Collectors.toList());
         return ResponseEntity.ok(ticketResponses);
     }
+
+    @PutMapping("/general/{ticketId}/solve")
+    public ResponseEntity<String> markTicketAsSolved(@PathVariable Long ticketId) {
+        try {
+            durationService.markTicketAsSolved(ticketId);
+            return ResponseEntity.ok("Tickets with ID " + ticketId + " marked as solved.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }

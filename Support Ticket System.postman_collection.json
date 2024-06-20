@@ -820,6 +820,27 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Solve ticket",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/1/solve",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"1",
+								"solve"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

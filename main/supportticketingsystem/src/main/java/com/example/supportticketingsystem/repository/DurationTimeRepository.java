@@ -11,6 +11,8 @@ import java.util.List;
 public interface DurationTimeRepository extends JpaRepository<DurationTime, Long> {
     List<DurationTime> findByTicketIdOrderByTimeAsc(Long ticketId);
 
+    List<DurationTime> findByTicketId(Long ticketId);
+
     List<DurationTime> findByTicketIdAndStatus(Long ticketId, String status);
 
     List<DurationTime> findByTicketIdAndAttemptsOrderByTimeAsc(Long ticketId, int attempts);

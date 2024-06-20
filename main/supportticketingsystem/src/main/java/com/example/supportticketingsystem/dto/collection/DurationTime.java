@@ -33,5 +33,7 @@ public class DurationTime {
 
     private int attempts;
 
+    private boolean solvedStatus;
+
 
 }
