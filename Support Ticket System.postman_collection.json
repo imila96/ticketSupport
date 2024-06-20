@@ -1028,6 +1028,38 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "delete product",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAZ21haWwuY29tIiwiaWF0IjoxNzE4ODU3MTM2LCJleHAiOjE3MTg5NDM1MzZ9.4DhvG-nGwDZeeDSgoPvrczAqk6xqAOy5l63MuDgGS7Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/admin/api/products/14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"admin",
+								"api",
+								"products",
+								"14"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
