@@ -103,7 +103,9 @@ public class ModEmailService {
                                     .time(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                                     .status("OPEN")
                                     .attempts(attempts)
+                                    .severity(ticket.getSeverity().toString())
                                     .build();
+
 
                             durationTimeRepository.save(durationTime);
 
@@ -116,6 +118,7 @@ public class ModEmailService {
                                     .time(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                                     .attempts(attempts)
                                     .status("AWAITING")
+                                    .severity(ticket.getSeverity().toString())
                                     .build();
 
                             durationTimeRepository.save(durationTime);
@@ -163,6 +166,7 @@ public class ModEmailService {
                                     .time(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                                     .status("OPEN")
                                     .attempts(attempts)
+                                    .severity(ticket.getSeverity().toString())
                                     .build();
                             durationTimeRepository.save(durationTime);
 
@@ -175,6 +179,7 @@ public class ModEmailService {
                                     .time(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                                     .status("AWAITING")
                                     .attempts(attempts)
+                                    .severity(ticket.getSeverity().toString())
                                     .build();
                             durationTimeRepository.save(durationTime);
                         }

@@ -17,4 +17,5 @@ public interface DurationTimeRepository extends JpaRepository<DurationTime, Long
 
     List<DurationTime> findByTicketIdAndAttemptsOrderByTimeAsc(Long ticketId, int attempts);
 
+    List<DurationTime> findBySeverity(String severity);
 }

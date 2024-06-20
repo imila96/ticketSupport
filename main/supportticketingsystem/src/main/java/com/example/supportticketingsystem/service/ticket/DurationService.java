@@ -4,6 +4,7 @@ package com.example.supportticketingsystem.service.ticket;
 import com.example.supportticketingsystem.dto.collection.DurationTime;
 import com.example.supportticketingsystem.repository.DurationTimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
@@ -238,6 +239,60 @@ public class DurationService {
 
         durationTimeRepository.saveAll(ticketsToUpdate);
     }
+
+    @Scheduled(fixedDelay = 15 * 60 * 1000) // 15 minutes in milliseconds
+    public void checkAndUpdateDelayedReplies() {
+        System.out.println("time breach started");
+        // Query DurationTime entities where severity is SEVERITY_1
+        List<DurationTime> durationTimes = durationTimeRepository.findBySeverity("SEVERITY_1");
+
+        for (DurationTime durationTime : durationTimes) {
+            // Check if delayedReply is not already set
+            if (!durationTime.isDelayedReply()) {
+                // Get all related times for the same ticket and attempt
+                List<DurationTime> relatedTimes = durationTimeRepository.findByTicketIdAndAttemptsOrderByTimeAsc(
+                        durationTime.getTicketId(), durationTime.getAttempts());
+
+                LocalDateTime ticketCreationTime = durationTime.getTime();
+                LocalDateTime firstOpenTime = null;
+                boolean foundFirstOpen = false;
+
+                for (DurationTime relatedTime : relatedTimes) {
+                    if (relatedTime.getStatus().equalsIgnoreCase("OPEN")) {
+                        if (!foundFirstOpen) {
+                            firstOpenTime = relatedTime.getTime();
+                            foundFirstOpen = true;
+                        }
+                    }
+                }
+
+                boolean shouldUpdate = false;
+                if (foundFirstOpen && firstOpenTime != null) {
+                    // Check if 30 minutes have passed since the ticket creation time
+                    if (Duration.between(ticketCreationTime, firstOpenTime).toMinutes() > 30) {
+                        shouldUpdate = true;
+                    }
+                } else {
+                    LocalDateTime currentTimeInChicago = LocalDateTime.now(ZoneId.of("America/Chicago"));
+
+                    // Check if more than 30 minutes have passed since ticket creation
+                    if (Duration.between(ticketCreationTime, currentTimeInChicago).toMinutes() > 30) {
+                        shouldUpdate = true;
+                    }
+                }
+
+                if (shouldUpdate) {
+                    for (DurationTime relatedTime : relatedTimes) {
+                        relatedTime.setDelayedReply(true);
+                    }
+                    durationTimeRepository.saveAll(relatedTimes);
+                }
+            }
+        }
+        System.out.println("time breach end");
+    }
+
+
 
 }
 

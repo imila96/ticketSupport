@@ -35,5 +35,11 @@ public class DurationTime {
 
     private boolean solvedStatus;
 
+    private boolean slaBreach;
+
+    private boolean delayedReply;
+
+    private String severity;
+
 
 }

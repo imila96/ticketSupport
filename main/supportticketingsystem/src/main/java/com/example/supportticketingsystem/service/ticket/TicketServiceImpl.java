@@ -109,6 +109,7 @@ public class TicketServiceImpl implements TicketService {
                 .time(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                 .status("AWAITING")
                 .attempts(1)
+                .severity(ticket.getSeverity().toString())
                 .build();
 
         durationTimeRepository.save(durationTime);
@@ -329,6 +330,7 @@ public class TicketServiceImpl implements TicketService {
                     .time(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                     .status("CLOSED")
                     .attempts(attempts)
+                    .severity(ticket.getSeverity().toString())
                     .build();
 
             durationTimeRepository.save(durationTime);
@@ -423,6 +425,7 @@ public class TicketServiceImpl implements TicketService {
                 .time(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                 .status("AWAITING")
                 .attempts(attempts)
+                .severity(ticket.getSeverity().toString())
                 .build();
 
         durationTimeRepository.save(durationTime);
