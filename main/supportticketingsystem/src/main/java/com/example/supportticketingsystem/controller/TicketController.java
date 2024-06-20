@@ -345,11 +345,11 @@ System.out.println("////////////////////"+productGroupName);
             String role = authority.getAuthority();
             switch (role) {
                 case "LEVEL-1":
-                    return ticket.getSeverity() == Severity.SEVERITY_4;
+                    return ticket.getSeverity() == Severity.SEVERITY_1;
                 case "LEVEL-2":
-                    return ticket.getSeverity() == Severity.SEVERITY_3 || ticket.getSeverity() == Severity.SEVERITY_4;
+                    return ticket.getSeverity() == Severity.SEVERITY_1 || ticket.getSeverity() == Severity.SEVERITY_2;
                 case "LEVEL-3":
-                    return ticket.getSeverity() == Severity.SEVERITY_2 || ticket.getSeverity() == Severity.SEVERITY_3 || ticket.getSeverity() == Severity.SEVERITY_4;
+                    return ticket.getSeverity() == Severity.SEVERITY_1 || ticket.getSeverity() == Severity.SEVERITY_2 || ticket.getSeverity() == Severity.SEVERITY_3;
                 case "LEVEL-4":
                     return true; // LEVEL-4 can see all tickets
                 case "ADMIN":
