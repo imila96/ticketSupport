@@ -9,9 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UsersManagementService {
@@ -25,7 +23,6 @@ public class UsersManagementService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     public ReqRes register(ReqRes registrationRequest) {
         ReqRes resp = new ReqRes();
 
@@ -37,23 +34,23 @@ public class UsersManagementService {
             ourUser.setName(registrationRequest.getName());
             ourUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 
+            Set<String> roles = new HashSet<>(registrationRequest.getRoles());
             if (email.endsWith("@kore.com")) {
-                String role = registrationRequest.getRole();
-                if ("ADMIN".equals(role)) {
-                    ourUser.setRole("ADMIN");
+                if (roles.contains("ADMIN")) {
+                    roles.add("ADMIN");
                 } else {
-                ourUser.setRole("DEFAULT");
+                    roles.add("DEFAULT");
                 }
-
                 ourUser.setProductGroup(registrationRequest.getProductGroup());
             } else {
-                String role = registrationRequest.getRole();
-                if ("ADMIN".equals(role)) {
-                    ourUser.setRole("ADMIN");
+                if (roles.contains("ADMIN")) {
+                    roles.add("ADMIN");
                 } else {
-                    ourUser.setRole("DEFAULT"); // Set default role if none is provided or role is not ADMIN
+                    roles.add("DEFAULT"); // Set default role if none is provided or role is not ADMIN
                 }
             }
+
+            ourUser.setRoles(roles);
 
             OurUsers ourUsersResult = usersRepo.save(ourUser);
             if (ourUsersResult.getId() > 0) {
@@ -69,7 +66,7 @@ public class UsersManagementService {
         return resp;
     }
 
-    public ReqRes login(ReqRes loginRequest){
+    public ReqRes login(ReqRes loginRequest) {
         ReqRes response = new ReqRes();
         try {
             authenticationManager
@@ -80,22 +77,20 @@ public class UsersManagementService {
             var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
             response.setStatusCode(200);
             response.setToken(jwt);
-            response.setRole(user.getRole());
+            response.setRoles(user.getRoles());
+            System.out.println("ffffffff"+user.getRoles());
             response.setRefreshToken(refreshToken);
             response.setProductGroup(user.getProductGroup());
             response.setEmail(user.getEmail());
             response.setExpirationTime("24Hrs");
             response.setMessage("Successfully Logged In");
 
-        }catch (Exception e){
+        } catch (Exception e) {
             response.setStatusCode(500);
             response.setMessage(e.getMessage());
         }
         return response;
     }
-
-
-
 
 
     public ReqRes refreshToken(ReqRes refreshTokenReqiest){
@@ -187,7 +182,7 @@ public class UsersManagementService {
                 existingUser.setEmail(updatedUser.getEmail());
                 existingUser.setName(updatedUser.getName());
                 existingUser.setCity(updatedUser.getCity());
-                existingUser.setRole(updatedUser.getRole());
+                existingUser.setRoles(updatedUser.getRoles());
 
                 // Check if password is present in the request
                 if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
@@ -254,25 +249,31 @@ public class UsersManagementService {
         return reqRes;
     }
 
-    public ReqRes setRole(Integer userId, String role) {
+    public ReqRes setRole(Integer userId, Set<String> roles) {
         ReqRes reqRes = new ReqRes();
         try {
             Optional<OurUsers> userOptional = usersRepo.findById(userId);
             if (userOptional.isPresent()) {
                 OurUsers user = userOptional.get();
-                user.setRole(role);
+
+                // Replace existing roles with new roles
+                user.setRoles(new HashSet<>(roles));
+
                 usersRepo.save(user);
                 reqRes.setOurUsers(user);
                 reqRes.setStatusCode(200);
-                reqRes.setMessage("Role updated successfully");
+                reqRes.setMessage("Roles updated successfully");
             } else {
                 reqRes.setStatusCode(404);
                 reqRes.setMessage("User not found");
             }
         } catch (Exception e) {
             reqRes.setStatusCode(500);
-            reqRes.setMessage("Error occurred while updating role: " + e.getMessage());
+            reqRes.setMessage("Error occurred while updating roles: " + e.getMessage());
         }
         return reqRes;
     }
+
+
+
 }

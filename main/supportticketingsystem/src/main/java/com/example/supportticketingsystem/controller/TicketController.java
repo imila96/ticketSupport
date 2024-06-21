@@ -337,29 +337,47 @@ System.out.println("////////////////////"+productGroupName);
     }
 
     private boolean canUserAccessTicket(TRes ticket, Principal principal) {
-        // Get the user roles
         Collection<? extends GrantedAuthority> authorities = ((Authentication) principal).getAuthorities();
-
-        // Implement role-based access control logic
         for (GrantedAuthority authority : authorities) {
             String role = authority.getAuthority();
             switch (role) {
                 case "LEVEL-1":
-                    return ticket.getSeverity() == Severity.SEVERITY_1;
+                    if (ticket.getSeverity() == Severity.SEVERITY_1) {
+                        return true;
+                    }
+                    break;
                 case "LEVEL-2":
-                    return ticket.getSeverity() == Severity.SEVERITY_1 || ticket.getSeverity() == Severity.SEVERITY_2;
+                    if (ticket.getSeverity() == Severity.SEVERITY_1 || ticket.getSeverity() == Severity.SEVERITY_2) {
+                        return true;
+                    }
+                    break;
                 case "LEVEL-3":
-                    return ticket.getSeverity() == Severity.SEVERITY_1 || ticket.getSeverity() == Severity.SEVERITY_2 || ticket.getSeverity() == Severity.SEVERITY_3;
+                    if (ticket.getSeverity() == Severity.SEVERITY_1 || ticket.getSeverity() == Severity.SEVERITY_2 ||
+                            ticket.getSeverity() == Severity.SEVERITY_3) {
+                        return true;
+                    }
+                    break;
                 case "LEVEL-4":
-                    return true; // LEVEL-4 can see all tickets
+                    if (ticket.getSeverity() == Severity.SEVERITY_1 || ticket.getSeverity() == Severity.SEVERITY_2 ||
+                            ticket.getSeverity() == Severity.SEVERITY_3 || ticket.getSeverity() == Severity.SEVERITY_4) {
+                        return true;
+                    }
+                    break;
                 case "ADMIN":
-                    return true; // Admin can see all tickets
+                    // Admin has access to all severity levels
+                    if (ticket.getSeverity() == Severity.SEVERITY_1 || ticket.getSeverity() == Severity.SEVERITY_2 ||
+                            ticket.getSeverity() == Severity.SEVERITY_3 || ticket.getSeverity() == Severity.SEVERITY_4) {
+                        return true;
+                    }
+                    break;
                 default:
-                    return false;
+                    // Do nothing, continue checking other roles
+                    break;
             }
         }
-        return false;
+        return false; // If no matching role is found
     }
+
 
     @GetMapping("/user/getAllTicketsByUser")
     public ResponseEntity<List<TRes>> getTicketsForUser(Authentication authentication) {

@@ -142,11 +142,21 @@
 				{
 					"name": "reopen ticket",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAa29yZS5jb20iLCJpYXQiOjE3MTg4NjIyNzUsImV4cCI6MTcxODk0ODY3NX0.ONBTxYAjFhs5YHRNen3jPjyqnXNUUGi50iAnQFYcNCM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"ticketId\": 1,\r\n    \"sentBy\": \"imbsamarakoon1996@gmail.com\",\r\n    \"reason\": \"Client requested to reopen the ticket\",\r\n    \"ccEmailAddresses\": [\"ablackhat894@gmail.com\",\"imilamaheshan30@gmail.com\",\"asamarakoon9697@gmail.com\"]\r\n}\r\n",
+							"raw": "{\r\n    \"ticketId\": 18,\r\n    \"sentBy\": \"imbsamarakoon1996@gmail.com\",\r\n    \"reason\": \"Client requested to reopen the ticket\",\r\n    \"ccEmailAddresses\": [\"ablackhat894@gmail.com\",\"asamarakoon9697@gmail.com\"]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -270,7 +280,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODI2NjI0MywiZXhwIjoxNzE4MzUyNjQzfQ.DQDlfXiwTOb5b0hPtGRuAYKCL9ljlIYYQJskln9tcK8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODg1NjU2MCwiZXhwIjoxNzE4OTQyOTYwfQ.DzxtkWl6poswtkx3ws5htBm15oSlgRPXrxLHC7IU6hk",
 									"type": "string"
 								}
 							]
@@ -282,12 +292,12 @@
 							"formdata": [
 								{
 									"key": "emailAddress",
-									"value": "imV4@gmail.com",
+									"value": "imV3@gmail.com",
 									"type": "text"
 								},
 								{
 									"key": "ccEmailAddresses",
-									"value": "[\"ablackhat894@gmail.com\",\"imilamaheshan30@gmail.com\",\"asamarakoon9697@gmail.com\"]",
+									"value": "[\"ablackhat894@gmail.com\",\"asamarakoon9697@gmail.com\",\"imV4@gmail.com\"]",
 									"type": "text"
 								},
 								{
@@ -297,7 +307,7 @@
 								},
 								{
 									"key": "subject",
-									"value": "5-issuew kore ai-0001",
+									"value": "75-issuew kore ai-0001",
 									"type": "text"
 								},
 								{
@@ -307,12 +317,12 @@
 								},
 								{
 									"key": "severity",
-									"value": "SEVERITY_2",
+									"value": "SEVERITY_1",
 									"type": "text"
 								},
 								{
 									"key": "product",
-									"value": "HEALTH_ASSIST",
+									"value": "BANK_ASSIST",
 									"type": "text"
 								},
 								{
@@ -500,7 +510,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY1QGdtYWlsLmNvbSIsImlhdCI6MTcxODI2OTUwNCwiZXhwIjoxNzE4MzU1OTA0fQ.lOp4DyfAE1_F-GpZ8qk1UvsZwjycPFhW400G2vOc0gI",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODk1NTUzOCwiZXhwIjoxNzE5MDQxOTM4fQ.GqRntz8bsrfvUyqlVoATQeTdXmvQlzlm1u-PhwKPHxY",
 									"type": "string"
 								}
 							]
@@ -508,7 +518,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/severity/SEVERITY_4",
+							"raw": "http://localhost:8085/tickets/severity/SEVERITY_1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -517,7 +527,7 @@
 							"path": [
 								"tickets",
 								"severity",
-								"SEVERITY_4"
+								"SEVERITY_1"
 							]
 						}
 					},
@@ -1005,7 +1015,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAZ21haWwuY29tIiwiaWF0IjoxNzE4MjY1OTAyLCJleHAiOjE3MTgzNTIzMDJ9.-WJ4E75NhSbfEoIjYR1iC_FNuPFAA7no8k5Mof9TJoU",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBnbWFpbC5jb20iLCJpYXQiOjE3MTg5NTI1NTcsImV4cCI6MTcxOTAzODk1N30.jP6q1nq56YahoZfHcuFkczHCUP4lPvTY8BtCLlJ7Vt8",
 									"type": "string"
 								}
 							]
@@ -1014,7 +1024,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"role\": \"LEVEL-4\"\r\n}",
+							"raw": "{\r\n    \"roles\": [\"LEVEL-2\",\"LEVEL-3\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

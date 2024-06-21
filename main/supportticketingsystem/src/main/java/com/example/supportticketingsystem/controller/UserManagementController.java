@@ -68,7 +68,8 @@ public class UserManagementController {
 
     @PutMapping("/admin/set-role/{userId}")
     public ResponseEntity<ReqRes> setRole(@PathVariable Integer userId, @RequestBody ReqRes req) {
-        return ResponseEntity.ok(usersManagementService.setRole(userId, req.getRole()));
+        return ResponseEntity.ok(usersManagementService.setRole(userId, req.getRoles()));
     }
+
 
 }
