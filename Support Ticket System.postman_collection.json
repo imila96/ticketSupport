@@ -980,11 +980,21 @@
 				{
 					"name": "set product group for kore users",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAa29yZS5jb20iLCJpYXQiOjE3MTg5NTYzNTEsImV4cCI6MTcxOTA0Mjc1MX0.eLB_mZ8e7EE_xTod1WR3bSKy6A6zjM0mncHpWLK60xg",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"productGroup\": \"BANK_ASSIST\"\r\n}",
+							"raw": "{\r\n    \"productGroup\": [\"BANK_ASSIST\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -992,7 +1002,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8085/admin/set-product-group/12",
+							"raw": "http://localhost:8085/admin/set-product-group/3",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1001,7 +1011,7 @@
 							"path": [
 								"admin",
 								"set-product-group",
-								"12"
+								"3"
 							]
 						}
 					},
@@ -1032,7 +1042,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8085/admin/set-role/13",
+							"raw": "http://localhost:8085/admin/set-role/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1041,7 +1051,7 @@
 							"path": [
 								"admin",
 								"set-role",
-								"13"
+								"2"
 							]
 						}
 					},

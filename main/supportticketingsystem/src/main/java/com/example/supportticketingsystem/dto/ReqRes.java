@@ -22,7 +22,7 @@ public class ReqRes {
     private String name;
     private String city;
     private Set<String> roles;
-    private String productGroup;
+    private Set<String> productGroup;
     private String email;
     private String password;
     private OurUsers ourUsers;

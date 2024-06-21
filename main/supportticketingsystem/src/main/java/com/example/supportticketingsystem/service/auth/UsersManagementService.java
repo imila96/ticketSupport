@@ -227,13 +227,16 @@ public class UsersManagementService {
 
     }
 
-    public ReqRes setProductGroup(Integer userId, String productGroup) {
+    public ReqRes setProductGroup(Integer userId, Set<String> productGroup) {
         ReqRes reqRes = new ReqRes();
         try {
             Optional<OurUsers> userOptional = usersRepo.findById(userId);
             if (userOptional.isPresent()) {
                 OurUsers user = userOptional.get();
-                user.setProductGroup(productGroup);
+
+                // Replace existing product group with new product group
+                user.setProductGroup(new HashSet<>(productGroup));
+
                 usersRepo.save(user);
                 reqRes.setOurUsers(user);
                 reqRes.setStatusCode(200);
@@ -248,6 +251,7 @@ public class UsersManagementService {
         }
         return reqRes;
     }
+
 
     public ReqRes setRole(Integer userId, Set<String> roles) {
         ReqRes reqRes = new ReqRes();

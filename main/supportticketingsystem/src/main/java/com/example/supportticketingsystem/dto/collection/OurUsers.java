@@ -27,7 +27,7 @@ public class OurUsers implements UserDetails {
     private String city;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles;
-    private String productGroup; // New field
+    private Set<String> productGroup; // New field
 
     public void setRoles(Set<String> roles) {
         for (String role : roles) {

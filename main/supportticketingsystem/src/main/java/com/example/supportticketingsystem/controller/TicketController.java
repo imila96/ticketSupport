@@ -250,17 +250,19 @@ public class TicketController {
         }
 
         OurUsers user = userOpt.get();
-        String productGroupName = user.getProductGroup(); // Assuming `productGroup` is a field in `OurUsers` entity
-System.out.println("////////////////////"+productGroupName);
-        Optional<Product> productOpt = productRepository.findByName(productGroupName);
+        Set<String> productGroups = user.getProductGroup(); // Assuming `productGroup` is a Set<String> in `OurUsers`
 
-        if (productOpt.isEmpty()) {
+        if (productGroups == null || productGroups.isEmpty()) {
             return ResponseEntity.badRequest().body(Collections.emptyList());
         }
 
+        List<Ticket> allTickets = new ArrayList<>();
+        for (String productGroupName : productGroups) {
+            List<Ticket> tickets = ticketService.getTicketsByProduct(productGroupName);
+            allTickets.addAll(tickets);
+        }
 
-        List<Ticket> tickets = ticketService.getTicketsByProduct(productGroupName);
-        List<TRes> ticketResponses = tickets.stream()
+        List<TRes> ticketResponses = allTickets.stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
 
