@@ -3,6 +3,7 @@ package com.example.supportticketingsystem.advice;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -25,4 +26,13 @@ public class ApplicationExceptionHandler {
 
         return errorMap;
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public Map<String, String> handleMissingParams(MissingServletRequestParameterException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put(ex.getParameterName(), "Parameter is missing");
+        return errorMap;
+    }
+
 }
