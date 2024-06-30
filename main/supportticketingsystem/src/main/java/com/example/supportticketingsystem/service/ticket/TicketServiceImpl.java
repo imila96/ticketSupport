@@ -41,19 +41,21 @@ public class TicketServiceImpl implements TicketService {
     private final MessageRepository messageRepository;
     private final EmailService emailService;
 
+    private final KoreEmailRepository emailRepository;
     private final EmailTimeRepository emailTimeRepository;
 
     @Value("${email.support.recipient}")
     private String emailRecipient;
 
     @Autowired
-    public TicketServiceImpl(TicketRepository ticketRepository, DurationTimeRepository durationTimeRepository, MessageAttachmentRepository messageAttachmentRepository, MessageRepository messageRepository, EmailService emailService, EmailTimeRepository emailTimeRepository) {
+    public TicketServiceImpl(TicketRepository ticketRepository, DurationTimeRepository durationTimeRepository, MessageAttachmentRepository messageAttachmentRepository, MessageRepository messageRepository, EmailService emailService, KoreEmailRepository emailRepository, EmailTimeRepository emailTimeRepository) {
 
         this.ticketRepository = ticketRepository;
         this.durationTimeRepository = durationTimeRepository;
         this.messageAttachmentRepository = messageAttachmentRepository;
         this.messageRepository = messageRepository;
         this.emailService = emailService;
+        this.emailRepository = emailRepository;
         this.emailTimeRepository = emailTimeRepository;
     }
 
@@ -186,6 +188,13 @@ public class TicketServiceImpl implements TicketService {
 
         ccEmails.add(request.getEmailAddress()); // Add primary recipient to CC list
 
+        //add default kore ai emails when ticket creating
+
+        List<String> additionalCcEmails = emailRepository.findAll().stream()
+                .map(EmailEntity::getEmail)
+                .collect(Collectors.toList());
+        ccEmails.addAll(additionalCcEmails);
+
         // Check for single invalid attachment scenario
         if (attachments.size() == 1 && !hasValidAttachment) {
             emailService.sendEmail(
@@ -221,7 +230,7 @@ public class TicketServiceImpl implements TicketService {
                 .id(ticket.getId())
                 .createdAt(ticket.getCreatedAt())
                 .emailAddress(ticket.getEmailAddress())
-                .ccEmailAddresses(ticket.getCcEmailAddresses())
+                .ccEmailAddresses(ccEmails)
                 .supportRequestType(ticket.getSupportRequestType())
                 .subject(ticket.getSubject())
                 .description(ticket.getDescription())
