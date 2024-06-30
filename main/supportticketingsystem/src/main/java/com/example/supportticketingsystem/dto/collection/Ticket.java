@@ -78,4 +78,6 @@ public class Ticket {
     private List<Message> conversation;
 
     private String reopenReason;
+
+    private String closeReason;
 }

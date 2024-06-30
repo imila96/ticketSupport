@@ -4,6 +4,7 @@ import com.example.supportticketingsystem.dto.collection.Ticket;
 import com.example.supportticketingsystem.dto.request.ReopenTicketRequest;
 import com.example.supportticketingsystem.dto.request.SeverityCountDTO;
 import com.example.supportticketingsystem.dto.request.TicketRequest;
+import com.example.supportticketingsystem.dto.response.TicketCloseResponse;
 import com.example.supportticketingsystem.dto.response.TicketResponse;
 import com.example.supportticketingsystem.enums.Severity;
 import jakarta.mail.MessagingException;
@@ -25,7 +26,7 @@ public interface TicketService {
 
     List<Ticket> getTicketsByEmailAddress(String emailAddress);
 
-    void closeTicket(Long ticketId, String sentBy) throws MessagingException;
+    TicketCloseResponse closeTicket(Long ticketId, String sentBy, String closeReason) throws MessagingException;
 
     int getMaxAttemptsByTicketId(Long ticketId);
 

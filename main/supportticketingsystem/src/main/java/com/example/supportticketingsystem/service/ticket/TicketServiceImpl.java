@@ -4,6 +4,7 @@ import com.example.supportticketingsystem.dto.collection.*;
 import com.example.supportticketingsystem.dto.exception.TicketNotFoundException;
 import com.example.supportticketingsystem.dto.request.ReopenTicketRequest;
 import com.example.supportticketingsystem.dto.request.TicketRequest;
+import com.example.supportticketingsystem.dto.response.TicketCloseResponse;
 import com.example.supportticketingsystem.dto.response.TicketResponse;
 import com.example.supportticketingsystem.enums.MessageType;
 import com.example.supportticketingsystem.enums.Severity;
@@ -266,38 +267,33 @@ public class TicketServiceImpl implements TicketService {
 
 
     @Override
-    public void closeTicket(Long ticketId, String sentBy) throws MessagingException {
-        // Retrieve the ticket from the database
+    public TicketCloseResponse closeTicket(Long ticketId, String sentBy, String closeReason) throws MessagingException {
         Optional<Ticket> optionalTicket = ticketRepository.findById(ticketId);
         if (optionalTicket.isPresent()) {
             Ticket ticket = optionalTicket.get();
 
-            // Update the status for both client and vendor
             ticket.setClientStatus(Status.CLOSED);
             ticket.setVendorStatus(Status.CLOSED);
-            ticketRepository.save(ticket); // Save the updated ticket
+            ticket.setCloseReason(closeReason);
+            ticketRepository.save(ticket);
 
-            // Send email notification to inform about the status change
             String initialMessageId = ticket.getInitialMessageId();
             String userEmail = "Unknown";
             if (sentBy.equals(ticket.getEmailAddress())) {
-                // If sent by client
                 userEmail = ticket.getEmailAddress();
             } else {
-                // If sent by vendor
                 userEmail = "Vendor";
             }
-            String body = userEmail + " closed the ticket : "+ticket.getId();
+            String body = userEmail + " closed the ticket: " + ticket.getId();
 
             List<String> ccEmails = new ArrayList<>();
             if (ticket.getCcEmailAddresses() != null) {
-                // Remove extra characters from each email address
                 ccEmails = ticket.getCcEmailAddresses().stream()
                         .map(email -> email.replaceAll("[\\[\\]\"]", ""))
                         .collect(Collectors.toList());
             }
             ccEmails.add(ticket.getEmailAddress());
-            // Save the message
+
             Message messageBuilder = Message.builder()
                     .ticket(ticket)
                     .sender(sentBy.equals(ticket.getEmailAddress()) ? MessageType.CLIENT : MessageType.VENDOR)
@@ -313,14 +309,9 @@ public class TicketServiceImpl implements TicketService {
             messageRepository.save(message);
 
             StringBuilder bodyBuilder = new StringBuilder();
-
-            bodyBuilder.append("Unique Id : ").append(message.getUniqueId()).append("\n\n");
+            bodyBuilder.append("Unique Id: ").append(message.getUniqueId()).append("\n\n");
             bodyBuilder.append("Content: ").append(body).append("\n");
-
-
             String emailBody = bodyBuilder.toString();
-
-
 
             emailService.sendEmail(
                     emailRecipient,
@@ -330,11 +321,10 @@ public class TicketServiceImpl implements TicketService {
                     initialMessageId
             );
 
-
             List<DurationTime> closedDurationTimes = durationTimeRepository.findByTicketIdAndStatus(ticketId, "CLOSED");
-            int attempts = closedDurationTimes.size() + 1; // Increment for the current attempt
+            int attempts = closedDurationTimes.size() + 1;
 
-            DurationTime durationTime= DurationTime.builder()
+            DurationTime durationTime = DurationTime.builder()
                     .ticketId(ticket.getId())
                     .time(ZonedDateTime.now(ZoneId.of("America/Chicago")).toLocalDateTime())
                     .status("CLOSED")
@@ -344,6 +334,7 @@ public class TicketServiceImpl implements TicketService {
 
             durationTimeRepository.save(durationTime);
 
+            return new TicketCloseResponse(ticketId, closeReason, userEmail);
         } else {
             throw new TicketNotFoundException("Ticket with ID " + ticketId + " not found");
         }
@@ -376,7 +367,7 @@ public class TicketServiceImpl implements TicketService {
         // Update ticket status
         ticket.setClientStatus(Status.OPEN);
         ticket.setVendorStatus(Status.AWAITING_REPLY);
-
+ticket.setReopenReason(reason);
         // Save the updated ticket
         ticketRepository.save(ticket);
 

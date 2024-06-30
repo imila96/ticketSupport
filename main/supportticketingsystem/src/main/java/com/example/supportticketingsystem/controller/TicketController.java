@@ -4,13 +4,10 @@ import com.example.supportticketingsystem.dto.collection.OurUsers;
 import com.example.supportticketingsystem.dto.collection.Product;
 import com.example.supportticketingsystem.dto.collection.Ticket;
 import com.example.supportticketingsystem.dto.request.*;
-import com.example.supportticketingsystem.dto.response.MessageResponse;
-import com.example.supportticketingsystem.dto.response.TRes;
+import com.example.supportticketingsystem.dto.response.*;
 import com.example.supportticketingsystem.enums.*;
 import com.example.supportticketingsystem.dto.collection.MessageAttachment;
 import com.example.supportticketingsystem.dto.exception.TicketNotFoundException;
-import com.example.supportticketingsystem.dto.response.GenericResponse;
-import com.example.supportticketingsystem.dto.response.TicketResponse;
 import com.example.supportticketingsystem.repository.MessageAttachmentRepository;
 import com.example.supportticketingsystem.repository.ProductRepository;
 import com.example.supportticketingsystem.repository.TicketRepository;
@@ -200,14 +197,16 @@ public class TicketController {
     public ResponseEntity<?> closeTicket(@PathVariable Long ticketId, @RequestBody CloseTicketRequest closeTicketRequest) {
         try {
             String sentBy = closeTicketRequest.getSentBy();
-            ticketService.closeTicket(ticketId, sentBy);
-            return ResponseEntity.ok().build();
+            String closeReason = closeTicketRequest.getCloseTicketRequest();
+            TicketCloseResponse response = ticketService.closeTicket(ticketId, sentBy, closeReason);
+            return ResponseEntity.ok(response);
         } catch (TicketNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
     }
+
 
 
     @PostMapping("/general/reopen")
@@ -294,6 +293,7 @@ public class TicketController {
                 .clientStatus(ticket.getClientStatus())
                 .vendorStatus(ticket.getVendorStatus())
                 .reopenReason(ticket.getReopenReason())
+                .closeReason(ticket.getCloseReason())
                 .build();
     }
 

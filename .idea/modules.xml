@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/main/supportticketingsystem/supportticketingsystem.iml" filepath="$PROJECT_DIR$/main/supportticketingsystem/supportticketingsystem.iml" />
-      <module fileurl="file://$PROJECT_DIR$/listner/supportticketingsystem/supportticketingsystem (1).iml" filepath="$PROJECT_DIR$/listner/supportticketingsystem/supportticketingsystem (1).iml" />
-      <module fileurl="file://$PROJECT_DIR$/main/supportticketingsystem/supportticketingsystem (2).iml" filepath="$PROJECT_DIR$/main/supportticketingsystem/supportticketingsystem (2).iml" />
+      <module fileurl="file://$PROJECT_DIR$/listner/supportticketingsystem/supportticketingsystem.iml" filepath="$PROJECT_DIR$/listner/supportticketingsystem/supportticketingsystem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/main/supportticketingsystem/supportticketingsystem (1).iml" filepath="$PROJECT_DIR$/main/supportticketingsystem/supportticketingsystem (1).iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/ticketSupport.iml" filepath="$PROJECT_DIR$/.idea/ticketSupport.iml" />
     </modules>
   </component>
