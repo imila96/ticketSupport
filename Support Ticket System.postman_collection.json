@@ -114,7 +114,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODI2NjI0MywiZXhwIjoxNzE4MzUyNjQzfQ.DQDlfXiwTOb5b0hPtGRuAYKCL9ljlIYYQJskln9tcK8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTNAZ21haWwuY29tIiwiaWF0IjoxNzIwMDczODA4LCJleHAiOjE3MjAxNjAyMDh9.WfPHXDjlICqnJrB9c743u8a2gtkTOCbevhoVtJxMhf4",
 									"type": "string"
 								}
 							]
@@ -122,7 +122,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/general/9/open-duration/2",
+							"raw": "http://localhost:8085/tickets/general/2/open-duration/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -131,9 +131,9 @@
 							"path": [
 								"tickets",
 								"general",
-								"9",
+								"2",
 								"open-duration",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -142,10 +142,20 @@
 				{
 					"name": "get client time",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTNAZ21haWwuY29tIiwiaWF0IjoxNzIwMDczODA4LCJleHAiOjE3MjAxNjAyMDh9.WfPHXDjlICqnJrB9c743u8a2gtkTOCbevhoVtJxMhf4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/general/4/clientTime/1",
+							"raw": "http://localhost:8085/tickets/general/1/clientTime/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -154,7 +164,7 @@
 							"path": [
 								"tickets",
 								"general",
-								"4",
+								"1",
 								"clientTime",
 								"1"
 							]
@@ -179,7 +189,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"ticketId\": 18,\r\n    \"sentBy\": \"imbsamarakoon1996@gmail.com\",\r\n    \"reason\": \"Client requested to reopen the ticket\",\r\n    \"ccEmailAddresses\": [\"ablackhat894@gmail.com\",\"asamarakoon9697@gmail.com\"]\r\n}\r\n",
+							"raw": "{\r\n    \"ticketId\": 22,\r\n    \"sentBy\": \"imbsamarakoon1996@gmail.com\",\r\n    \"reason\": \"Client requested to reopen the ticket\",\r\n    \"ccEmailAddresses\": [\"ablackhat894@gmail.com\",\"asamarakoon9697@gmail.com\"]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -205,11 +215,21 @@
 				{
 					"name": "close ticket",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAa29yZS5jb20iLCJpYXQiOjE3MTk3MTg0MDgsImV4cCI6MTcxOTgwNDgwOH0.zzUYLEXHxRAylYDwsrJXbfMDfXwWPeFc6G3r48qDuKQ",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"sentBy\": \"imbsamarakoon1996@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"sentBy\": \"imbsamarakoon1996@gmail.com\",\r\n    \"closeTicketRequest\": \"Issue partially resolved\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -217,7 +237,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8085/tickets/general/3/closeTicket",
+							"raw": "http://localhost:8085/tickets/general/24/closeTicket",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -226,7 +246,7 @@
 							"path": [
 								"tickets",
 								"general",
-								"3",
+								"24",
 								"closeTicket"
 							]
 						}
@@ -241,7 +261,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODI2NjI0MywiZXhwIjoxNzE4MzUyNjQzfQ.DQDlfXiwTOb5b0hPtGRuAYKCL9ljlIYYQJskln9tcK8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTNAZ21haWwuY29tIiwiaWF0IjoxNzIwMDczODA4LCJleHAiOjE3MjAxNjAyMDh9.WfPHXDjlICqnJrB9c743u8a2gtkTOCbevhoVtJxMhf4",
 									"type": "string"
 								}
 							]
@@ -269,17 +289,23 @@
 								{
 									"key": "attachments",
 									"type": "file",
-									"src": "/C:/Users/Asus/Desktop/docker.txt"
+									"src": "/C:/Users/Asus/Desktop/Docker Compose with mysql.txt"
 								},
 								{
 									"key": "ccEmailAddresses",
-									"value": "[\"ablackhat894@gmail.com\",\"imilamaheshan30@gmail.com\",\"asamarakoon9697@gmail.com\"]",
+									"value": "[\"ablackhat894@gmail.com\",\"asamarakoon9697@gmail.com\"]",
 									"type": "text"
+								},
+								{
+									"key": "attachments",
+									"value": "",
+									"type": "text",
+									"disabled": true
 								}
 							]
 						},
 						"url": {
-							"raw": "http://localhost:8085/tickets/general/9/CreateMessage",
+							"raw": "http://localhost:8085/tickets/general/1/CreateMessage",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -288,7 +314,7 @@
 							"path": [
 								"tickets",
 								"general",
-								"9",
+								"1",
 								"CreateMessage"
 							]
 						}
@@ -303,7 +329,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODg1NjU2MCwiZXhwIjoxNzE4OTQyOTYwfQ.DzxtkWl6poswtkx3ws5htBm15oSlgRPXrxLHC7IU6hk",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBnbWFpbC5jb20iLCJpYXQiOjE3MjAwNzUyMTAsImV4cCI6MTcyMDE2MTYxMH0.CtJ3VSUE25151-lleMCDxLGyVSdDd06NL61I1wm2g5U",
 									"type": "string"
 								}
 							]
@@ -315,7 +341,7 @@
 							"formdata": [
 								{
 									"key": "emailAddress",
-									"value": "imV3@gmail.com",
+									"value": "john.doe@gmail.com",
 									"type": "text"
 								},
 								{
@@ -330,7 +356,7 @@
 								},
 								{
 									"key": "subject",
-									"value": "75-issuew kore ai-0001",
+									"value": "175-issuew kore ai-0001",
 									"type": "text"
 								},
 								{
@@ -366,7 +392,7 @@
 								{
 									"key": "attachments",
 									"type": "file",
-									"src": "/C:/Users/Asus/Desktop/Ats Resume/education.txt"
+									"src": "/F:/jwtt/citi/ticketSupport/ticketSupport/API Documentation.pdf"
 								}
 							]
 						},
@@ -390,6 +416,16 @@
 						"disableBodyPruning": true
 					},
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTNAZ21haWwuY29tIiwiaWF0IjoxNzIwMDczODA4LCJleHAiOjE3MjAxNjAyMDh9.WfPHXDjlICqnJrB9c743u8a2gtkTOCbevhoVtJxMhf4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"body": {
@@ -420,10 +456,20 @@
 				{
 					"name": "get All messages in a Ticket by ticket id",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTNAZ21haWwuY29tIiwiaWF0IjoxNzIwMDczODA4LCJleHAiOjE3MjAxNjAyMDh9.WfPHXDjlICqnJrB9c743u8a2gtkTOCbevhoVtJxMhf4",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/general/getAllMessagesByTicketId/1",
+							"raw": "http://localhost:8085/tickets/general/getAllMessagesByTicketId/2",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -433,7 +479,7 @@
 								"tickets",
 								"general",
 								"getAllMessagesByTicketId",
-								"1"
+								"2"
 							]
 						}
 					},
@@ -447,7 +493,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVYzQGdtYWlsLmNvbSIsImlhdCI6MTcxODI2OTIzNCwiZXhwIjoxNzE4MzU1NjM0fQ.N_N5Y4O-y5qwfZR3dsnIh2UlUpzgXeBrOs1_jupF9jw",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTNAZ21haWwuY29tIiwiaWF0IjoxNzIwMDczODA4LCJleHAiOjE3MjAxNjAyMDh9.WfPHXDjlICqnJrB9c743u8a2gtkTOCbevhoVtJxMhf4",
 									"type": "string"
 								}
 							]
@@ -478,7 +524,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVYzQGdtYWlsLmNvbSIsImlhdCI6MTcxODI2OTIzNCwiZXhwIjoxNzE4MzU1NjM0fQ.N_N5Y4O-y5qwfZR3dsnIh2UlUpzgXeBrOs1_jupF9jw",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTNAZ21haWwuY29tIiwiaWF0IjoxNzIwMDczODA4LCJleHAiOjE3MjAxNjAyMDh9.WfPHXDjlICqnJrB9c743u8a2gtkTOCbevhoVtJxMhf4",
 									"type": "string"
 								}
 							]
@@ -510,7 +556,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODk1NTUzOCwiZXhwIjoxNzE5MDQxOTM4fQ.GqRntz8bsrfvUyqlVoATQeTdXmvQlzlm1u-PhwKPHxY",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTNAZ21haWwuY29tIiwiaWF0IjoxNzIwMDczODA4LCJleHAiOjE3MjAxNjAyMDh9.WfPHXDjlICqnJrB9c743u8a2gtkTOCbevhoVtJxMhf4",
 									"type": "string"
 								}
 							]
@@ -541,7 +587,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY1QGdtYWlsLmNvbSIsImlhdCI6MTcxODI2OTcyNiwiZXhwIjoxNzE4MzU2MTI2fQ.-QXwvWCi_P5HdRGiSS7ompRE9OJSi33xy8t7M0WFGIU",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTNAZ21haWwuY29tIiwiaWF0IjoxNzIwMDczODA4LCJleHAiOjE3MjAxNjAyMDh9.WfPHXDjlICqnJrB9c743u8a2gtkTOCbevhoVtJxMhf4",
 									"type": "string"
 								}
 							]
@@ -571,7 +617,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY1QGdtYWlsLmNvbSIsImlhdCI6MTcxODI2OTcyNiwiZXhwIjoxNzE4MzU2MTI2fQ.-QXwvWCi_P5HdRGiSS7ompRE9OJSi33xy8t7M0WFGIU",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBnbWFpbC5jb20iLCJpYXQiOjE3MjAwNzUyMTAsImV4cCI6MTcyMDE2MTYxMH0.CtJ3VSUE25151-lleMCDxLGyVSdDd06NL61I1wm2g5U",
 									"type": "string"
 								}
 							]
@@ -602,7 +648,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVYzQGdtYWlsLmNvbSIsImlhdCI6MTcxODI2OTIzNCwiZXhwIjoxNzE4MzU1NjM0fQ.N_N5Y4O-y5qwfZR3dsnIh2UlUpzgXeBrOs1_jupF9jw",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTNAZ21haWwuY29tIiwiaWF0IjoxNzIwMDczODA4LCJleHAiOjE3MjAxNjAyMDh9.WfPHXDjlICqnJrB9c743u8a2gtkTOCbevhoVtJxMhf4",
 									"type": "string"
 								}
 							]
@@ -642,7 +688,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbVY0QGdtYWlsLmNvbSIsImlhdCI6MTcxODYwMzc1NiwiZXhwIjoxNzE4NjkwMTU2fQ.PmTljnWsj-hBWbZGorbg_Mm31yzP75IeMlqD3zFFfg0",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTNAZ21haWwuY29tIiwiaWF0IjoxNzIwMDczODA4LCJleHAiOjE3MjAxNjAyMDh9.WfPHXDjlICqnJrB9c743u8a2gtkTOCbevhoVtJxMhf4",
 									"type": "string"
 								}
 							]
@@ -650,7 +696,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/general/waiting-times?startMonth=2024-06&endMonth=2024-07",
+							"raw": "http://localhost:8085/tickets/waiting-times?startMonth=2024-06&endMonth=2024-07",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -658,7 +704,6 @@
 							"port": "8085",
 							"path": [
 								"tickets",
-								"general",
 								"waiting-times"
 							],
 							"query": [
@@ -834,10 +879,20 @@
 				{
 					"name": "Solve ticket",
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAa29yZS5jb20iLCJpYXQiOjE3MTg4NjIyNzUsImV4cCI6MTcxODk0ODY3NX0.ONBTxYAjFhs5YHRNen3jPjyqnXNUUGi50iAnQFYcNCM",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8085/tickets/1/solve",
+							"raw": "http://localhost:8085/tickets/general/1/solve",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -845,6 +900,7 @@
 							"port": "8085",
 							"path": [
 								"tickets",
+								"general",
 								"1",
 								"solve"
 							]
@@ -864,7 +920,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"imV5@gmail.com\",\r\n    \"name\": \"lv002\",\r\n    \"password\": \"securePassword123\",\r\n    \"city\": \"New York 3\"\r\n}\r\n",
+							"raw": "{\r\n    \"name\": \"John Doe 2\",\r\n    \"email\": \"john.doe3@gmail.com\",\r\n    \"password\": \"securepassword\",\r\n    \"city\": \"New York\",\r\n    \"roles\": [\"ADMIN\"]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -896,7 +952,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"imV5@gmail.com\",\r\n    \"password\": \"securePassword123\"\r\n}\r\n",
+							"raw": "{\r\n    \"email\": \"john.doe3@gmail.com\",\r\n    \"password\": \"securepassword\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -955,7 +1011,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJsZXZlbDF1c2VyQGV4YW1wbGUuY29tIiwiaWF0IjoxNzE3ODk5Nzg4LCJleHAiOjE3MTc5ODYxODh9.JPboVbb45ht9h6jm61ugqmv-yIjkcWvq_MBt695trIg",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTNAZ21haWwuY29tIiwiaWF0IjoxNzIwMDc2NzQ2LCJleHAiOjE3MjAxNjMxNDZ9.FsGu4t44d0usYb1Pzg4PVw2979prtTRHhRFhu_H0z38",
 									"type": "string"
 								}
 							]
@@ -1025,7 +1081,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBnbWFpbC5jb20iLCJpYXQiOjE3MTg5NTI1NTcsImV4cCI6MTcxOTAzODk1N30.jP6q1nq56YahoZfHcuFkczHCUP4lPvTY8BtCLlJ7Vt8",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBnbWFpbC5jb20iLCJpYXQiOjE3MjAwNzI5MzMsImV4cCI6MTcyMDE1OTMzM30.FcOb4wlsTJh00ixcogDlp9JNOGN3zPAvtiQHsR9PMpA",
 									"type": "string"
 								}
 							]
@@ -1178,7 +1234,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAa29yZS5jb20iLCJpYXQiOjE3MTg4NjIwODIsImV4cCI6MTcxODk0ODQ4Mn0.zreLJJTtaHylXrCXfabpyvZxmBHlBYy9Fe1JNRp4Deo",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAa29yZS5jb20iLCJpYXQiOjE3MTk3MTg0MDgsImV4cCI6MTcxOTgwNDgwOH0.zzUYLEXHxRAylYDwsrJXbfMDfXwWPeFc6G3r48qDuKQ",
 									"type": "string"
 								}
 							]
@@ -1208,7 +1264,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAa29yZS5jb20iLCJpYXQiOjE3MTg4NjIyNzUsImV4cCI6MTcxODk0ODY3NX0.ONBTxYAjFhs5YHRNen3jPjyqnXNUUGi50iAnQFYcNCM",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAa29yZS5jb20iLCJpYXQiOjE3MTk3MTg0MDgsImV4cCI6MTcxOTgwNDgwOH0.zzUYLEXHxRAylYDwsrJXbfMDfXwWPeFc6G3r48qDuKQ",
 									"type": "string"
 								}
 							]
@@ -1217,7 +1273,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"newemail@kore.com\"\r\n}\r\n",
+							"raw": "{\r\n    \"email\": \"imilajunior@gmail.com\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
