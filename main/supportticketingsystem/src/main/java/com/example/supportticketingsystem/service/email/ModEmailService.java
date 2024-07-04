@@ -58,7 +58,7 @@ public class ModEmailService {
     @Transactional
     public void saveEmailsFromExternalService() {
         System.out.println("attept started");
-        int minutes=707;
+        int minutes=1707;
         String url = "http://localhost:8086/emails/" + minutes;
         ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
                 url, HttpMethod.GET, null,

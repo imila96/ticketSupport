@@ -140,6 +140,29 @@
 					"response": []
 				},
 				{
+					"name": "get client time",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/general/4/clientTime/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"general",
+								"4",
+								"clientTime",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "reopen ticket",
 					"request": {
 						"auth": {
@@ -473,29 +496,6 @@
 								"tickets",
 								"general",
 								"max-attempts",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "get client time",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8085/tickets/general/4/clientTime/1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8085",
-							"path": [
-								"tickets",
-								"general",
-								"4",
-								"clientTime",
 								"1"
 							]
 						}
