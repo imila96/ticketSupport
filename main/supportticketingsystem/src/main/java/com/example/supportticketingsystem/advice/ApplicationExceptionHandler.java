@@ -1,6 +1,8 @@
 package com.example.supportticketingsystem.advice;
 
+import com.example.supportticketingsystem.dto.exception.InvalidTokenException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
@@ -35,4 +37,10 @@ public class ApplicationExceptionHandler {
         return errorMap;
     }
 
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidTokenException(InvalidTokenException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("error", ex.getMessage());
+        return new ResponseEntity<>(errorMap, HttpStatus.UNAUTHORIZED);
+    }
 }
