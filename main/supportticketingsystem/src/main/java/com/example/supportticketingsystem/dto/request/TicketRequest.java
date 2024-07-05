@@ -49,6 +49,6 @@ public class TicketRequest {
     private String platformVersion;
     private List<String> attachments;
 
-
+    private String referenceNumber;
 
 }

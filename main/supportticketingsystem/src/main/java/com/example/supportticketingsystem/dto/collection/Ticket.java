@@ -80,4 +80,7 @@ public class Ticket {
     private String reopenReason;
 
     private String closeReason;
+
+    @Column(unique = true)
+    private String referenceNumber;
 }

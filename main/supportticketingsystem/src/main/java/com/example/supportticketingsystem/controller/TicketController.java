@@ -79,7 +79,8 @@ public class TicketController {
                 @RequestParam("installationType") InstallationType installationType,
                 @RequestParam("affectedEnvironment") Environment affectedEnvironment,
                 @RequestParam("platformVersion") String platformVersion,
-                @RequestParam("attachments") List<MultipartFile> attachments
+                @RequestParam("attachments") List<MultipartFile> attachments,
+                @RequestParam(value = "referenceNumber", required = false) String referenceNumber
         ) {
             try {
                 TicketRequest request = TicketRequest.builder()
@@ -94,6 +95,7 @@ public class TicketController {
                         .affectedEnvironment(affectedEnvironment)
                         .platformVersion(platformVersion)
                         .attachments(attachments.stream().map(MultipartFile::getOriginalFilename).collect(Collectors.toList()))
+                        .referenceNumber(referenceNumber)
                         .build();
 
                 TicketResponse createdTicket = ticketService.createTicket(request, attachments);

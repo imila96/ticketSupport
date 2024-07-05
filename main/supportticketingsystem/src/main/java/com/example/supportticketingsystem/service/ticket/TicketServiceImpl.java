@@ -70,6 +70,13 @@ public class TicketServiceImpl implements TicketService {
 
         boolean hasValidAttachment = false; // Flag to check if there is at least one valid attachment
 
+        if (request.getReferenceNumber() != null) {
+            Optional<Ticket> existingTicket = ticketRepository.findByReferenceNumber(request.getReferenceNumber());
+            if (existingTicket.isPresent()) {
+                throw new IllegalArgumentException("Reference number already exists");
+            }
+        }
+
         if (attachments != null) {
             for (MultipartFile attachment : attachments) {
                 String fileName = attachment.getOriginalFilename();
@@ -103,6 +110,7 @@ public class TicketServiceImpl implements TicketService {
                 .platformVersion(request.getPlatformVersion())
                 .clientStatus(Status.OPEN)
                 .vendorStatus(Status.AWAITING_REPLY)
+                .referenceNumber(request.getReferenceNumber())
                 .build();
 
         ticket = ticketRepository.save(ticket); // Persist the Ticket
@@ -169,6 +177,7 @@ public class TicketServiceImpl implements TicketService {
         StringBuilder bodyBuilder = new StringBuilder();
         bodyBuilder.append("Sent by: ").append(request.getEmailAddress()).append("\n\n");
         bodyBuilder.append("Unique Id : ").append(initialMessage.getUniqueId()).append("\n\n");
+        bodyBuilder.append("Reference Number : ").append(request.getReferenceNumber()).append("\n\n");
         bodyBuilder.append("Support Request Type: ").append(request.getSupportRequestType()).append("\n");
         bodyBuilder.append("Description: ").append(request.getDescription()).append("\n");
         bodyBuilder.append("Severity: ").append(request.getSeverity()).append("\n");
@@ -240,6 +249,7 @@ public class TicketServiceImpl implements TicketService {
                 .installationType(ticket.getInstallationType())
                 .affectedEnvironment(ticket.getAffectedEnvironment())
                 .platformVersion(ticket.getPlatformVersion())
+                .referenceNumber(ticket.getReferenceNumber())
                 .build();
     }
 

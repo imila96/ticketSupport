@@ -60,4 +60,5 @@ public class TicketResponse {
     private String platformVersion;
 
 
+    private String referenceNumber;
 }

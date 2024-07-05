@@ -1,6 +1,9 @@
 package com.example.supportticketingsystem.dto.collection;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,9 +24,18 @@ public class OurUsers implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Email(message = "Email should be valid")
+    @NotBlank(message = "Email is mandatory")
     private String email;
+
+    @NotBlank(message = "Name is mandatory")
     private String name;
+
+    @Size(min = 6, message = "Password should have at least 6 characters")
+    @NotBlank(message = "Password is mandatory")
     private String password;
+
+    @NotBlank(message = "City is mandatory")
     private String city;
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles;

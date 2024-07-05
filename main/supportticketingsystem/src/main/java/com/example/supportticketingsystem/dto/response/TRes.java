@@ -27,4 +27,5 @@ public class TRes {
     private Status vendorStatus;
     private String reopenReason;
     private String closeReason;
+    private String referenceNumber;
 }
