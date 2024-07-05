@@ -329,7 +329,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZUBnbWFpbC5jb20iLCJpYXQiOjE3MjAwNzUyMTAsImV4cCI6MTcyMDE2MTYxMH0.CtJ3VSUE25151-lleMCDxLGyVSdDd06NL61I1wm2g5U",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTNAZ21haWwuY29tIiwiaWF0IjoxNzIwMTQ4NjI1LCJleHAiOjE3MjAyMzUwMjV9.NpZXCX_xBXdD7qazZrOj2NwXfzROWM8iUroqrQqZ1cs",
 									"type": "string"
 								}
 							]
@@ -392,7 +392,12 @@
 								{
 									"key": "attachments",
 									"type": "file",
-									"src": "/F:/jwtt/citi/ticketSupport/ticketSupport/API Documentation.pdf"
+									"src": "/F:/jwtt/citi/ticketSupport/july 1/ticketSupport/API Documentation.pdf"
+								},
+								{
+									"key": "referenceNumber",
+									"value": "Ref-12345",
+									"type": "text"
 								}
 							]
 						},
