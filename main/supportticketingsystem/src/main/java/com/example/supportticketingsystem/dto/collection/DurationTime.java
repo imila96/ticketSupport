@@ -41,5 +41,7 @@ public class DurationTime {
 
     private String severity;
 
+    private String solvedBy;
+
 
 }

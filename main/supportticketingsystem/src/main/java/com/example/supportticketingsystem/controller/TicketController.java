@@ -492,12 +492,18 @@ public class TicketController {
     }
 
     @PutMapping("/general/{ticketId}/solve")
-    public ResponseEntity<String> markTicketAsSolved(@PathVariable Long ticketId) {
+    public ResponseEntity<Map<String, Object>> markTicketAsSolved(@PathVariable Long ticketId, Authentication authentication) {
         try {
-            durationService.markTicketAsSolved(ticketId);
-            return ResponseEntity.ok("Tickets with ID " + ticketId + " marked as solved.");
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String email = userDetails.getUsername();
+            durationService.markTicketAsSolved(ticketId, email);
+            Map<String, Object> response = new HashMap<>();
+            response.put("ticketId", ticketId);
+            response.put("solvedBy", email);
+            return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
     }
+
 }

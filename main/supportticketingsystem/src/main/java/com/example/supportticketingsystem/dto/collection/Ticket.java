@@ -83,4 +83,6 @@ public class Ticket {
 
     @Column(unique = true)
     private String referenceNumber;
+
+    private String solvedBy;
 }

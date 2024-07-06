@@ -2,7 +2,10 @@ package com.example.supportticketingsystem.service.ticket;
 
 
 import com.example.supportticketingsystem.dto.collection.DurationTime;
+import com.example.supportticketingsystem.dto.collection.Ticket;
+import com.example.supportticketingsystem.enums.Status;
 import com.example.supportticketingsystem.repository.DurationTimeRepository;
+import com.example.supportticketingsystem.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -17,6 +20,12 @@ public class DurationService {
 
     @Autowired
     private DurationTimeRepository durationTimeRepository;
+
+    @Autowired
+    private TicketRepository ticketRepository;
+
+    public DurationService() {
+    }
 
     public String calculateOpenDuration(Long ticketId, LocalDateTime endTime) {
         List<DurationTime> tickets = durationTimeRepository.findByTicketIdOrderByTimeAsc(ticketId);
@@ -230,14 +239,24 @@ public class DurationService {
         return String.format("%d days %d hours %d minutes %d seconds", days, hours, minutes, seconds);
     }
 
-    public void markTicketAsSolved(Long ticketId) {
+    public void markTicketAsSolved(Long ticketId, String email) {
         List<DurationTime> ticketsToUpdate = durationTimeRepository.findByTicketId(ticketId);
 
         for (DurationTime ticket : ticketsToUpdate) {
             ticket.setSolvedStatus(true);
+            ticket.setSolvedBy(email); // Assuming you have a field to store who solved the ticket
         }
 
-        durationTimeRepository.saveAll(ticketsToUpdate);
+        Optional<Ticket> optionalTicket = ticketRepository.findById(ticketId);
+        if (optionalTicket.isPresent()) {
+            Ticket ticket = optionalTicket.get();
+
+            ticket.setSolvedBy(email);
+            ticketRepository.save(ticket);
+
+            durationTimeRepository.saveAll(ticketsToUpdate);
+        }
+
     }
 
     @Scheduled(fixedDelay = 15 * 60 * 1000) // 15 minutes in milliseconds
