@@ -2,7 +2,10 @@ package com.example.supportticketingsystem.service.auth;
 
 import com.example.supportticketingsystem.dto.ReqRes;
 import com.example.supportticketingsystem.dto.collection.OurUsers;
+import com.example.supportticketingsystem.dto.request.ChangePasswordRequest;
 import com.example.supportticketingsystem.repository.UsersRepo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,6 +16,8 @@ import java.util.*;
 
 @Service
 public class UsersManagementService {
+
+    private static final Logger logger = LoggerFactory.getLogger(UsersManagementService.class);
 
     @Autowired
     private UsersRepo usersRepo;
@@ -279,5 +284,51 @@ public class UsersManagementService {
     }
 
 
+    public ReqRes changePassword(Integer userId, ChangePasswordRequest changePasswordRequest) {
+        ReqRes response = new ReqRes();
+        try {
+            Optional<OurUsers> userOptional = usersRepo.findById(userId);
+            if (userOptional.isPresent()) {
+                OurUsers user = userOptional.get();
 
+                // Validate current password
+                if (!passwordEncoder.matches(changePasswordRequest.getCurrentPassword(), user.getPassword())) {
+                    System.out.println(user.getPassword());
+                    response.setStatusCode(400);
+                    response.setMessage("Current password is incorrect");
+                    return response;
+                }
+
+                // Validate new password (same logic as registration)
+                String newPassword = changePasswordRequest.getNewPassword();
+                if (newPassword == null || newPassword.isEmpty()) {
+                    response.setStatusCode(400);
+                    response.setMessage("New password cannot be empty");
+                    return response;
+                }
+
+                // Validate new password confirmation
+                String newPasswordConfirmation = changePasswordRequest.getNewPasswordConfirmation();
+                if (!newPassword.equals(newPasswordConfirmation)) {
+                    response.setStatusCode(400);
+                    response.setMessage("New passwords do not match");
+                    return response;
+                }
+
+                // Update password with encoded new password
+                user.setPassword(passwordEncoder.encode(newPassword));
+                usersRepo.save(user);
+
+                response.setStatusCode(200);
+                response.setMessage("Password changed successfully");
+            } else {
+                response.setStatusCode(404);
+                response.setMessage("User not found");
+            }
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred while changing password: " + e.getMessage());
+        }
+        return response;
+    }
 }

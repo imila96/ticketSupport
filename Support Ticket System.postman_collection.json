@@ -1117,6 +1117,46 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "change password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTNAZ21haWwuY29tIiwiaWF0IjoxNzIwMjQ4NzU2LCJleHAiOjE3MjAzMzUxNTZ9.ebYyvywghnYjXRft5K3nlEG9nL__Y8-7RuGp7kX31Lo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\r\n{\r\n  \"currentPassword\": \"securepassword\",\r\n  \"newPassword\": \"securepassword1\",\r\n  \"newPasswordConfirmation\": \"securepassword1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/auth/change-password/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"auth",
+								"change-password",
+								"2"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

@@ -2,6 +2,7 @@ package com.example.supportticketingsystem.controller;
 
 import com.example.supportticketingsystem.dto.ReqRes;
 import com.example.supportticketingsystem.dto.collection.OurUsers;
+import com.example.supportticketingsystem.dto.request.ChangePasswordRequest;
 import com.example.supportticketingsystem.service.auth.UsersManagementService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,5 +72,8 @@ public class UserManagementController {
         return ResponseEntity.ok(usersManagementService.setRole(userId, req.getRoles()));
     }
 
-
+    @PutMapping("/auth/change-password/{userId}")
+    public ResponseEntity<ReqRes> changePassword(@PathVariable Integer userId, @RequestBody ChangePasswordRequest changePasswordRequest) {
+        return ResponseEntity.ok(usersManagementService.changePassword(userId, changePasswordRequest));
+    }
 }
