@@ -9,6 +9,8 @@ import com.example.supportticketingsystem.repository.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import java.util.logging.Logger;
+
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
@@ -240,6 +242,8 @@ public class DurationService {
     }
 
     public void markTicketAsSolved(Long ticketId, String email) {
+        Logger logger = Logger.getLogger(DurationService.class.getName());
+
         List<DurationTime> ticketsToUpdate = durationTimeRepository.findByTicketId(ticketId);
 
         for (DurationTime ticket : ticketsToUpdate) {
@@ -251,12 +255,21 @@ public class DurationService {
         if (optionalTicket.isPresent()) {
             Ticket ticket = optionalTicket.get();
 
+            // Logging the values before saving
+            logger.info("Marking ticket as solved. Ticket ID: " + ticketId + ", Email: " + email);
+
             ticket.setSolvedBy(email);
+            ticket.setClientStatus(Status.SOLVED);
+            ticket.setVendorStatus(Status.SOLVED);
+
+            // Logging the values being saved
+            logger.info("Client Status: " + ticket.getClientStatus() + ", Vendor Status: " + ticket.getVendorStatus());
+
             ticketRepository.save(ticket);
-
             durationTimeRepository.saveAll(ticketsToUpdate);
+        } else {
+            throw new IllegalArgumentException("Ticket not found");
         }
-
     }
 
     @Scheduled(fixedDelay = 15 * 60 * 1000) // 15 minutes in milliseconds
