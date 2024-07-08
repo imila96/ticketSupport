@@ -200,10 +200,13 @@ public class TicketServiceImpl implements TicketService {
 
         //add default kore ai emails when ticket creating
 
-        List<String> additionalCcEmails = emailRepository.findAll().stream()
+        // Fetch emails to be CCed based on ticket severity
+        final Severity ticketSeverity = ticket.getSeverity();
+        List<String> severityBasedCcEmails = emailRepository.findAll().stream()
+                .filter(emailEntity -> emailEntity.getSeverities().contains(ticketSeverity))
                 .map(EmailEntity::getEmail)
                 .collect(Collectors.toList());
-        ccEmails.addAll(additionalCcEmails);
+        ccEmails.addAll(severityBasedCcEmails);
 
         // Check for single invalid attachment scenario
         if (attachments.size() == 1 && !hasValidAttachment) {

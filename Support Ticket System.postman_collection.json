@@ -1279,7 +1279,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAa29yZS5jb20iLCJpYXQiOjE3MTk3MTg0MDgsImV4cCI6MTcxOTgwNDgwOH0.zzUYLEXHxRAylYDwsrJXbfMDfXwWPeFc6G3r48qDuKQ",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTIwQGdtYWlsLmNvbSIsImlhdCI6MTcyMDQyOTgyNCwiZXhwIjoxNzIwNTE2MjI0fQ.j4f6GZt-mKNlqibYwtQrb9azToC6srqPeQsDHxCwZV0",
 									"type": "string"
 								}
 							]
@@ -1309,7 +1309,7 @@
 							"bearer": [
 								{
 									"key": "token",
-									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJpbTFAa29yZS5jb20iLCJpYXQiOjE3MTk3MTg0MDgsImV4cCI6MTcxOTgwNDgwOH0.zzUYLEXHxRAylYDwsrJXbfMDfXwWPeFc6G3r48qDuKQ",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTIwQGdtYWlsLmNvbSIsImlhdCI6MTcyMDQyOTgyNCwiZXhwIjoxNzIwNTE2MjI0fQ.j4f6GZt-mKNlqibYwtQrb9azToC6srqPeQsDHxCwZV0",
 									"type": "string"
 								}
 							]
@@ -1318,7 +1318,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"imilajunior@gmail.com\"\r\n}\r\n",
+							"raw": "{\r\n    \"email\": \"newemail3@example.com\",\r\n    \"severities\": [\"SEVERITY_3\",\"SEVERITY_2\"]\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"

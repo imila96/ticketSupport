@@ -2,6 +2,7 @@ package com.example.supportticketingsystem.controller;
 
 
 import com.example.supportticketingsystem.dto.collection.EmailEntity;
+import com.example.supportticketingsystem.dto.response.KoreEmailDTO;
 import com.example.supportticketingsystem.service.ticket.KoreEmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +19,10 @@ public class KoreEmailController {
     @Autowired
     private KoreEmailService emailService;
 
+
     @GetMapping
-    public ResponseEntity<List<String>> getAllEmailAddresses() {
-        List<String> emailAddresses = emailService.findAll().stream()
-                .map(EmailEntity::getEmail)
-                .collect(Collectors.toList());
+    public ResponseEntity<List<KoreEmailDTO>> getAllEmailAddresses() {
+        List<KoreEmailDTO> emailAddresses = emailService.findAllWithEmailAndSeverities();
         return ResponseEntity.ok(emailAddresses);
     }
 
@@ -45,6 +45,7 @@ public class KoreEmailController {
         if (optionalEmailEntity.isPresent()) {
             EmailEntity emailEntity = optionalEmailEntity.get();
             emailEntity.setEmail(emailDetails.getEmail());
+            emailEntity.setSeverities(emailDetails.getSeverities());
             return ResponseEntity.ok(emailService.save(emailEntity));
         } else {
             return ResponseEntity.notFound().build();
