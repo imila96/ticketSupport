@@ -32,6 +32,7 @@ public class ApplicationExceptionHandler {
         return errorMap;
     }
 
+    // Handle MissingServletRequestParameterException for missing parameters
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public Map<String, String> handleMissingParams(MissingServletRequestParameterException ex) {
@@ -39,7 +40,6 @@ public class ApplicationExceptionHandler {
         errorMap.put(ex.getParameterName(), "Parameter is missing");
         return errorMap;
     }
-
     @ExceptionHandler(InvalidTokenException.class)
     public ResponseEntity<Map<String, String>> handleInvalidTokenException(InvalidTokenException ex) {
         Map<String, String> errorMap = new HashMap<>();
@@ -68,4 +68,13 @@ public class ApplicationExceptionHandler {
         errorMap.put("error", ex.getMessage());
         return new ResponseEntity<>(errorMap, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("error", ex.getMessage());
+        return new ResponseEntity<>(errorMap, HttpStatus.BAD_REQUEST);
+    }
+
 }
