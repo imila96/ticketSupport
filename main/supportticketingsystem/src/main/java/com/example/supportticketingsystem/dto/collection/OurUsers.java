@@ -26,6 +26,7 @@ public class OurUsers implements UserDetails {
     private Integer id;
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email is mandatory")
+    @Column(unique = true)
     private String email;
 
     @NotBlank(message = "Name is mandatory")

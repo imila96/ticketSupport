@@ -4,6 +4,7 @@ import com.example.supportticketingsystem.dto.ReqRes;
 import com.example.supportticketingsystem.dto.collection.OurUsers;
 import com.example.supportticketingsystem.dto.request.ChangePasswordRequest;
 import com.example.supportticketingsystem.repository.UsersRepo;
+import jakarta.persistence.EntityExistsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,12 @@ public class UsersManagementService {
         ReqRes resp = new ReqRes();
 
         try {
+            // Check if user already exists
+            Optional<OurUsers> existingUser = usersRepo.findByEmail(registrationRequest.getEmail());
+            if (existingUser.isPresent()) {
+                throw new EntityExistsException("User with email " + registrationRequest.getEmail() + " already exists");
+            }
+
             OurUsers ourUser = new OurUsers();
             String email = registrationRequest.getEmail();
             ourUser.setEmail(email);
@@ -64,13 +71,15 @@ public class UsersManagementService {
                 resp.setStatusCode(200);
             }
 
+        } catch (EntityExistsException e) {
+            resp.setStatusCode(409); // Conflict
+            resp.setError(e.getMessage());
         } catch (Exception e) {
             resp.setStatusCode(500);
             resp.setError(e.getMessage());
         }
         return resp;
     }
-
     public ReqRes login(ReqRes loginRequest) {
         ReqRes response = new ReqRes();
         try {

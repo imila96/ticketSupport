@@ -33,6 +33,9 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+        if (productService.existsByName(product.getName())) {
+            return ResponseEntity.status(409).build(); // Conflict
+        }
         Product savedProduct = productService.save(product);
         return ResponseEntity.status(201).body(savedProduct);
     }

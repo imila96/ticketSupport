@@ -1,6 +1,9 @@
 package com.example.supportticketingsystem.advice;
 
 import com.example.supportticketingsystem.dto.exception.InvalidTokenException;
+import com.example.supportticketingsystem.dto.exception.NonUniqueResultException;
+import jakarta.persistence.EntityExistsException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -42,5 +45,27 @@ public class ApplicationExceptionHandler {
         Map<String, String> errorMap = new HashMap<>();
         errorMap.put("error", ex.getMessage());
         return new ResponseEntity<>(errorMap, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(EntityExistsException.class)
+    public ResponseEntity<Map<String, String>> handleEntityExistsException(EntityExistsException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("error", ex.getMessage());
+        return new ResponseEntity<>(errorMap, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, String>> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("error", "Data integrity violation: " + ex.getMostSpecificCause().getMessage());
+        return new ResponseEntity<>(errorMap, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(NonUniqueResultException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<Map<String, String>> handleNonUniqueResultException(NonUniqueResultException ex) {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("error", ex.getMessage());
+        return new ResponseEntity<>(errorMap, HttpStatus.CONFLICT);
     }
 }

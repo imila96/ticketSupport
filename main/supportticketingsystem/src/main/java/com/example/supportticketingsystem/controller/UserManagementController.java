@@ -17,9 +17,11 @@ public class UserManagementController {
     private UsersManagementService usersManagementService;
 
     @PostMapping("/auth/register")
-    public ResponseEntity<ReqRes> regeister(@RequestBody ReqRes reg){
-        return ResponseEntity.ok(usersManagementService.register(reg));
+    public ResponseEntity<ReqRes> register(@RequestBody ReqRes registrationRequest) {
+        ReqRes response = usersManagementService.register(registrationRequest);
+        return ResponseEntity.status(response.getStatusCode()).body(response);
     }
+
 
     @PostMapping("/auth/login")
     public ResponseEntity<ReqRes> login(@RequestBody ReqRes req){
