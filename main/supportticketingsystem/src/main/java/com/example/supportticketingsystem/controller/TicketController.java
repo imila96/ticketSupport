@@ -1,17 +1,11 @@
 package com.example.supportticketingsystem.controller;
 
-import com.example.supportticketingsystem.dto.collection.OurUsers;
-import com.example.supportticketingsystem.dto.collection.Product;
-import com.example.supportticketingsystem.dto.collection.Ticket;
+import com.example.supportticketingsystem.dto.collection.*;
 import com.example.supportticketingsystem.dto.request.*;
 import com.example.supportticketingsystem.dto.response.*;
 import com.example.supportticketingsystem.enums.*;
-import com.example.supportticketingsystem.dto.collection.MessageAttachment;
 import com.example.supportticketingsystem.dto.exception.TicketNotFoundException;
-import com.example.supportticketingsystem.repository.MessageAttachmentRepository;
-import com.example.supportticketingsystem.repository.ProductRepository;
-import com.example.supportticketingsystem.repository.TicketRepository;
-import com.example.supportticketingsystem.repository.UsersRepo;
+import com.example.supportticketingsystem.repository.*;
 import com.example.supportticketingsystem.service.message.MessageService;
 import com.example.supportticketingsystem.service.ticket.DurationService;
 import com.example.supportticketingsystem.service.ticket.TicketService;
@@ -55,8 +49,11 @@ public class TicketController {
 
     private final ProductRepository productRepository;
 
+
+    private final DurationTimeRepository durationTimeRepository;
+
     @Autowired
-    public TicketController(TicketService ticketService, UsersRepo usersRepo, TicketRepository ticketRepository, DurationService durationService, MessageService messageService, MessageAttachmentRepository attachmentRepository, ProductRepository productRepository) {
+    public TicketController(TicketService ticketService, UsersRepo usersRepo, TicketRepository ticketRepository, DurationService durationService, MessageService messageService, MessageAttachmentRepository attachmentRepository, ProductRepository productRepository, DurationTimeRepository durationTimeRepository) {
         this.ticketService = ticketService;
         this.usersRepo = usersRepo;
         this.ticketRepository = ticketRepository;
@@ -64,6 +61,7 @@ public class TicketController {
         this.messageService = messageService;
         this.attachmentRepository = attachmentRepository;
         this.productRepository = productRepository;
+        this.durationTimeRepository = durationTimeRepository;
     }
 
 
@@ -279,6 +277,10 @@ public class TicketController {
     }
 
     private TRes convertToResponse(Ticket ticket) {
+        List<DurationTime> durationTimes = durationTimeRepository.findByTicketId(ticket.getId());
+        boolean slaBreach = durationTimes.stream().anyMatch(DurationTime::isSlaBreach);
+        boolean delayedReply = durationTimes.stream().anyMatch(DurationTime::isDelayedReply);
+
         return TRes.builder()
                 .id(ticket.getId())
                 .createdAt(ticket.getCreatedAt())
@@ -296,8 +298,11 @@ public class TicketController {
                 .vendorStatus(ticket.getVendorStatus())
                 .reopenReason(ticket.getReopenReason())
                 .closeReason(ticket.getCloseReason())
+                .slaBreach(slaBreach)
+                .delayedReply(delayedReply)
                 .build();
     }
+
 
     @GetMapping("/general/getAllMessagesByTicketId/{ticketId}")
     public ResponseEntity<List<MessageResponse>> getMessagesByTicketId(@PathVariable Long ticketId) {

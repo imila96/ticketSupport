@@ -28,4 +28,6 @@ public class TRes {
     private String reopenReason;
     private String closeReason;
     private String referenceNumber;
+    private boolean slaBreach;
+    private boolean delayedReply;
 }
