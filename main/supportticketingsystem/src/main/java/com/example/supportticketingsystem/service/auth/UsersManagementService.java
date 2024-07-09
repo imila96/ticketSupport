@@ -193,10 +193,20 @@ public class UsersManagementService {
             Optional<OurUsers> userOptional = usersRepo.findById(userId);
             if (userOptional.isPresent()) {
                 OurUsers existingUser = userOptional.get();
-                existingUser.setEmail(updatedUser.getEmail());
-                existingUser.setName(updatedUser.getName());
-                existingUser.setCity(updatedUser.getCity());
-                existingUser.setRoles(updatedUser.getRoles());
+
+                // Update only if fields are present
+                if (updatedUser.getEmail() != null && !updatedUser.getEmail().isEmpty()) {
+                    existingUser.setEmail(updatedUser.getEmail());
+                }
+                if (updatedUser.getName() != null && !updatedUser.getName().isEmpty()) {
+                    existingUser.setName(updatedUser.getName());
+                }
+                if (updatedUser.getCity() != null && !updatedUser.getCity().isEmpty()) {
+                    existingUser.setCity(updatedUser.getCity());
+                }
+                if (updatedUser.getRoles() != null && !updatedUser.getRoles().isEmpty()) {
+                    existingUser.setRoles(updatedUser.getRoles());
+                }
 
                 // Check if password is present in the request
                 if (updatedUser.getPassword() != null && !updatedUser.getPassword().isEmpty()) {
@@ -218,6 +228,7 @@ public class UsersManagementService {
         }
         return reqRes;
     }
+
 
 
     public ReqRes getMyInfo(String email){

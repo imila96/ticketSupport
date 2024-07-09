@@ -1157,6 +1157,46 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "update user details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTI1QGdtYWlsLmNvbSIsImlhdCI6MTcyMDUwNzYxMCwiZXhwIjoxNzIwNTk0MDEwfQ.OjwbyQSmmcIa8LCFGqQ4S90fuvHMTQ93O8YTN2JtJyQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"New Name\",\r\n    \"email\": \"new.email@example.com\",\r\n    \"city\": \"New City\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8085/auth/update/12",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"auth",
+								"update",
+								"12"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
