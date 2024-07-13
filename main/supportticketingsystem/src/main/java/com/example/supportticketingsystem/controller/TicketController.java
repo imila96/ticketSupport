@@ -300,6 +300,7 @@ public class TicketController {
                 .closeReason(ticket.getCloseReason())
                 .slaBreach(slaBreach)
                 .delayedReply(delayedReply)
+                .referenceNumber(ticket.getReferenceNumber())
                 .build();
     }
 
