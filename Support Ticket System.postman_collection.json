@@ -912,6 +912,68 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Tickets awaiting reply/open count",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTMwQGdtYWlsLmNvbSIsImlhdCI6MTcyMDg0Nzg4OSwiZXhwIjoxNzIwOTM0Mjg5fQ.U8PfrTvIdxZKAuSrG_-KqP5h4wmB8alhVyftJYwEHAE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/general/ticketCounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"general",
+								"ticketCounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user wise-Tickets awaiting reply/open count",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqb2huLmRvZTMwQGdtYWlsLmNvbSIsImlhdCI6MTcyMDg0Nzg4OSwiZXhwIjoxNzIwOTM0Mjg5fQ.U8PfrTvIdxZKAuSrG_-KqP5h4wmB8alhVyftJYwEHAE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8085/tickets/user/ticketCounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8085",
+							"path": [
+								"tickets",
+								"user",
+								"ticketCounts"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

@@ -4,6 +4,7 @@ package com.example.supportticketingsystem.repository;
         import com.example.supportticketingsystem.dto.request.SeverityCountDTO;
 
         import com.example.supportticketingsystem.enums.Severity;
+        import com.example.supportticketingsystem.enums.Status;
         import org.springframework.data.jpa.repository.JpaRepository;
         import org.springframework.data.jpa.repository.Query;
         import org.springframework.data.repository.query.Param;
@@ -17,6 +18,14 @@ package com.example.supportticketingsystem.repository;
 public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     List<Ticket> findAllByOrderByIdDesc();
+
+    long countByClientStatus(Status clientStatus);
+
+    long countByVendorStatus(Status vendorStatus);
+
+    long countByEmailAddressAndClientStatus(String emailAddress, Status clientStatus);
+
+    long countByEmailAddressAndVendorStatus(String emailAddress, Status vendorStatus);
 
     List<Ticket> findBySeverity(Severity severity);
 

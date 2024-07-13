@@ -239,6 +239,12 @@ public class TicketController {
         return ResponseEntity.ok(ticketResponses);
     }
 
+    @GetMapping("/general/ticketCounts")
+    public ResponseEntity<Map<String, Long>> getTicketCounts() {
+        Map<String, Long> ticketCounts = ticketService.getTicketCounts();
+        return ResponseEntity.ok(ticketCounts);
+    }
+
     @GetMapping("/getAllKore")
     public ResponseEntity<List<TRes>> getAllTicketsByProduct(Principal principal) {
         String email = principal.getName();
@@ -512,4 +518,11 @@ public class TicketController {
         }
     }
 
+    @GetMapping("/user/ticketCounts")
+    public ResponseEntity<Map<String, Long>> getTicketCountsForUser(Authentication authentication) {
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        String email = userDetails.getUsername();
+        Map<String, Long> ticketCounts = ticketService.getTicketCountsByEmail(email);
+        return ResponseEntity.ok(ticketCounts);
+    }
 }

@@ -1,11 +1,11 @@
 package com.example.supportticketingsystem.dto.response;
 
-import com.example.supportticketingsystem.enums.*;
-import lombok.Builder;
-import lombok.Data;
+        import com.example.supportticketingsystem.enums.*;
+        import lombok.Builder;
+        import lombok.Data;
 
-import java.time.*;
-import java.util.List;
+        import java.time.*;
+        import java.util.List;
 
 @Data
 @Builder

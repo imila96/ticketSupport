@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -34,6 +35,8 @@ public interface TicketService {
 
     List<Ticket> getAllTickets();
 
+    Map<String, Long> getTicketCounts();
+
     Optional<Ticket> getTicketById(Long ticketId);
 
     // In TicketService interface
@@ -51,5 +54,7 @@ public interface TicketService {
     List<Ticket> getTicketsByUserAndTicketIdContaining(String emailAddress, String ticketId);
 
     List<Ticket> getTicketsByUserAndTicketSubjectContaining(String emailAddress, String subject);
+
+    Map<String, Long> getTicketCountsByEmail(String emailAddress);
 }
 

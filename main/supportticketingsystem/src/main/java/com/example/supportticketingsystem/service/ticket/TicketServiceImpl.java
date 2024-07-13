@@ -22,10 +22,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -450,6 +447,23 @@ ticket.setReopenReason(reason);
     }
 
     @Override
+    public Map<String, Long> getTicketCounts() {
+        long openClientStatusCount = ticketRepository.countByClientStatus(Status.OPEN);
+        long awaitingReplyVendorStatusCount = ticketRepository.countByVendorStatus(Status.AWAITING_REPLY);
+
+        long awaitingReplyClientStatusCount = ticketRepository.countByClientStatus(Status.AWAITING_REPLY);
+        long openVendorStatusCount = ticketRepository.countByVendorStatus(Status.OPEN);
+
+        Map<String, Long> counts = new HashMap<>();
+        counts.put("openClientStatusCount", openClientStatusCount);
+        counts.put("awaitingReplyVendorStatusCount", awaitingReplyVendorStatusCount);
+
+        counts.put("awaitingReplyClientStatusCount", awaitingReplyClientStatusCount);
+        counts.put("openVendorStatusCount", openVendorStatusCount);
+        return counts;
+    }
+
+    @Override
     public Optional<Ticket> getTicketById(Long ticketId) {
         return ticketRepository.findById(ticketId);
     }
@@ -492,5 +506,23 @@ ticket.setReopenReason(reason);
     @Override
     public List<Ticket> getTicketsByUserAndTicketSubjectContaining(String emailAddress, String subject) {
         return ticketRepository.findByEmailAddressAndTicketSubjectContaining(emailAddress, subject);
+    }
+
+
+    @Override
+    public Map<String, Long> getTicketCountsByEmail(String emailAddress) {
+        long openClientStatusCount = ticketRepository.countByEmailAddressAndClientStatus(emailAddress, Status.OPEN);
+        long awaitingReplyVendorStatusCount = ticketRepository.countByEmailAddressAndVendorStatus(emailAddress, Status.AWAITING_REPLY);
+
+        long awaitingReplyClientStatusCount = ticketRepository.countByEmailAddressAndClientStatus(emailAddress, Status.AWAITING_REPLY);
+        long openVendorStatusCount = ticketRepository.countByEmailAddressAndVendorStatus(emailAddress, Status.OPEN);
+
+        Map<String, Long> counts = new HashMap<>();
+        counts.put("openClientStatusCount", openClientStatusCount);
+        counts.put("awaitingReplyVendorStatusCount", awaitingReplyVendorStatusCount);
+
+        counts.put("awaitingReplyClientStatusCount", awaitingReplyClientStatusCount);
+        counts.put("openVendorStatusCount", openVendorStatusCount);
+        return counts;
     }
 }
