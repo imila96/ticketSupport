@@ -25,7 +25,7 @@ public class KoreEmailService {
     public List<KoreEmailDTO> findAllWithEmailAndSeverities() {
         List<EmailEntity> emailEntities = emailRepository.findAll();
         return emailEntities.stream()
-                .map(emailEntity -> new KoreEmailDTO(emailEntity.getEmail(), emailEntity.getSeverities()))
+                .map(emailEntity -> new KoreEmailDTO(emailEntity.getId(),emailEntity.getEmail(), emailEntity.getSeverities()))
                 .collect(Collectors.toList());
     }
     public Optional<EmailEntity> findById(Long id) {
