@@ -68,7 +68,7 @@ public class TicketServiceImpl implements TicketService {
         boolean hasValidAttachment = false; // Flag to check if there is at least one valid attachment
 
         if (request.getReferenceNumber() != null) {
-            Optional<Ticket> existingTicket = ticketRepository.findByReferenceNumber(request.getReferenceNumber());
+            Optional<Ticket> existingTicket = ticketRepository.findByReferenceNumberOrderByIdDesc(request.getReferenceNumber());
             if (existingTicket.isPresent()) {
                 throw new IllegalArgumentException("Reference number already exists");
             }
@@ -472,17 +472,17 @@ ticket.setReopenReason(reason);
     // In TicketServiceImpl class
     @Override
     public List<Ticket> getTicketsBySeverity(Severity severity) {
-        return ticketRepository.findBySeverity(severity);
+        return ticketRepository.findBySeverityOrderByIdDesc(severity);
     }
 
     @Override
     public List<Ticket> getTicketsByProduct(String product) {
-        return ticketRepository.findByProduct(product);
+        return ticketRepository.findByProductOrderByIdDesc(product);
     }
 
     @Override
     public List<Ticket> getTicketsByEmailAddress(String emailAddress) {
-        return ticketRepository.findByEmailAddress(emailAddress);
+        return ticketRepository.findByEmailAddressOrderByIdDesc(emailAddress);
     }
     @Override
     public List<Ticket> getTicketsByCcEmail(String ccEmail) {

@@ -27,11 +27,12 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     long countByEmailAddressAndVendorStatus(String emailAddress, Status vendorStatus);
 
-    List<Ticket> findBySeverity(Severity severity);
+    List<Ticket> findBySeverityOrderByIdDesc(Severity severity);
 
-    List<Ticket> findByProduct(String product);
+    List<Ticket> findByProductOrderByIdDesc(String product);
 
-    List<Ticket> findByEmailAddress(String emailAddress);
+    List<Ticket> findByEmailAddressOrderByIdDesc(String emailAddress);
+
 
 
     @Query("SELECT new com.example.supportticketingsystem.dto.request.SeverityCountDTO(CAST(t.severity AS string), COUNT(t.id), FUNCTION('MONTH', t.createdAt), FUNCTION('YEAR', t.createdAt)) " +
@@ -40,23 +41,21 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
             "GROUP BY t.severity, FUNCTION('YEAR', t.createdAt), FUNCTION('MONTH', t.createdAt)")
     List<SeverityCountDTO> getSeverityCount(@Param("startMonth") Integer startMonth, @Param("endMonth") Integer endMonth);
 
-    @Query("SELECT t FROM Ticket t WHERE CONCAT(',', t.ccEmailAddresses, ',') LIKE %:emailAddress%")
+    @Query("SELECT t FROM Ticket t WHERE CONCAT(',', t.ccEmailAddresses, ',') LIKE %:emailAddress% ORDER BY t.id DESC")
     List<Ticket> findByCcEmailAddressesContaining(@Param("emailAddress") String emailAddress);
 
-
-    @Query("SELECT t FROM Ticket t WHERE str(t.id) LIKE %:ticketId%")
+    @Query("SELECT t FROM Ticket t WHERE str(t.id) LIKE %:ticketId% ORDER BY t.id DESC")
     List<Ticket> findByTicketIdContaining(@Param("ticketId") String ticketId);
 
-    @Query("SELECT t FROM Ticket t WHERE str(t.subject) LIKE %:subject%")
+    @Query("SELECT t FROM Ticket t WHERE str(t.subject) LIKE %:subject% ORDER BY t.id DESC")
     List<Ticket> findByTicketSubjectContaining(@Param("subject") String subject);
 
-
-    @Query("SELECT t FROM Ticket t WHERE t.emailAddress = :emailAddress AND str(t.id) LIKE %:ticketId%")
+    @Query("SELECT t FROM Ticket t WHERE t.emailAddress = :emailAddress AND str(t.id) LIKE %:ticketId% ORDER BY t.id DESC")
     List<Ticket> findByEmailAddressAndTicketIdContaining(@Param("emailAddress") String emailAddress, @Param("ticketId") String ticketId);
 
-
-    @Query("SELECT t FROM Ticket t WHERE t.emailAddress = :emailAddress AND str(t.subject) LIKE %:subject%")
+    @Query("SELECT t FROM Ticket t WHERE t.emailAddress = :emailAddress AND str(t.subject) LIKE %:subject% ORDER BY t.id DESC")
     List<Ticket> findByEmailAddressAndTicketSubjectContaining(@Param("emailAddress") String emailAddress, @Param("subject") String subject);
 
-    Optional<Ticket> findByReferenceNumber(String referenceNumber);
+    Optional<Ticket> findByReferenceNumberOrderByIdDesc(String referenceNumber);
+
 }
