@@ -446,22 +446,7 @@ ticket.setReopenReason(reason);
         return ticketRepository.findAllByOrderByIdDesc();
     }
 
-    @Override
-    public Map<String, Long> getTicketCounts() {
-        long openClientStatusCount = ticketRepository.countByClientStatus(Status.OPEN);
-        long awaitingReplyVendorStatusCount = ticketRepository.countByVendorStatus(Status.AWAITING_REPLY);
 
-        long awaitingReplyClientStatusCount = ticketRepository.countByClientStatus(Status.AWAITING_REPLY);
-        long openVendorStatusCount = ticketRepository.countByVendorStatus(Status.OPEN);
-
-        Map<String, Long> counts = new HashMap<>();
-        counts.put("openClientStatusCount", openClientStatusCount);
-        counts.put("awaitingReplyVendorStatusCount", awaitingReplyVendorStatusCount);
-
-        counts.put("awaitingReplyClientStatusCount", awaitingReplyClientStatusCount);
-        counts.put("openVendorStatusCount", openVendorStatusCount);
-        return counts;
-    }
 
     @Override
     public Optional<Ticket> getTicketById(Long ticketId) {
@@ -510,19 +495,46 @@ ticket.setReopenReason(reason);
 
 
     @Override
-    public Map<String, Long> getTicketCountsByEmail(String emailAddress) {
-        long openClientStatusCount = ticketRepository.countByEmailAddressAndClientStatus(emailAddress, Status.OPEN);
-        long awaitingReplyVendorStatusCount = ticketRepository.countByEmailAddressAndVendorStatus(emailAddress, Status.AWAITING_REPLY);
+    public Map<String, Long> getTicketCounts() {
+        long openClientStatusCount = ticketRepository.countByClientStatus(Status.OPEN);
+        long awaitingReplyVendorStatusCount = ticketRepository.countByVendorStatus(Status.AWAITING_REPLY);
+        long awaitingReplyClientStatusCount = ticketRepository.countByClientStatus(Status.AWAITING_REPLY);
+        long openVendorStatusCount = ticketRepository.countByVendorStatus(Status.OPEN);
 
-        long awaitingReplyClientStatusCount = ticketRepository.countByEmailAddressAndClientStatus(emailAddress, Status.AWAITING_REPLY);
-        long openVendorStatusCount = ticketRepository.countByEmailAddressAndVendorStatus(emailAddress, Status.OPEN);
+        // Add counts for severity=SEVERITY_1
+        long openSeverity1Count = ticketRepository.countBySeverityAndClientStatus(Severity.SEVERITY_1, Status.OPEN);
+        long closedSeverity1Count = ticketRepository.countBySeverityAndClientStatus(Severity.SEVERITY_1, Status.CLOSED);
 
         Map<String, Long> counts = new HashMap<>();
         counts.put("openClientStatusCount", openClientStatusCount);
         counts.put("awaitingReplyVendorStatusCount", awaitingReplyVendorStatusCount);
-
         counts.put("awaitingReplyClientStatusCount", awaitingReplyClientStatusCount);
         counts.put("openVendorStatusCount", openVendorStatusCount);
+        counts.put("openSeverity1Count", openSeverity1Count);
+        counts.put("closedSeverity1Count", closedSeverity1Count);
+
+        return counts;
+    }
+
+    @Override
+    public Map<String, Long> getTicketCountsByEmail(String emailAddress) {
+        long openClientStatusCount = ticketRepository.countByEmailAddressAndClientStatus(emailAddress, Status.OPEN);
+        long awaitingReplyVendorStatusCount = ticketRepository.countByEmailAddressAndVendorStatus(emailAddress, Status.AWAITING_REPLY);
+        long awaitingReplyClientStatusCount = ticketRepository.countByEmailAddressAndClientStatus(emailAddress, Status.AWAITING_REPLY);
+        long openVendorStatusCount = ticketRepository.countByEmailAddressAndVendorStatus(emailAddress, Status.OPEN);
+
+        // Add counts for severity=SEVERITY_1
+        long openSeverity1Count = ticketRepository.countByEmailAddressAndSeverityAndClientStatus(emailAddress, Severity.SEVERITY_1, Status.OPEN);
+        long closedSeverity1Count = ticketRepository.countByEmailAddressAndSeverityAndClientStatus(emailAddress, Severity.SEVERITY_1, Status.CLOSED);
+
+        Map<String, Long> counts = new HashMap<>();
+        counts.put("openClientStatusCount", openClientStatusCount);
+        counts.put("awaitingReplyVendorStatusCount", awaitingReplyVendorStatusCount);
+        counts.put("awaitingReplyClientStatusCount", awaitingReplyClientStatusCount);
+        counts.put("openVendorStatusCount", openVendorStatusCount);
+        counts.put("openSeverity1Count", openSeverity1Count);
+        counts.put("closedSeverity1Count", closedSeverity1Count);
+
         return counts;
     }
 }

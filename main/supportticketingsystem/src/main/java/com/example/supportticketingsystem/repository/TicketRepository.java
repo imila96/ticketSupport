@@ -58,4 +58,13 @@ public interface TicketRepository extends JpaRepository<Ticket, Long> {
 
     Optional<Ticket> findByReferenceNumberOrderByIdDesc(String referenceNumber);
 
+    long countBySeverityAndClientStatus(Severity severity, Status clientStatus);
+    long countBySeverityAndVendorStatus(Severity severity, Status vendorStatus);
+
+    long countByEmailAddressAndSeverityAndClientStatus(String emailAddress, Severity severity, Status clientStatus);
+    long countByEmailAddressAndSeverityAndVendorStatus(String emailAddress, Severity severity, Status vendorStatus);
+
+
+
+
 }
