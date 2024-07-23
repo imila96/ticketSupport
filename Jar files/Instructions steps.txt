@@ -1,0 +1,10 @@
+1.go to email folder
+2.open cmd from that path
+3.run this  
+
+
+java -jar supportticketingsystem-0.0.1-SNAPSHOT.jar
+
+
+
+do same to main folder jar file.
