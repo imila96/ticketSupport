@@ -67,6 +67,8 @@ public class TicketServiceImpl implements TicketService {
 
         boolean hasValidAttachment = false; // Flag to check if there is at least one valid attachment
 
+        System.out.println("##########################################" + request.getReferenceNumber());
+
         if (request.getReferenceNumber() != null) {
             Optional<Ticket> existingTicket = ticketRepository.findByReferenceNumberOrderByIdDesc(request.getReferenceNumber());
             if (existingTicket.isPresent()) {

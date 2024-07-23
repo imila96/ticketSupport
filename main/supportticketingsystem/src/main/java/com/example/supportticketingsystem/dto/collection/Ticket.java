@@ -81,7 +81,7 @@ public class Ticket {
 
     private String closeReason;
 
-    @Column(unique = true)
+
     private String referenceNumber;
 
     private String solvedBy;
